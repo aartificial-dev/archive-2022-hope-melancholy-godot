@@ -1,32 +1,219 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://tileset_room.tres" type="TileSet" id=1]
-[ext_resource path="res://player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://PlayerCamera.cs" type="Script" id=3]
+[ext_resource path="res://Tilesets/tileset_room.tres" type="TileSet" id=1]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Player/PlayerCamera.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/Ladder/Ladder.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/Table/Table.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Objects/Ladder/LadderTop.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Tilesets/tile_background.png" type="Texture" id=7]
+[ext_resource path="res://VFX_Sprites/4e3117c0-a231-48eb-ba9b-c9ccb62a21bf.png" type="Texture" id=8]
+[ext_resource path="res://VFX_Sprites/f5132f28-0695-4bdb-bc8d-579dd15e5916.png" type="Texture" id=9]
+[ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=10]
+[ext_resource path="res://Objects/Items/ItemFloor.tscn" type="PackedScene" id=11]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 208, 8 )
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.56129 )
+colors = PoolColorArray( 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Environment" id=3]
+background_mode = 4
+glow_enabled = true
+glow_blend_mode = 0
 
 [node name="Node2D" type="Node2D"]
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+visible = false
+margin_left = -832.0
+margin_top = -472.0
+margin_right = 1216.0
+margin_bottom = 504.0
+texture = SubResource( 2 )
+stretch_mode = 2
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 3 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = -128.0
+margin_top = -144.0
+margin_right = 480.0
+margin_bottom = 128.0
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
-tile_data = PoolIntArray( 131072, 0, 1, 131073, 0, 1, 131074, 0, 1, 131075, 0, 1, 131076, 0, 1, 131077, 0, 1, 131078, 0, 1, 131079, 0, 1, 131080, 0, 1, 131081, 0, 1, 131082, 0, 1, 131083, 0, 1, 131084, 0, 1, 131085, 0, 1, 131086, 0, 1, 131087, 0, 1, 131088, 0, 1, 131089, 0, 1, 131090, 0, 1, 131091, 0, 1, 131092, 0, 1, 131093, 0, 1, 131094, 0, 1, 131095, 0, 1, 131096, 0, 1, 131097, 0, 1, 196608, 0, 1, 196609, 0, 1, 196610, 0, 1, 196611, 0, 1, 196612, 0, 1, 196613, 0, 1, 196614, 0, 1, 196615, 0, 1, 196616, 0, 1, 196617, 0, 1, 196618, 0, 1, 196619, 0, 1, 196620, 0, 1, 196621, 0, 1, 196622, 0, 1, 196623, 0, 1, 196624, 0, 1, 196625, 0, 1, 196626, 0, 1, 196627, 0, 1, 196628, 0, 1, 196629, 0, 1, 196630, 0, 1, 196631, 0, 1, 196632, 0, 1, 196633, 0, 1, 262144, 0, 1, 262145, 0, 1, 262146, 0, 1, 262147, 0, 1, 262148, 0, 1, 262149, 0, 1, 262150, 0, 1, 262151, 0, 1, 262152, 0, 1, 262153, 0, 1, 262154, 0, 1, 262155, 0, 1, 262156, 0, 524290, 262157, 0, 524291, 262158, 0, 524292, 262159, 0, 1, 262160, 0, 1, 262161, 0, 1, 262162, 0, 1, 262163, 0, 1, 262164, 0, 1, 262165, 0, 1, 262166, 0, 1, 262167, 0, 1, 262168, 0, 1, 262169, 0, 1, 327680, 0, 1, 327681, 0, 1, 327682, 0, 1, 327683, 0, 1, 327684, 0, 1, 327685, 0, 1, 327686, 0, 1, 327687, 0, 1, 327688, 0, 1, 327689, 0, 1, 327690, 0, 1, 327691, 0, 1, 327692, 0, 589826, 327693, 0, 589827, 327694, 0, 589828, 327695, 0, 1, 327696, 0, 1, 327697, 0, 1, 327698, 0, 1, 327699, 0, 1, 327700, 0, 1, 327701, 0, 1, 327702, 0, 1, 327703, 0, 1, 327704, 0, 1, 327705, 0, 1, 393216, 0, 1, 393217, 0, 1, 393218, 0, 1, 393219, 0, 1, 393220, 0, 1, 393221, 0, 1, 393222, 0, 1, 393223, 0, 1, 393224, 0, 1, 393225, 0, 1, 393226, 0, 1, 393227, 0, 1, 393228, 0, 655362, 393229, 0, 655363, 393230, 0, 655364, 393231, 0, 1, 393232, 0, 1, 393233, 0, 1, 393234, 0, 1, 393235, 0, 1, 393236, 0, 1, 393237, 0, 1, 393238, 0, 1, 393239, 0, 1, 393240, 0, 1, 393241, 0, 1, 458752, 0, 131078, 458753, 0, 131079, 458754, 0, 131079, 458755, 0, 131079, 458756, 0, 131079, 458757, 0, 131079, 458758, 0, 131079, 458759, 0, 131079, 458760, 0, 131079, 458761, 0, 131079, 458762, 0, 131079, 458763, 0, 131079, 458764, 0, 131079, 458765, 0, 131079, 458766, 0, 131079, 458767, 0, 131079, 458768, 0, 131079, 458769, 0, 131079, 458770, 0, 131079, 458771, 0, 131079, 458772, 0, 131079, 458773, 0, 131079, 458774, 0, 131079, 458775, 0, 131079, 458776, 0, 131079, 458777, 0, 131080, 524288, 0, 65536, 524289, 0, 65536, 524290, 0, 65536, 524291, 0, 65536, 524292, 0, 65536, 524293, 0, 65536, 524294, 0, 65536, 524295, 0, 65536, 524296, 0, 65536, 524297, 0, 65536, 524298, 0, 65536, 524299, 0, 65536, 524300, 0, 65536, 524301, 0, 65536, 524302, 0, 65536, 524303, 0, 65536, 524304, 0, 65536, 524305, 0, 65536, 524306, 0, 65536, 524307, 0, 65536, 524308, 0, 65536, 524309, 0, 65536, 524310, 0, 65536, 524311, 0, 65536, 524312, 0, 65536, 524313, 0, 65536 )
+tile_data = PoolIntArray( -589833, 1, 0, -589832, 1, 0, -589831, 1, 0, -589830, 1, 0, -589829, 1, 0, -589828, 1, 0, -589827, 1, 0, -589826, 1, 0, -589825, 1, 0, -655360, 1, 0, -655359, 1, 0, -655358, 1, 0, -655357, 1, 0, -655356, 1, 0, -655355, 1, 0, -655354, 1, 0, -655353, 1, 0, -655352, 1, 0, -655351, 1, 0, -655350, 1, 0, -655349, 1, 0, -655348, 1, 0, -655347, 1, 0, -655346, 1, 0, -655345, 1, 0, -655344, 1, 0, -655343, 1, 0, -655342, 1, 0, -655341, 1, 0, -655340, 1, 0, -655339, 1, 0, -655338, 1, 0, -655337, 1, 0, -655336, 1, 0, -655335, 1, 0, -655334, 1, 0, -655333, 1, 0, -655332, 1, 0, -655331, 1, 0, -655330, 1, 0, -524297, 1, 0, -589794, 1, 0, -458761, 1, 0, -524258, 1, 0, -393225, 1, 0, -458722, 1, 0, -327689, 1, 0, -393186, 1, 0, -262153, 1, 0, -327650, 1, 0, -196617, 1, 0, -262114, 1, 0, -131081, 1, 0, -196578, 1, 0, -65545, 1, 0, -131042, 1, 0, -9, 1, 0, -8, 1, 0, -7, 1, 0, -6, 1, 0, -5, 1, 0, -4, 1, 0, -3, 1, 0, -65536, 1, 0, -65535, 1, 0, -65532, 1, 0, -65531, 1, 0, -65528, 1, 0, -65527, 1, 0, -65526, 1, 0, -65525, 1, 0, -65524, 1, 0, -65523, 1, 0, -65522, 1, 0, -65521, 1, 0, -65520, 1, 0, -65519, 1, 0, -65518, 1, 0, -65517, 1, 0, -65516, 1, 0, -65515, 1, 0, -65514, 1, 0, -65513, 1, 0, -65512, 1, 0, -65511, 1, 0, -65510, 1, 0, -65509, 1, 0, -65508, 1, 0, -65507, 1, 0, -65506, 1, 0, 65527, 1, 0, 30, 1, 0, 131063, 1, 0, 65566, 1, 0, 196599, 1, 0, 131102, 1, 0, 262135, 1, 0, 196638, 1, 0, 327671, 1, 0, 262174, 1, 0, 393207, 1, 0, 327710, 1, 0, 458743, 1, 0, 393246, 1, 0, 524279, 1, 0, 458782, 1, 0, 589815, 1, 0, 589816, 1, 0, 589817, 1, 0, 589818, 1, 0, 589819, 1, 0, 589820, 1, 0, 589821, 1, 0, 589822, 1, 0, 589823, 1, 0, 524288, 1, 0, 524289, 1, 0, 524290, 1, 0, 524291, 1, 0, 524292, 1, 0, 524293, 1, 0, 524294, 1, 0, 524295, 1, 0, 524296, 1, 0, 524297, 1, 0, 524298, 1, 0, 524299, 1, 0, 524300, 1, 0, 524301, 1, 0, 524302, 1, 0, 524303, 1, 0, 524304, 1, 0, 524305, 1, 0, 524306, 1, 0, 524307, 1, 0, 524308, 1, 0, 524309, 1, 0, 524310, 1, 0, 524311, 1, 0, 524312, 1, 0, 524313, 1, 0, 524314, 1, 0, 524315, 1, 0, 524316, 1, 0, 524317, 1, 0, 524318, 1, 0 )
+
+[node name="Light" type="Node2D" parent="."]
+
+[node name="Light2D" type="Light2D" parent="Light"]
+position = Vector2( 0, 112 )
+z_index = 1
+texture = ExtResource( 9 )
+texture_scale = 0.4
+color = Color( 1, 0, 0, 1 )
+shadow_enabled = true
+shadow_filter = 5
+
+[node name="Light2D2" type="Light2D" parent="Light"]
+position = Vector2( 32, 112 )
+texture = ExtResource( 9 )
+texture_scale = 0.4
+color = Color( 0.0235294, 0.909804, 1, 1 )
+shadow_enabled = true
+shadow_filter = 5
+
+[node name="Light2D3" type="Light2D" parent="Light"]
+position = Vector2( 224, 112 )
+texture = ExtResource( 9 )
+texture_scale = 0.4
+shadow_enabled = true
+shadow_filter = 5
+
+[node name="LightCeil2D4" type="Light2D" parent="Light"]
+position = Vector2( 112, 32 )
+texture = ExtResource( 8 )
+offset = Vector2( 0, 50 )
+texture_scale = 0.8
+shadow_enabled = true
+shadow_filter = 5
+
+[node name="LightCeil2D6" type="Light2D" parent="Light"]
+position = Vector2( -80, 32 )
+texture = ExtResource( 8 )
+offset = Vector2( 0, 50 )
+texture_scale = 0.8
+shadow_enabled = true
+shadow_filter = 5
+
+[node name="LightCeil2D5" type="Light2D" parent="Light"]
+position = Vector2( 112, -80 )
+texture = ExtResource( 8 )
+offset = Vector2( 0, 50 )
+texture_scale = 0.8
+shadow_enabled = true
+shadow_filter = 5
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Table" parent="Objects" instance=ExtResource( 5 )]
+position = Vector2( 168, 112 )
+
+[node name="Table2" parent="Objects" instance=ExtResource( 5 )]
+position = Vector2( 232, 112 )
+
+[node name="Table3" parent="Objects" instance=ExtResource( 5 )]
+position = Vector2( 296, 112 )
+
+[node name="Table4" parent="Objects" instance=ExtResource( 5 )]
+position = Vector2( 360, 112 )
+
+[node name="Items" type="Node2D" parent="Objects"]
+
+[node name="ItemFloor" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 152, 96 )
+itemType = 2
+
+[node name="ItemFloor2" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 176, 96 )
+itemType = 13
+
+[node name="ItemFloor3" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 184, 80 )
+itemType = 13
+
+[node name="ItemFloor4" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 208, 96 )
+itemType = 1
+
+[node name="ItemFloor5" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 232, 80 )
+itemType = 3
+
+[node name="ItemFloor6" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 240, 96 )
+itemType = 3
+
+[node name="ItemFloor7" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 264, 96 )
+itemType = 5
+
+[node name="ItemFloor8" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 288, 96 )
+itemType = 8
+
+[node name="ItemFloor9" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 296, 80 )
+itemType = 8
+
+[node name="ItemFloor10" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 296, 64 )
+itemType = 8
+
+[node name="ItemFloor11" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 288, 48 )
+itemType = 8
+
+[node name="ItemFloor12" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 320, 96 )
+itemType = 7
+
+[node name="ItemFloor13" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 320, 80 )
+itemType = 6
+
+[node name="ItemFloor14" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 352, 96 )
+itemType = 11
+
+[node name="ItemFloor15" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 352, 80 )
+itemType = 10
+
+[node name="ItemFloor16" parent="Objects/Items" instance=ExtResource( 11 )]
+position = Vector2( 376, 96 )
+itemType = 4
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 136, 104 )
+position = Vector2( 80, 104 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 136, 104 )
-current = true
-zoom = Vector2( 0.25, 0.25 )
-script = ExtResource( 3 )
+[node name="Camera2D" parent="." instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 136, 64 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2( 208, 136 )
+[node name="Ladders" type="Node2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource( 1 )
+[node name="Ladder" parent="Ladders" instance=ExtResource( 4 )]
+position = Vector2( 112, 112 )
+
+[node name="Ladder2" parent="Ladders" instance=ExtResource( 4 )]
+position = Vector2( 112, 80 )
+
+[node name="Ladder3" parent="Ladders" instance=ExtResource( 4 )]
+position = Vector2( 112, 48 )
+
+[node name="Ladder4" parent="Ladders" instance=ExtResource( 4 )]
+position = Vector2( 112, 16 )
+
+[node name="LadderTop" parent="Ladders" instance=ExtResource( 6 )]
+position = Vector2( 112, -16 )

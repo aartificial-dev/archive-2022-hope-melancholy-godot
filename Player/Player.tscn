@@ -1,0 +1,122 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Player/pl_frames_move.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Player/pl_frames_hands.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Player/Player.cs" type="Script" id=3]
+[ext_resource path="res://Player/pl_frames_weapons.tres" type="SpriteFrames" id=4]
+[ext_resource path="res://TempInheritFrames.gd" type="Script" id=5]
+[ext_resource path="res://VFX_Sprites/7ae48e87-54af-430b-a981-27621c1b0a97.png" type="Texture" id=6]
+[ext_resource path="res://VFX_Sprites/2cd708ce-b9e4-4005-a88c-596865431592.png" type="Texture" id=7]
+[ext_resource path="res://VFX_Particles/particles_gunsmoke.tres" type="Material" id=8]
+[ext_resource path="res://VFX_Particles/particles_gunfire.tres" type="Material" id=9]
+[ext_resource path="res://VFX_Sprites/spr_light_mask.png" type="Texture" id=10]
+[ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=11]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7, 21.5 )
+
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 3 )
+
+[node name="CollisionShapePlayer" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 0, 2.5 )
+shape = SubResource( 1 )
+
+[node name="MoveSprites" type="Node2D" parent="."]
+
+[node name="SpriteMovement" type="AnimatedSprite" parent="MoveSprites"]
+frames = ExtResource( 1 )
+animation = "idle"
+frame = 4
+playing = true
+
+[node name="HandsMovement" type="AnimatedSprite" parent="MoveSprites"]
+visible = false
+frames = ExtResource( 2 )
+animation = "gun_idle"
+frame = 4
+script = ExtResource( 5 )
+parent = NodePath("../SpriteMovement")
+
+[node name="WeaponSprites" type="Node2D" parent="."]
+visible = false
+
+[node name="BackHandPos" type="Position2D" parent="WeaponSprites"]
+position = Vector2( -4, -7 )
+
+[node name="HandsWeaponsBack" type="AnimatedSprite" parent="WeaponSprites/BackHandPos"]
+position = Vector2( 4, 7 )
+frames = ExtResource( 4 )
+animation = "gun_hand_back"
+script = ExtResource( 5 )
+parent = NodePath("../../SpriteWeapons")
+
+[node name="SpriteWeapons" type="AnimatedSprite" parent="WeaponSprites"]
+frames = ExtResource( 4 )
+animation = "gun_shoot"
+
+[node name="FrontHandPos" type="Position2D" parent="WeaponSprites"]
+position = Vector2( -4, -7 )
+
+[node name="HandsWeaponsFront" type="AnimatedSprite" parent="WeaponSprites/FrontHandPos"]
+position = Vector2( 4, 7 )
+frames = ExtResource( 4 )
+animation = "gun_hand_front"
+script = ExtResource( 5 )
+parent = NodePath("../../SpriteWeapons")
+
+[node name="ParticlesGunSmoke" type="Particles2D" parent="WeaponSprites/FrontHandPos/HandsWeaponsFront"]
+show_behind_parent = true
+material = SubResource( 2 )
+position = Vector2( 11, -9 )
+emitting = false
+amount = 7
+lifetime = 0.15
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = ExtResource( 8 )
+texture = ExtResource( 6 )
+
+[node name="ParticlesGunFire" type="Particles2D" parent="WeaponSprites/FrontHandPos/HandsWeaponsFront"]
+show_behind_parent = true
+material = SubResource( 2 )
+position = Vector2( 11, -9 )
+emitting = false
+amount = 15
+lifetime = 0.05
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = ExtResource( 9 )
+texture = ExtResource( 7 )
+
+[node name="RayCastGun" type="RayCast2D" parent="WeaponSprites/FrontHandPos/HandsWeaponsFront"]
+visible = false
+position = Vector2( 13, -9 )
+cast_to = Vector2( 100, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="LadderCollider" type="Area2D" parent="."]
+
+[node name="CollisionShapeLadder" type="CollisionShape2D" parent="LadderCollider"]
+visible = false
+position = Vector2( 0, 2.5 )
+shape = SubResource( 1 )
+
+[node name="Light2D" type="Light2D" parent="."]
+visible = false
+scale = Vector2( 2.17708, 1 )
+texture = ExtResource( 10 )
+texture_scale = 1.2
+color = Color( 0, 0, 0, 1 )
+mode = 2
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 1 )
+shadow_filter = 5
+script = ExtResource( 11 )

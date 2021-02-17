@@ -1,0 +1,273 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Player/PlayerCamera.cs" type="Script" id=1]
+[ext_resource path="res://GUI/Healthbar/gui_healthbar_sanity.png" type="Texture" id=2]
+[ext_resource path="res://GUI/Healthbar/gui_healthbar_health.png" type="Texture" id=3]
+[ext_resource path="res://GUI/Healthbar/gui_healthbar.png" type="Texture" id=4]
+[ext_resource path="res://Fonts/main_font.tres" type="DynamicFont" id=5]
+[ext_resource path="res://GUI/Weapons/gui_frames_weapons.tres" type="SpriteFrames" id=6]
+[ext_resource path="res://GUI/Healthbar/gui_frames_face.tres" type="SpriteFrames" id=7]
+[ext_resource path="res://GUI/Inventory/gui_inv_grid_chip.png" type="Texture" id=8]
+[ext_resource path="res://GUI/Inventory/gui_inv_grid.png" type="Texture" id=9]
+[ext_resource path="res://GUI/Inventory/gui_inv_grid_weapon.png" type="Texture" id=10]
+[ext_resource path="res://GUI/Inventory/gui_inv_weapon_select.png" type="Texture" id=11]
+[ext_resource path="res://GUI/Inventory/gui_inv_button_comb_norm.png" type="Texture" id=12]
+[ext_resource path="res://GUI/Inventory/gui_inv_button_comb_pressed.png" type="Texture" id=13]
+[ext_resource path="res://GUI/Inventory/gui_inv_button_comb_hover.png" type="Texture" id=14]
+[ext_resource path="res://GUI/Inventory/gui_inv_frames_chip.tres" type="SpriteFrames" id=15]
+[ext_resource path="res://GUI/Inventory/gui_inv_grid_comb.png" type="Texture" id=16]
+[ext_resource path="res://Player/Inventory.cs" type="Script" id=17]
+[ext_resource path="res://Shaders/shader_gm.tres" type="Material" id=18]
+[ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=19]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+light_mode = 1
+
+[node name="Camera2D" type="Camera2D"]
+material = SubResource( 1 )
+z_index = 1000
+current = true
+zoom = Vector2( 0.25, 0.25 )
+process_mode = 0
+script = ExtResource( 1 )
+
+[node name="Weapons" type="Node2D" parent="."]
+use_parent_material = true
+position = Vector2( 156, 71 )
+
+[node name="SpriteWeapon" type="AnimatedSprite" parent="Weapons"]
+use_parent_material = true
+position = Vector2( -8, 8 )
+frames = ExtResource( 6 )
+
+[node name="LabelAmmo" type="Label" parent="Weapons"]
+visible = false
+use_parent_material = true
+margin_left = -49.0
+margin_top = 5.0
+margin_right = -37.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 5 )
+text = "08"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelDivider" type="Label" parent="Weapons"]
+visible = false
+use_parent_material = true
+margin_left = -36.0
+margin_top = 5.0
+margin_right = -30.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 5 )
+text = "/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelAmmoMax" type="Label" parent="Weapons"]
+visible = false
+use_parent_material = true
+margin_left = -29.0
+margin_top = 5.0
+margin_right = -17.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 5 )
+text = "35"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Status" type="Node2D" parent="."]
+use_parent_material = true
+position = Vector2( -156, 70 )
+
+[node name="SpriteFace" type="AnimatedSprite" parent="Status"]
+use_parent_material = true
+position = Vector2( 9, 9 )
+frames = ExtResource( 7 )
+animation = "calm"
+playing = true
+
+[node name="BarHealth" type="TextureProgress" parent="Status"]
+use_parent_material = true
+margin_left = 17.0
+margin_top = 2.0
+margin_right = 63.0
+margin_bottom = 9.0
+value = 100.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BarSanity" type="TextureProgress" parent="Status"]
+use_parent_material = true
+margin_left = 17.0
+margin_top = 10.0
+margin_right = 63.0
+margin_bottom = 17.0
+value = 100.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Inventory" type="Node2D" parent="."]
+use_parent_material = true
+position = Vector2( 0, -87 )
+script = ExtResource( 17 )
+
+[node name="gui_inv_grid_weapon2" type="Sprite" parent="Inventory"]
+use_parent_material = true
+position = Vector2( -157, 11 )
+texture = ExtResource( 10 )
+centered = false
+
+[node name="gui_inv_weapon_select2" type="Sprite" parent="Inventory/gui_inv_grid_weapon2"]
+use_parent_material = true
+position = Vector2( -1, -1 )
+texture = ExtResource( 11 )
+centered = false
+
+[node name="Label" type="Label" parent="Inventory/gui_inv_grid_weapon2"]
+use_parent_material = true
+margin_left = -1.0
+margin_top = -12.0
+margin_right = 56.0
+margin_bottom = -1.0
+custom_fonts/font = ExtResource( 5 )
+text = "Weapon 1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="gui_inv_grid_weapon3" type="Sprite" parent="Inventory"]
+use_parent_material = true
+position = Vector2( -100, 11 )
+texture = ExtResource( 10 )
+centered = false
+
+[node name="gui_inv_weapon_select2" type="Sprite" parent="Inventory/gui_inv_grid_weapon3"]
+visible = false
+use_parent_material = true
+position = Vector2( -1, -1 )
+texture = ExtResource( 11 )
+centered = false
+
+[node name="Label" type="Label" parent="Inventory/gui_inv_grid_weapon3"]
+use_parent_material = true
+margin_left = -1.0
+margin_top = -12.0
+margin_right = 56.0
+margin_bottom = -1.0
+custom_fonts/font = ExtResource( 5 )
+text = "Weapon 2"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="gui_inv_grid" type="Sprite" parent="Inventory"]
+use_parent_material = true
+position = Vector2( -43, 0 )
+texture = ExtResource( 9 )
+centered = false
+
+[node name="gui_inv_grid_chip" type="Sprite" parent="Inventory"]
+use_parent_material = true
+position = Vector2( 91, 0 )
+texture = ExtResource( 8 )
+centered = false
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip"]
+visible = false
+use_parent_material = true
+position = Vector2( 16, 8 )
+frames = ExtResource( 15 )
+frame = 1
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip/AnimatedSprite2"]
+modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
+use_parent_material = true
+frames = ExtResource( 15 )
+frame = 2
+
+[node name="AnimatedSprite4" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip"]
+visible = false
+use_parent_material = true
+position = Vector2( 50, 8 )
+frames = ExtResource( 15 )
+frame = 1
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip/AnimatedSprite4"]
+modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
+use_parent_material = true
+frames = ExtResource( 15 )
+frame = 2
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip"]
+visible = false
+use_parent_material = true
+position = Vector2( 16, 25 )
+frames = ExtResource( 15 )
+frame = 1
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip/AnimatedSprite"]
+modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
+use_parent_material = true
+frames = ExtResource( 15 )
+frame = 2
+
+[node name="AnimatedSprite3" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip"]
+visible = false
+use_parent_material = true
+position = Vector2( 50, 25 )
+frames = ExtResource( 15 )
+frame = 1
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip/AnimatedSprite3"]
+modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
+use_parent_material = true
+frames = ExtResource( 15 )
+frame = 2
+
+[node name="Combination" type="Node2D" parent="Inventory"]
+visible = false
+use_parent_material = true
+position = Vector2( 91, 0 )
+
+[node name="TextureButton" type="TextureButton" parent="Inventory/Combination"]
+use_parent_material = true
+margin_right = 11.0
+margin_bottom = 33.0
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 13 )
+texture_hover = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="gui_inv_grid_comb" type="Sprite" parent="Inventory/Combination"]
+use_parent_material = true
+position = Vector2( 11, 0 )
+texture = ExtResource( 16 )
+centered = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = ExtResource( 18 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
