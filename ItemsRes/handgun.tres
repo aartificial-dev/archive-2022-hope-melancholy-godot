@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Handgun"
+spriteFrame = 2
+sizeFloor = Vector2( 18, 9 )
+sizeGrid = Vector2( 3, 2 )
+sizeSprite = Vector2( 33, 22 )
+type = 1
+intArray = [ 0, 25 ]
+textField = ""
+guiFrame = 2

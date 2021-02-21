@@ -8,7 +8,7 @@ var parentNode: AnimatedSprite;
 func _ready():
 	pass
 
-func _process(delta):
+func _process(_delta):
 	parentNode = get_node_or_null(parent)
 	if (parentNode != null):
 		frame = parentNode.frame

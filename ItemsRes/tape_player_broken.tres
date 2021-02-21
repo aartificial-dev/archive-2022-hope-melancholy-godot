@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Broken Tape Player"
+spriteFrame = 10
+sizeFloor = Vector2( 21, 6 )
+sizeGrid = Vector2( 2, 1 )
+sizeSprite = Vector2( 22, 11 )
+type = 3
+intArray = [  ]
+textField = ""
+guiFrame = 0

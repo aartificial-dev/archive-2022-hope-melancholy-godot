@@ -1,24 +1,26 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Player/pl_frames_move.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Player/pl_frames_hands.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Player/Player.cs" type="Script" id=3]
 [ext_resource path="res://Player/pl_frames_weapons.tres" type="SpriteFrames" id=4]
 [ext_resource path="res://TempInheritFrames.gd" type="Script" id=5]
-[ext_resource path="res://VFX_Sprites/7ae48e87-54af-430b-a981-27621c1b0a97.png" type="Texture" id=6]
-[ext_resource path="res://VFX_Sprites/2cd708ce-b9e4-4005-a88c-596865431592.png" type="Texture" id=7]
-[ext_resource path="res://VFX_Particles/particles_gunsmoke.tres" type="Material" id=8]
-[ext_resource path="res://VFX_Particles/particles_gunfire.tres" type="Material" id=9]
+[ext_resource path="res://VFX_Particles/ParticlesGunFire.tscn" type="PackedScene" id=6]
+[ext_resource path="res://VFX_Particles/ParticlesGunSmoke.tscn" type="PackedScene" id=7]
 [ext_resource path="res://VFX_Sprites/spr_light_mask.png" type="Texture" id=10]
 [ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 21.5 )
 
-[sub_resource type="CanvasItemMaterial" id=2]
-blend_mode = 1
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 1, 22.5 )
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"Player",
+]]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource( 3 )
 
 [node name="CollisionShapePlayer" type="CollisionShape2D" parent="."]
@@ -31,14 +33,14 @@ shape = SubResource( 1 )
 [node name="SpriteMovement" type="AnimatedSprite" parent="MoveSprites"]
 frames = ExtResource( 1 )
 animation = "idle"
-frame = 4
+frame = 2
 playing = true
 
 [node name="HandsMovement" type="AnimatedSprite" parent="MoveSprites"]
 visible = false
 frames = ExtResource( 2 )
 animation = "gun_idle"
-frame = 4
+frame = 2
 script = ExtResource( 5 )
 parent = NodePath("../SpriteMovement")
 
@@ -47,6 +49,9 @@ visible = false
 
 [node name="BackHandPos" type="Position2D" parent="WeaponSprites"]
 position = Vector2( -4, -7 )
+__meta__ = {
+"_gizmo_extents_": 2.0
+}
 
 [node name="HandsWeaponsBack" type="AnimatedSprite" parent="WeaponSprites/BackHandPos"]
 position = Vector2( 4, 7 )
@@ -61,6 +66,9 @@ animation = "gun_shoot"
 
 [node name="FrontHandPos" type="Position2D" parent="WeaponSprites"]
 position = Vector2( -4, -7 )
+__meta__ = {
+"_gizmo_extents_": 2.0
+}
 
 [node name="HandsWeaponsFront" type="AnimatedSprite" parent="WeaponSprites/FrontHandPos"]
 position = Vector2( 4, 7 )
@@ -69,54 +77,39 @@ animation = "gun_hand_front"
 script = ExtResource( 5 )
 parent = NodePath("../../SpriteWeapons")
 
-[node name="ParticlesGunSmoke" type="Particles2D" parent="WeaponSprites/FrontHandPos/HandsWeaponsFront"]
-show_behind_parent = true
-material = SubResource( 2 )
-position = Vector2( 11, -9 )
-emitting = false
-amount = 7
-lifetime = 0.15
-one_shot = true
-explosiveness = 1.0
-randomness = 1.0
-process_material = ExtResource( 8 )
-texture = ExtResource( 6 )
+[node name="ParticlesGunSmoke" parent="WeaponSprites/FrontHandPos/HandsWeaponsFront" instance=ExtResource( 7 )]
+position = Vector2( 16, -9 )
 
-[node name="ParticlesGunFire" type="Particles2D" parent="WeaponSprites/FrontHandPos/HandsWeaponsFront"]
-show_behind_parent = true
-material = SubResource( 2 )
-position = Vector2( 11, -9 )
-emitting = false
-amount = 15
-lifetime = 0.05
-one_shot = true
-explosiveness = 1.0
-randomness = 1.0
-process_material = ExtResource( 9 )
-texture = ExtResource( 7 )
+[node name="ParticlesGunFire" parent="WeaponSprites/FrontHandPos/HandsWeaponsFront" instance=ExtResource( 6 )]
+position = Vector2( 16, -9 )
 
-[node name="RayCastGun" type="RayCast2D" parent="WeaponSprites/FrontHandPos/HandsWeaponsFront"]
+[node name="BulletSpawn" type="Position2D" parent="WeaponSprites/FrontHandPos/HandsWeaponsFront"]
+position = Vector2( 16, -9 )
+__meta__ = {
+"_gizmo_extents_": 2.0
+}
+
+[node name="LadderEndCollider" type="Area2D" parent="."]
 visible = false
-position = Vector2( 13, -9 )
-cast_to = Vector2( 100, 0 )
+collision_layer = 0
+collision_mask = 48
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-
-[node name="LadderCollider" type="Area2D" parent="."]
-
-[node name="CollisionShapeLadder" type="CollisionShape2D" parent="LadderCollider"]
-visible = false
+[node name="CollisionShapeLadder" type="CollisionShape2D" parent="LadderEndCollider"]
 position = Vector2( 0, 2.5 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="."]
 visible = false
-scale = Vector2( 2.17708, 1 )
+modulate = Color( 0, 0, 0, 1 )
+light_mask = 3
+scale = Vector2( 2.4, 1.8 )
 texture = ExtResource( 10 )
-texture_scale = 1.2
 color = Color( 0, 0, 0, 1 )
 mode = 2
 shadow_enabled = true
 shadow_color = Color( 0, 0, 0, 1 )
 shadow_filter = 5
 script = ExtResource( 11 )
+
+[node name="ItemDropRayCast" type="RayCast2D" parent="."]
+visible = false

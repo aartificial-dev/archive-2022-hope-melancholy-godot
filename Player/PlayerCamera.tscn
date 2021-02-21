@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Player/PlayerCamera.cs" type="Script" id=1]
 [ext_resource path="res://GUI/Healthbar/gui_healthbar_sanity.png" type="Texture" id=2]
@@ -16,14 +16,24 @@
 [ext_resource path="res://GUI/Inventory/gui_inv_button_comb_hover.png" type="Texture" id=14]
 [ext_resource path="res://GUI/Inventory/gui_inv_frames_chip.tres" type="SpriteFrames" id=15]
 [ext_resource path="res://GUI/Inventory/gui_inv_grid_comb.png" type="Texture" id=16]
-[ext_resource path="res://Player/Inventory.cs" type="Script" id=17]
+[ext_resource path="res://Scripts/Inventory.cs" type="Script" id=17]
 [ext_resource path="res://Shaders/shader_gm.tres" type="Material" id=18]
 [ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=19]
+[ext_resource path="res://Player/InventoryGUI.cs" type="Script" id=20]
+[ext_resource path="res://GUI/Cursor/gui_frames_use.tres" type="SpriteFrames" id=21]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 light_mode = 1
 
-[node name="Camera2D" type="Camera2D"]
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.0941176, 0.101961, 0.141176, 0.392157 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.0941176, 0.101961, 0.141176, 0.392157 )
+
+[node name="Camera2D" type="Camera2D" groups=[
+"Player",
+]]
 material = SubResource( 1 )
 z_index = 1000
 current = true
@@ -119,21 +129,29 @@ __meta__ = {
 [node name="Inventory" type="Node2D" parent="."]
 use_parent_material = true
 position = Vector2( 0, -87 )
-script = ExtResource( 17 )
+script = ExtResource( 20 )
+inventoriesPath = [ NodePath("InventoryWeapon1"), NodePath("InventoryWeapon2"), NodePath("InventoryMain"), NodePath("InventoryChips"), NodePath("Combination") ]
+weaponsPath = [ NodePath("InventoryWeapon1"), NodePath("InventoryWeapon2") ]
 
-[node name="gui_inv_grid_weapon2" type="Sprite" parent="Inventory"]
+[node name="InventoryWeapon1" type="Sprite" parent="Inventory"]
 use_parent_material = true
 position = Vector2( -157, 11 )
 texture = ExtResource( 10 )
 centered = false
+script = ExtResource( 17 )
+name = "Weapon 1"
+GridSize = Vector2( 5, 2 )
+allowedType = 1
+allowedAmount = 1
+CellSize = Vector2( 11, 11 )
 
-[node name="gui_inv_weapon_select2" type="Sprite" parent="Inventory/gui_inv_grid_weapon2"]
+[node name="SelectOverlay" type="Sprite" parent="Inventory/InventoryWeapon1"]
 use_parent_material = true
 position = Vector2( -1, -1 )
 texture = ExtResource( 11 )
 centered = false
 
-[node name="Label" type="Label" parent="Inventory/gui_inv_grid_weapon2"]
+[node name="Label" type="Label" parent="Inventory/InventoryWeapon1"]
 use_parent_material = true
 margin_left = -1.0
 margin_top = -12.0
@@ -147,20 +165,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="gui_inv_grid_weapon3" type="Sprite" parent="Inventory"]
+[node name="InventoryWeapon2" type="Sprite" parent="Inventory"]
 use_parent_material = true
 position = Vector2( -100, 11 )
 texture = ExtResource( 10 )
 centered = false
+script = ExtResource( 17 )
+name = "Weapon 2"
+GridSize = Vector2( 5, 2 )
+allowedType = 1
+allowedAmount = 1
+CellSize = Vector2( 11, 11 )
 
-[node name="gui_inv_weapon_select2" type="Sprite" parent="Inventory/gui_inv_grid_weapon3"]
+[node name="SelectOverlay" type="Sprite" parent="Inventory/InventoryWeapon2"]
 visible = false
 use_parent_material = true
 position = Vector2( -1, -1 )
 texture = ExtResource( 11 )
 centered = false
 
-[node name="Label" type="Label" parent="Inventory/gui_inv_grid_weapon3"]
+[node name="Label" type="Label" parent="Inventory/InventoryWeapon2"]
 use_parent_material = true
 margin_left = -1.0
 margin_top = -12.0
@@ -174,65 +198,75 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="gui_inv_grid" type="Sprite" parent="Inventory"]
+[node name="InventoryMain" type="Sprite" parent="Inventory"]
 use_parent_material = true
 position = Vector2( -43, 0 )
 texture = ExtResource( 9 )
 centered = false
+script = ExtResource( 17 )
+name = "Inventory"
+GridSize = Vector2( 12, 3 )
+CellSize = Vector2( 11, 11 )
 
-[node name="gui_inv_grid_chip" type="Sprite" parent="Inventory"]
+[node name="InventoryChips" type="Sprite" parent="Inventory"]
 use_parent_material = true
 position = Vector2( 91, 0 )
 texture = ExtResource( 8 )
 centered = false
+script = ExtResource( 17 )
+name = "Chips"
+GridSize = Vector2( 2, 2 )
+allowedType = 4
+CellSpace = Vector2( 2, 1 )
+CellSize = Vector2( 32, 16 )
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip"]
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips"]
 visible = false
 use_parent_material = true
 position = Vector2( 16, 8 )
 frames = ExtResource( 15 )
 frame = 1
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip/AnimatedSprite2"]
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips/AnimatedSprite2"]
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
 frame = 2
 
-[node name="AnimatedSprite4" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip"]
+[node name="AnimatedSprite4" type="AnimatedSprite" parent="Inventory/InventoryChips"]
 visible = false
 use_parent_material = true
 position = Vector2( 50, 8 )
 frames = ExtResource( 15 )
 frame = 1
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip/AnimatedSprite4"]
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips/AnimatedSprite4"]
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
 frame = 2
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Inventory/InventoryChips"]
 visible = false
 use_parent_material = true
 position = Vector2( 16, 25 )
 frames = ExtResource( 15 )
 frame = 1
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip/AnimatedSprite"]
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips/AnimatedSprite"]
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
 frame = 2
 
-[node name="AnimatedSprite3" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip"]
+[node name="AnimatedSprite3" type="AnimatedSprite" parent="Inventory/InventoryChips"]
 visible = false
 use_parent_material = true
 position = Vector2( 50, 25 )
 frames = ExtResource( 15 )
 frame = 1
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/gui_inv_grid_chip/AnimatedSprite3"]
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips/AnimatedSprite3"]
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
@@ -242,8 +276,14 @@ frame = 2
 visible = false
 use_parent_material = true
 position = Vector2( 91, 0 )
+script = ExtResource( 17 )
+name = "Combination"
+GridSize = Vector2( 5, 3 )
+CellOffset = Vector2( 11, 0 )
+CellSize = Vector2( 11, 11 )
 
 [node name="TextureButton" type="TextureButton" parent="Inventory/Combination"]
+show_behind_parent = true
 use_parent_material = true
 margin_right = 11.0
 margin_bottom = 33.0
@@ -254,11 +294,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="gui_inv_grid_comb" type="Sprite" parent="Inventory/Combination"]
+[node name="InventoryCombine" type="Sprite" parent="Inventory/Combination"]
+show_behind_parent = true
 use_parent_material = true
 position = Vector2( 11, 0 )
 texture = ExtResource( 16 )
 centered = false
+
+[node name="InventoryHand" type="Node2D" parent="Inventory"]
+position = Vector2( 0, 87 )
+z_index = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -267,7 +312,79 @@ visible = false
 material = ExtResource( 18 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InteractHint" type="Node2D" parent="."]
+visible = false
+use_parent_material = true
+
+[node name="Timer" type="Timer" parent="InteractHint"]
+process_mode = 0
+one_shot = true
+
+[node name="Panel" type="Panel" parent="InteractHint"]
+use_parent_material = true
+margin_left = -5.0
+margin_top = -5.0
+margin_right = 6.0
+margin_bottom = 6.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="InteractHint"]
+use_parent_material = true
+margin_left = 6.0
+margin_top = -5.0
+margin_right = 30.0
+margin_bottom = 6.0
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = ExtResource( 5 )
+text = "Item"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="InteractHint"]
+use_parent_material = true
+frames = ExtResource( 21 )
+animation = "hand"
+frame = 1
+playing = true
+
+[node name="Label" type="Label" parent="."]
+use_parent_material = true
+margin_left = -152.0
+margin_top = 53.0
+margin_right = -134.0
+margin_bottom = 62.0
+custom_fonts/font = ExtResource( 5 )
+text = "fps"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameVersion" type="Label" parent="."]
+use_parent_material = true
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -90.0
+margin_top = -87.0
+margin_right = 90.0
+margin_bottom = -78.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 0.0705882 )
+text = "h.o.p.e.: melancholy pre-alpha"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

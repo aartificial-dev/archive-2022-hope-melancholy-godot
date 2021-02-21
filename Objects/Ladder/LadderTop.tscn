@@ -3,19 +3,19 @@
 [ext_resource path="res://Objects/Ladder/sprite_ladder_top.png" type="Texture" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 32 )
+extents = Vector2( 4, 1 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 16, 1.5 )
 
 [node name="LadderTop" type="Node2D"]
 
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2( 0, -16 )
-collision_layer = 4
-collision_mask = 4
+[node name="LadderEnd" type="Area2D" parent="."]
+position = Vector2( 0, -44 )
+collision_layer = 16
+collision_mask = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LadderEnd"]
 shape = SubResource( 1 )
 
 [node name="sprite_ladder_top" type="Sprite" parent="."]

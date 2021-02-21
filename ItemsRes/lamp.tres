@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Lamp"
+spriteFrame = 6
+sizeFloor = Vector2( 9, 11 )
+sizeGrid = Vector2( 1, 2 )
+sizeSprite = Vector2( 11, 22 )
+type = 1
+intArray = [  ]
+textField = ""
+guiFrame = 4
