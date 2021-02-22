@@ -5,6 +5,7 @@ using System;
 public class ItemInventory : Node2D {
     [Export]
     public ItemList.Items itemType = ItemList.Items.none;
+    public ItemPawn itemPawn;
 
     private AnimatedSprite sprite;
 

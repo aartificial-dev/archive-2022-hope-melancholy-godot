@@ -13,15 +13,18 @@ _data = [ Vector2( 0, 0.342045 ), 0.0, 0.623328, 0, 0, Vector2( 0.436709, 0.7602
 curve = SubResource( 3 )
 
 [resource]
-emission_shape = 1
-emission_sphere_radius = 1.0
+lifetime_randomness = 1.0
 flag_disable_z = true
-spread = 15.0
+spread = 4.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 200.0
-initial_velocity_random = 0.81
+initial_velocity = 100.0
+initial_velocity_random = 0.78
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
+linear_accel = 8.89
+linear_accel_random = 1.0
+angle = -192.0
+angle_random = 1.0
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 hue_variation = 0.14

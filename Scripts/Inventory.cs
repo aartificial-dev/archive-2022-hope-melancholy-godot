@@ -21,7 +21,7 @@ public class Inventory : Node2D {
     [Export]
     public String name = "inv";
     [Export]
-    public ItemPawn.ItemType allowedType = ItemPawn.ItemType.any;
+    public ItemPawn.ItemType allowedType = ItemPawn.ItemType.Any;
     [Export]
     public int allowedAmount = 999;
 
@@ -51,7 +51,7 @@ public class Inventory : Node2D {
     public bool PlaceItem(ItemInventory item) { // return true if cursor on inv
         if (this.Visible == false) return false;
         if (GetMouseGridPosFloor( this.GetLocalMousePosition() ) is null) return false;
-        if (allowedType != ItemPawn.ItemType.any  && ItemList.GetItemType(item.itemType) != allowedType) return true;
+        if (allowedType != ItemPawn.ItemType.Any  && ItemList.GetItemType(item.itemType) != allowedType) return true;
 
         // CALCULATE ITEM PLACEMENT
         Vector2? gridPosRaw = GetMouseGridPosRaw( this.GetLocalMousePosition());

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Player/PlayerCamera.cs" type="Script" id=1]
 [ext_resource path="res://GUI/Healthbar/gui_healthbar_sanity.png" type="Texture" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=19]
 [ext_resource path="res://Player/InventoryGUI.cs" type="Script" id=20]
 [ext_resource path="res://GUI/Cursor/gui_frames_use.tres" type="SpriteFrames" id=21]
+[ext_resource path="res://Fonts/Coder's Crux.ttf" type="DynamicFontData" id=22]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 light_mode = 1
@@ -31,6 +32,10 @@ bg_color = Color( 0.0941176, 0.101961, 0.141176, 0.392157 )
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.0941176, 0.101961, 0.141176, 0.392157 )
 
+[sub_resource type="DynamicFont" id=4]
+size = 12
+font_data = ExtResource( 22 )
+
 [node name="Camera2D" type="Camera2D" groups=[
 "Player",
 ]]
@@ -38,7 +43,6 @@ material = SubResource( 1 )
 z_index = 1000
 current = true
 zoom = Vector2( 0.25, 0.25 )
-process_mode = 0
 script = ExtResource( 1 )
 
 [node name="Weapons" type="Node2D" parent="."]
@@ -140,8 +144,8 @@ texture = ExtResource( 10 )
 centered = false
 script = ExtResource( 17 )
 name = "Weapon 1"
-GridSize = Vector2( 5, 2 )
 allowedType = 1
+GridSize = Vector2( 5, 2 )
 allowedAmount = 1
 CellSize = Vector2( 11, 11 )
 
@@ -172,8 +176,8 @@ texture = ExtResource( 10 )
 centered = false
 script = ExtResource( 17 )
 name = "Weapon 2"
-GridSize = Vector2( 5, 2 )
 allowedType = 1
+GridSize = Vector2( 5, 2 )
 allowedAmount = 1
 CellSize = Vector2( 11, 11 )
 
@@ -215,9 +219,9 @@ texture = ExtResource( 8 )
 centered = false
 script = ExtResource( 17 )
 name = "Chips"
-GridSize = Vector2( 2, 2 )
 allowedType = 4
 CellSpace = Vector2( 2, 1 )
+GridSize = Vector2( 2, 2 )
 CellSize = Vector2( 32, 16 )
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips"]
@@ -278,8 +282,8 @@ use_parent_material = true
 position = Vector2( 91, 0 )
 script = ExtResource( 17 )
 name = "Combination"
-GridSize = Vector2( 5, 3 )
 CellOffset = Vector2( 11, 0 )
+GridSize = Vector2( 5, 3 )
 CellSize = Vector2( 11, 11 )
 
 [node name="TextureButton" type="TextureButton" parent="Inventory/Combination"]
@@ -358,7 +362,7 @@ __meta__ = {
 use_parent_material = true
 frames = ExtResource( 21 )
 animation = "hand"
-frame = 1
+frame = 3
 playing = true
 
 [node name="Label" type="Label" parent="."]
@@ -376,13 +380,15 @@ __meta__ = {
 [node name="GameVersion" type="Label" parent="."]
 use_parent_material = true
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
+anchor_bottom = 0.5
 margin_left = -90.0
-margin_top = -87.0
+margin_top = 80.0
 margin_right = 90.0
-margin_bottom = -78.0
-custom_fonts/font = ExtResource( 5 )
-custom_colors/font_color = Color( 1, 1, 1, 0.0705882 )
+margin_bottom = 89.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 0.0784314 )
 text = "h.o.p.e.: melancholy pre-alpha"
 align = 1
 __meta__ = {

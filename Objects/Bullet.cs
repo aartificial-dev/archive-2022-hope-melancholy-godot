@@ -7,7 +7,7 @@ public class Bullet : KinematicBody2D {
     public BulletTrail bulletTrail;
 
     public Vector2 direction = Vector2.Right;
-    private float speed = 15f;
+    private float speed = 20f;
 
     public override void _Ready() {
         bulletTrail = (BulletTrail) trailScene.Instance();
@@ -23,6 +23,7 @@ public class Bullet : KinematicBody2D {
         if (!(bulletTrail is null)) {
             bulletTrail.AddPoint(this.Position);
         }
+        this.Rotation = Mathf.Atan2(direction.y, direction.x);
 
 
         KinematicCollision2D collide = this.MoveAndCollide(direction * speed, false);

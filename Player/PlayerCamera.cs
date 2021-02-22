@@ -136,6 +136,9 @@ public class PlayerCamera : Camera2D {
         selectedWeapon = inventoryGUI.GetWeapon(selectedWeaponSlot);
         if (selectedWeapon is null) {
             weaponSprite.Frame = 0;
+            weaponAmmoLabel.Visible = false;
+            weaponDivLabel.Visible = false;
+            weaponAmmoMaxLabel.Visible = false;
         } else {
             weaponSprite.Frame = ItemList.GetWeaponFrame(selectedWeapon);
 

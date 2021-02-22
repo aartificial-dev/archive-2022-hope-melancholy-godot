@@ -10,12 +10,10 @@ public class Player : KinematicBody2D {
 
     public float interactDistance = 30f;
 
-    private AnimatedSprite spriteMovement;
-    private AnimatedSprite spriteWeapons;
-
     public PlayerCamera camera;
-
+    public RayCast2D itemDropRayCast;
     private CollisionShape2D collisionShapePlayer;
+    private PlayerAnimator animator;
 
     private bool isOnLadder = false;
     private bool isLadderEndCollide = false;
@@ -23,51 +21,31 @@ public class Player : KinematicBody2D {
     private uint ladderBottomBitmask = 0b100000;
     private uint ladderEndBitmask = 0b0;
 
-    public RayCast2D itemDropRayCast;
-
-    private Position2D handBackPos;
-    private Position2D handFrontPos;
-    private Position2D bulletSpawnPos;
-
-    private PackedScene bulletScene = ResourceLoader.Load<PackedScene>("res://Objects/Bullet.tscn");
-    private Bullet bulletInstance = null;
-    private RandomNumberGenerator rnd = new RandomNumberGenerator();
-
     public override void _Ready() {
-        rnd.Randomize();
-        spriteMovement = GetNode<AnimatedSprite>("MoveSprites/SpriteMovement");
-        spriteWeapons = GetNode<AnimatedSprite>("WeaponSprites/SpriteWeapons");
 
         collisionShapePlayer = GetNode<CollisionShape2D>("CollisionShapePlayer");
 
         itemDropRayCast = GetNode<RayCast2D>("ItemDropRayCast");
 
+        animator = GetNode<PlayerAnimator>("PlayerAnimator");
+
         GetNode<Area2D>("LadderEndCollider").Connect("area_entered", this, nameof(LadderEndCollision));
         GetNode<Area2D>("LadderEndCollider").Connect("area_exited", this, nameof(NoLadderEndCollision));
-
-        handBackPos = GetNode<Position2D>("WeaponSprites/BackHandPos");
-        handFrontPos = GetNode<Position2D>("WeaponSprites/FrontHandPos");
-        bulletSpawnPos = GetNode<Position2D>("WeaponSprites/FrontHandPos/HandsWeaponsFront/BulletSpawn");
-
-        bulletInstance = (Bullet) bulletScene.Instance();
-        bulletInstance.PauseMode = PauseModeEnum.Stop;
     }
 
     public override void _Process(float delta) {
-        if (Input.IsActionJustPressed("key_space")) {
-            GetNode<Particles2D>("WeaponSprites/FrontHandPos/HandsWeaponsFront/ParticlesGunSmoke").Emitting = false;
-            GetNode<Particles2D>("WeaponSprites/FrontHandPos/HandsWeaponsFront/ParticlesGunFire").Emitting = false;
-            Vector2 dir = handFrontPos.GlobalPosition.DirectionTo(this.GetGlobalMousePosition());
-            this.GetParent().AddChild(bulletInstance);
-            bulletInstance.PauseMode = PauseModeEnum.Inherit;
-            bulletInstance.direction = dir;
-            bulletInstance.GlobalPosition = bulletSpawnPos.GlobalPosition;
-            GetNode<Particles2D>("WeaponSprites/FrontHandPos/HandsWeaponsFront/ParticlesGunSmoke").Emitting = true;
-            GetNode<Particles2D>("WeaponSprites/FrontHandPos/HandsWeaponsFront/ParticlesGunFire").Emitting = true;
-            bulletInstance = (Bullet) bulletScene.Instance();
-            bulletInstance.PauseMode = PauseModeEnum.Stop;
-            //camera.Position = camera.Position - bullet.direction * 3f;
+        ItemPawn itemInHand = (camera.selectedWeapon is null) ? null : camera.selectedWeapon.itemPawn;
+        if (Input.IsActionPressed("key_aim")) {
+            if (Input.IsActionJustPressed("mb_left")) {
+                animator.Attack(itemInHand);
+            } else {
+                animator.Aim(itemInHand);
+            }
         }
+        if (Input.IsActionJustPressed("key_reload")) {
+            animator.Reload(itemInHand);
+        }
+        camera.UpdateCamera(delta);
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -78,11 +56,11 @@ public class Player : KinematicBody2D {
             collisionShapePlayer.Disabled = false;
             ProcessMove(delta);
         }
-
-        camera.UpdateCamera(delta);
     }
 
     private void ProcessMove(float delta) {
+        if (Input.IsActionPressed("key_aim") || !animator.GetCanMove()) return;
+        ItemPawn itemInHand = (camera.selectedWeapon is null) ? null : camera.selectedWeapon.itemPawn;
         Vector2 dir = Vector2.Zero;
         if (Input.IsActionPressed("key_right")) {
             dir.x += speed;
@@ -94,82 +72,57 @@ public class Player : KinematicBody2D {
             dir.y += gravity * gravityMultiplier;
         }
 
-        //GD.Print(this.IsOnFloor());
-
         if (dir.x != 0f) {
             if (this.TestMove(this.Transform, new Vector2(dir.x / 2f * delta, 0f), false)) {
-                SetMoveAnimation("wall");
+                animator.PlayAnimation("wall", null);
                 dir.x = 0;
             } else {
-                SetMoveAnimation("walk");
+                animator.PlayAnimation("walk", itemInHand);
             }
         } else if (dir.x == 0f) {
-            SetMoveAnimation("idle");
+            animator.PlayAnimation("idle", itemInHand);
             Transform2D _tr = this.Transform;
             _tr.origin = _tr.origin.Round();
             this.Transform = _tr;
         }
 
         if (dir.x < 0f) {
-            spriteMovement.FlipH = true;
+            animator.SetSpriteFlipH(true);
         } 
         if (dir.x > 0f) {
-            spriteMovement.FlipH = false;
+            animator.SetSpriteFlipH(false);
         }
 
         this.MoveAndSlide(dir, Vector2.Up);
 
-        if (isLadderEndCollide) {
-            // GD.Print("trying to climb, bit check: ", ladderEndBitmask, ", top: ", ladderTopBitmask, ", bottom: ", ladderBottomBitmask);
-            if ((ladderEndBitmask & ladderBottomBitmask) != 0 
-                && Input.IsActionPressed("key_up")) {
-                    isOnLadder = true;
-            }
-            if ((ladderEndBitmask & ladderTopBitmask) != 0
-                && Input.IsActionPressed("key_down")) {
-                    isOnLadder = true;
-            }
-        }
+        isOnLadder = CheckLadderCanClimb();
     }
 
     private void ProcessLadderMove(float delta) {
-        spriteMovement.FlipH = false;
-        if (isLadderEndCollide) {
-            if ((ladderEndBitmask & ladderBottomBitmask) != 0 
-                && Input.IsActionPressed("key_down")) {
-                    isOnLadder = false;
-                    return;
-            }
-            if ((ladderEndBitmask & ladderTopBitmask) != 0
-                && Input.IsActionPressed("key_up")) {
-                    isOnLadder = false;
-                    return;
-            }
+        animator.SetSpriteFlipH(false);
+        isOnLadder = !CheckLadderCanGetOff();
+        if (isOnLadder == false) {
+            animator.Play();
+            return;
         }
 
         Vector2 dir = Vector2.Zero;
 
         if (Input.IsActionPressed("key_up")) {
-            SetMoveAnimation("climb_up");
+            animator.PlayAnimation("climb_up", null);
             dir.y += -1;
         }
         if (Input.IsActionPressed("key_down")) {
-            SetMoveAnimation("climb_down");
+            animator.PlayAnimation("climb_down", null);
             dir.y += 1;
         }
         if (Input.IsActionPressed("key_down") || Input.IsActionPressed("key_up")) {
-            spriteMovement.Playing = true;
+            animator.Play();
         } else {
-            spriteMovement.Playing = false;
+            animator.Pause();
         }
         
         this.MoveAndSlide(dir * climbSpeed, Vector2.Up);
-    }
-
-    private void SetMoveAnimation(String anim) {
-        if (spriteMovement.Animation != anim) {
-            spriteMovement.Animation = anim;
-        }
     }
 
     private void LadderEndCollision(Area2D _area) {
@@ -179,5 +132,34 @@ public class Player : KinematicBody2D {
     
     private void NoLadderEndCollision(Area2D _area) {
         isLadderEndCollide = false;
+        ladderEndBitmask = 0b0;
+    }
+
+    private bool CheckLadderCollisionTop() {
+        return (ladderEndBitmask & ladderTopBitmask) != 0;
+    } 
+
+    private bool CheckLadderCollisionBottom() {
+        return (ladderEndBitmask & ladderBottomBitmask) != 0 ;
+    } 
+
+    private bool CheckLadderCanClimb() {
+        if (CheckLadderCollisionBottom() && Input.IsActionPressed("key_up")) {
+            return true;
+        }
+        if (CheckLadderCollisionTop() && Input.IsActionPressed("key_down")) {
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckLadderCanGetOff() {
+        if (CheckLadderCollisionBottom() && Input.IsActionPressed("key_down")) {
+            return true;
+        }
+        if (CheckLadderCollisionTop() && Input.IsActionPressed("key_up")) {
+            return true;
+        }
+        return false;
     }
 }

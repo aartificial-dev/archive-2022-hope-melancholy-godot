@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_pistol_reload.wav-b2391d80e10ddbdf92bf585e4fbd052f.sample"
+
+[deps]
+
+source_file="res://Sounds/Weapons/snd_pistol_reload.wav"
+dest_files=[ "res://.import/snd_pistol_reload.wav-b2391d80e10ddbdf92bf585e4fbd052f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

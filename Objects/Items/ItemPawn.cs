@@ -14,12 +14,12 @@ public class ItemPawn {
     public int guiFrame;
 
     public enum ItemType {
-        any, weapon, quest, grabage, chip, ammo, medicine, keycard, notes, tool
+        Any, Weapon, Quest, Grabage, Chip, Ammo, Medicine, Keycard, Notes, Tool
     }
 
     public ItemPawn(String name = "item", int spriteFrame = 0, 
                     Vector2 sizeFloor = default(Vector2), Vector2 sizeGrid = default(Vector2), Vector2 sizeSprite = default(Vector2), 
-                    ItemPawn.ItemType type = ItemPawn.ItemType.any, IntArray intArray = default(IntArray), String textField = "", int guiFrame = 0) {
+                    ItemPawn.ItemType type = ItemPawn.ItemType.Any, IntArray intArray = default(IntArray), String textField = "", int guiFrame = 0) {
         this.name = name;
         this.spriteFrame = spriteFrame;
         this.sizeFloor = sizeFloor;

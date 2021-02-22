@@ -112,6 +112,7 @@ public class InventoryGUI : Node2D {
         if (!(itemInHand is null)) return false;
         ItemInventory itemInventory = (ItemInventory) itemInventoryScene.Instance();
         itemInventory.itemType = item.itemType;
+        itemInventory.itemPawn = item.itemPawn;
 
         inventoryHand.AddChild(itemInventory);
         itemInHand = itemInventory;
@@ -127,6 +128,7 @@ public class InventoryGUI : Node2D {
     public void DropItem(ItemInventory item, Vector2 pos) {
         ItemFloor itemFloor = (ItemFloor) itemFloorScene.Instance();
         itemFloor.itemType = item.itemType;
+        itemFloor.itemPawn = item.itemPawn;
         itemFloor.Position = pos;
 
         Godot.Collections.Array arr = this.GetTree().GetNodesInGroup("ItemHolder");

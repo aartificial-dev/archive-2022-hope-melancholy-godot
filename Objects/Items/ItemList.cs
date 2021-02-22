@@ -16,51 +16,51 @@ public readonly struct ItemList {
     public ItemPawn GenerateItem(int id) {
         switch (id) {
             case (int) ItemList.Items.tube:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.handgun:
-                return new ItemPawn("Handgun", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.weapon, default(IntArray), "");
+                return new ItemPawn("Handgun", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Weapon, default(IntArray), "");
 
             case (int) ItemList.Items.syringe:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.toolbox:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.keycard:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.lamp:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.flashlight:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.chip:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.tapePlayer:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.tapePlayerBroken:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.battery:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.shotgunShells:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.handgunMag:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.rifleMag:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
 
             case (int) ItemList.Items.plasmaMag:
-                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+                return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
         }
-        return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.any, default(IntArray), "");
+        return new ItemPawn("Tube", 1, new Vector2(28, 3), new Vector2(5, 1), new Vector2(55, 11), ItemPawn.ItemType.Any, default(IntArray), "");
     }
 
     public static Vector2 GetSizeFloor(int id) {
@@ -242,52 +242,52 @@ public readonly struct ItemList {
     public static ItemPawn.ItemType GetItemType(int id) {
         switch (id) {
             case (int) ItemList.Items.tube:
-                return ItemPawn.ItemType.weapon;
+                return ItemPawn.ItemType.Weapon;
 
             case (int) ItemList.Items.handgun:
-                return ItemPawn.ItemType.weapon;
+                return ItemPawn.ItemType.Weapon;
 
             case (int) ItemList.Items.syringe:
-                return ItemPawn.ItemType.medicine;
+                return ItemPawn.ItemType.Medicine;
 
             case (int) ItemList.Items.toolbox:
-                return ItemPawn.ItemType.tool;
+                return ItemPawn.ItemType.Tool;
 
             case (int) ItemList.Items.keycard:
-                return ItemPawn.ItemType.quest;
+                return ItemPawn.ItemType.Quest;
 
             case (int) ItemList.Items.lamp:
-                return ItemPawn.ItemType.weapon;
+                return ItemPawn.ItemType.Weapon;
 
             case (int) ItemList.Items.flashlight:
-                return ItemPawn.ItemType.weapon;
+                return ItemPawn.ItemType.Weapon;
 
             case (int) ItemList.Items.chip:
-                return ItemPawn.ItemType.chip;
+                return ItemPawn.ItemType.Chip;
 
             case (int) ItemList.Items.tapePlayer:
-                return ItemPawn.ItemType.tool;
+                return ItemPawn.ItemType.Tool;
 
             case (int) ItemList.Items.tapePlayerBroken:
-                return ItemPawn.ItemType.grabage;
+                return ItemPawn.ItemType.Grabage;
 
             case (int) ItemList.Items.battery:
-                return ItemPawn.ItemType.grabage;
+                return ItemPawn.ItemType.Grabage;
 
             case (int) ItemList.Items.shotgunShells:
-                return ItemPawn.ItemType.any;
+                return ItemPawn.ItemType.Any;
 
             case (int) ItemList.Items.handgunMag:
-                return ItemPawn.ItemType.any;
+                return ItemPawn.ItemType.Any;
 
             case (int) ItemList.Items.rifleMag:
-                return ItemPawn.ItemType.any;
+                return ItemPawn.ItemType.Any;
 
             case (int) ItemList.Items.plasmaMag:
-                return ItemPawn.ItemType.any;
+                return ItemPawn.ItemType.Any;
         }
 
-        return ItemPawn.ItemType.any;
+        return ItemPawn.ItemType.Any;
     }
 
     public static ItemPawn.ItemType GetItemType(ItemList.Items item) {

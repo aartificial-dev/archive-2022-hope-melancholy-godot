@@ -9,10 +9,10 @@ blend_mode = 1
 [node name="ParticlesGunFire" type="Particles2D"]
 material = SubResource( 1 )
 emitting = false
-amount = 20
-lifetime = 0.05
+amount = 30
+lifetime = 0.2
 one_shot = true
-explosiveness = 1.0
+explosiveness = 0.93
 randomness = 1.0
 visibility_rect = Rect2( -10, -10, 20, 20 )
 process_material = ExtResource( 1 )
