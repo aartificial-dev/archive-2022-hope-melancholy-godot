@@ -24,8 +24,9 @@ export (Vector2) 		var  sizeGrid 		= Vector2(1, 1)		setget set_sizeGrid
 export (Vector2) 		var  sizeSprite 	= Vector2(1, 1)		setget set_sizeSprite
 export (ITEM_TYPE) 		var  type 			= ITEM_TYPE.ANY		setget set_type
 export (Array, int)		var  intArray 		= []				setget set_intArray
-export (String) 		var  textField 		= ""				setget set_textField
 export (int)			var  guiFrame		= 0					setget set_guiFrame
+export (String, MULTILINE) 		var  textField 		= ""				setget set_textField
+export (String, MULTILINE)			var  useCommands	= ""				setget set_useCommands
 
 
 # Make sure that every parameter has a default value.
@@ -33,7 +34,7 @@ export (int)			var  guiFrame		= 0					setget set_guiFrame
 # your resource via the inspector.
 func _init(p_name = "item", p_spriteFrame = 0, 
 			p_sizeFloor = Vector2(1, 1), p_sizeGrid = Vector2(1, 1), p_sizeSprite = Vector2(1, 1), 
-			p_type = ITEM_TYPE.ANY, p_intArray = [], p_textField = "", p_guiFrame = 0):
+			p_type = ITEM_TYPE.ANY, p_intArray = [], p_textField = "", p_guiFrame = 0, p_useCommands = ""):
 	name = p_name
 	spriteFrame = p_spriteFrame
 	sizeFloor = p_sizeFloor
@@ -43,6 +44,7 @@ func _init(p_name = "item", p_spriteFrame = 0,
 	intArray = p_intArray
 	textField = p_textField
 	guiFrame = p_guiFrame
+	useCommands = p_useCommands
 	pass
 
 func set_name(p_name: String):
@@ -89,3 +91,9 @@ func set_guiFrame(p_guiFrame: int):
 	guiFrame = p_guiFrame
 	emit_signal("value_changed")
 	pass
+	
+func set_useCommands(p_useCommands: String):
+	useCommands = p_useCommands
+	emit_signal("value_changed")
+	pass
+	

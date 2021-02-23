@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Array = Godot.Collections.Array;
 
 public class PlayerAnimator : Node2D {
 
@@ -16,6 +17,14 @@ public class PlayerAnimator : Node2D {
     private Sprite spriteWeapon;
     private Sprite handsWeaponsBack;
     private Sprite handsWeaponsFront;
+
+    private Area2D meleeCollisionFists;
+    private Area2D meleeCollisionTube;
+
+    private AudioStreamPlayer audioMeleeHit;
+    private AudioStreamPlayer audioMeleeMiss;
+    private AudioStreamPlayer audioPistolNoAmmo;
+    private RandomAudioPlayer audioPistolShoot;
 
     private Node2D bulletHolder;
     private PackedScene bulletScene = ResourceLoader.Load<PackedScene>("res://Objects/Bullet.tscn");
@@ -39,6 +48,14 @@ public class PlayerAnimator : Node2D {
         spriteWeapon = GetNode<Sprite>("SpriteWeapon");
         handsWeaponsBack = GetNode<Sprite>("PositionWeaponBack/SpriteWeaponBack");
         handsWeaponsFront = GetNode<Sprite>("PositionWeaponFront/SpriteWeaponFront");
+
+        meleeCollisionFists = GetNode<Area2D>("MeleeCollisions/Fists");
+        meleeCollisionTube = GetNode<Area2D>("MeleeCollisions/Tube");
+
+        audioMeleeHit = GetNode<AudioStreamPlayer>("AnimationAudio/AudioMeleeHit");
+        audioMeleeMiss = GetNode<AudioStreamPlayer>("AnimationAudio/AudioMeleeMiss");
+        audioPistolNoAmmo = GetNode<AudioStreamPlayer>("AnimationAudio/AudioGunNoAmmo");
+        audioPistolShoot = GetNode<RandomAudioPlayer>("AnimationAudio/AudioPistol");
 
         bulletHolder = GetNode<Node2D>("PositionWeaponFront/BulletHolder");
 
@@ -70,6 +87,7 @@ public class PlayerAnimator : Node2D {
         String newAnimation = itemInHand is null ? animation : GetAnimationItemName(animation, itemInHand);
 
         if (animationPlayer.CurrentAnimation != newAnimation) {
+            // GD.Print(newAnimation); ///////////////// DEBUG /////////////////
             animationPlayer.Play(newAnimation);
         }
     }
@@ -77,7 +95,7 @@ public class PlayerAnimator : Node2D {
     public String GetAnimationItemName(String animation, ItemPawn itemInHand) {
         switch (itemInHand.name) {
             case "Flashlight":
-                return animation + itemInHand.textField == "on" ? "_flash_on" : "flash_off";
+                return animation + (itemInHand.textField == "on" ? "_flash_on" : "_flash_off");
             case "Handgun":
                 return animation + "_handgun";
             case "Lamp":
@@ -157,6 +175,16 @@ public class PlayerAnimator : Node2D {
         bulletHolder.Rotation = (GetSpriteFlipH() ? Mathf.Pi : 0);
     }
 
+    public void AimTube() {
+        meleeCollisionTube.Scale = new Vector2(spriteMovement.FlipH ? -1 : 1, 1);
+        meleeCollisionTube.Position = new Vector2(spriteMovement.FlipH ? -12 : 12, 1);
+    }
+
+    public void AimFists() {
+        meleeCollisionFists.Scale = new Vector2(spriteMovement.FlipH ? -1 : 1, 1);
+        meleeCollisionFists.Position = new Vector2(spriteMovement.FlipH ? -11 : 11, -5);
+    }
+
     public void Attack(ItemPawn itemInHand) {
         if (!GetCanMove()) return;
         // isAttacking = true;
@@ -175,21 +203,71 @@ public class PlayerAnimator : Node2D {
     }
     
     public void AttackGun(ItemPawn itemInHand) {
+            int currentAmmo = (int) itemInHand.intArray[0];
+            if (currentAmmo == 0) {
+                audioPistolNoAmmo.Play();
+                return;
+            }
+            currentAmmo --;
+            itemInHand.intArray[0] = currentAmmo;
             PlayAnimation("attack_handgun", null);
-            ///////////////////////////////////////////////////////////////// TODO CHECK & REMOVE BULLET //////////////////////////////////////////////////////////////////////
+            audioPistolShoot.PlayRandom();
             Vector2 dir = handFrontPosition.GlobalPosition.DirectionTo(this.GetGlobalMousePosition() + new Vector2(rnd.Randf(), rnd.Randf()));
-            this.GetParent().AddChild(bulletInstance);
+            player.camera.Translate(new Vector2(Mathf.Floor(-dir.x * 7f), 0f));
+
+            player.GetParent().AddChild(bulletInstance);
             bulletInstance.PauseMode = PauseModeEnum.Inherit;
             bulletInstance.direction = dir;
             bulletInstance.Rotation = Mathf.Atan2(dir.y, dir.x);
             bulletInstance.GlobalPosition = bulletSpawnPosition.GlobalPosition;
-            player.camera.Translate(new Vector2(Mathf.Floor(-bulletInstance.direction.x * 7f), 0f));
             bulletInstance = (Bullet) bulletScene.Instance();
-            bulletInstance.PauseMode = PauseModeEnum.Stop;  
+            bulletInstance.PauseMode = PauseModeEnum.Stop;
+    }
+
+    public void AttackTube() {
+        Array collisions = meleeCollisionTube.GetOverlappingBodies();
+        if (collisions.Count == 0) {
+            audioMeleeMiss.Play();
+        } else {
+            audioMeleeHit.Play();
+        }
+    }
+
+    public void AttackFists() {
+        Array collisions = meleeCollisionFists.GetOverlappingBodies();
+        if (collisions.Count == 0) {
+            audioMeleeMiss.Play();
+        } else {
+            audioMeleeHit.Play();
+        }
     }
 
     public void Reload(ItemPawn itemInHand) {
-        // isReloading = true;
-        ///////////////////////////////////////////////////////////////// TODO RELOAD //////////////////////////////////////////////////////////////////////
+        if (itemInHand is null) return;
+        isReloading = true;
+
+        switch (itemInHand.name) {
+            case "Handgun":
+                PlayAnimation("reload_handgun", null);
+            break;
+            case "Flashlight":
+                PlayAnimation("reload_flash", null);
+            break;
+            case "Lamp":
+                PlayAnimation("reload_lamp", null);
+            break;
+        }
+    }
+
+    public void ReloadHandgun() {
+
+    }
+
+    public void ReloadFlash() {
+
+    }
+
+    public void ReloadLamp() {
+
     }
 }

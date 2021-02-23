@@ -25,8 +25,8 @@ public class InventoryGUI : Node2D {
     public ItemInventory itemInHand = null;
     public Node2D inventoryHand;
 
-    PackedScene itemFloorScene = ResourceLoader.Load<PackedScene>("res://Objects/Items/ItemFloor.tscn");
-    PackedScene itemInventoryScene = ResourceLoader.Load<PackedScene>("res://Objects/Items/ItemInventory.tscn");
+    PackedScene itemFloorScene = ResourceLoader.Load<PackedScene>("res://Items/ItemFloor.tscn");
+    PackedScene itemInventoryScene = ResourceLoader.Load<PackedScene>("res://Items/ItemInventory.tscn");
 
     public override void _Ready() {
         startPosY = this.Position.y;

@@ -134,7 +134,7 @@ __meta__ = {
 use_parent_material = true
 position = Vector2( 0, -87 )
 script = ExtResource( 20 )
-inventoriesPath = [ NodePath("InventoryWeapon1"), NodePath("InventoryWeapon2"), NodePath("InventoryMain"), NodePath("InventoryChips"), NodePath("Combination") ]
+inventoriesPath = [ NodePath("InventoryWeapon1"), NodePath("InventoryWeapon2"), NodePath("InventoryMain"), NodePath("InventoryChips"), NodePath("Toolbox") ]
 weaponsPath = [ NodePath("InventoryWeapon1"), NodePath("InventoryWeapon2") ]
 
 [node name="InventoryWeapon1" type="Sprite" parent="Inventory"]
@@ -143,10 +143,10 @@ position = Vector2( -157, 11 )
 texture = ExtResource( 10 )
 centered = false
 script = ExtResource( 17 )
-name = "Weapon 1"
+name = "weapon 1"
 allowedType = 1
-GridSize = Vector2( 5, 2 )
 allowedAmount = 1
+GridSize = Vector2( 5, 2 )
 CellSize = Vector2( 11, 11 )
 
 [node name="SelectOverlay" type="Sprite" parent="Inventory/InventoryWeapon1"]
@@ -175,10 +175,10 @@ position = Vector2( -100, 11 )
 texture = ExtResource( 10 )
 centered = false
 script = ExtResource( 17 )
-name = "Weapon 2"
+name = "weapon 2"
 allowedType = 1
-GridSize = Vector2( 5, 2 )
 allowedAmount = 1
+GridSize = Vector2( 5, 2 )
 CellSize = Vector2( 11, 11 )
 
 [node name="SelectOverlay" type="Sprite" parent="Inventory/InventoryWeapon2"]
@@ -208,7 +208,7 @@ position = Vector2( -43, 0 )
 texture = ExtResource( 9 )
 centered = false
 script = ExtResource( 17 )
-name = "Inventory"
+name = "inventory"
 GridSize = Vector2( 12, 3 )
 CellSize = Vector2( 11, 11 )
 
@@ -218,7 +218,7 @@ position = Vector2( 91, 0 )
 texture = ExtResource( 8 )
 centered = false
 script = ExtResource( 17 )
-name = "Chips"
+name = "chips"
 allowedType = 4
 CellSpace = Vector2( 2, 1 )
 GridSize = Vector2( 2, 2 )
@@ -276,17 +276,17 @@ use_parent_material = true
 frames = ExtResource( 15 )
 frame = 2
 
-[node name="Combination" type="Node2D" parent="Inventory"]
+[node name="Toolbox" type="Node2D" parent="Inventory"]
 visible = false
 use_parent_material = true
 position = Vector2( 91, 0 )
 script = ExtResource( 17 )
-name = "Combination"
-CellOffset = Vector2( 11, 0 )
+name = "toolbox"
 GridSize = Vector2( 5, 3 )
 CellSize = Vector2( 11, 11 )
+CellOffset = Vector2( 11, 0 )
 
-[node name="TextureButton" type="TextureButton" parent="Inventory/Combination"]
+[node name="TextureButton" type="TextureButton" parent="Inventory/Toolbox"]
 show_behind_parent = true
 use_parent_material = true
 margin_right = 11.0
@@ -298,7 +298,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="InventoryCombine" type="Sprite" parent="Inventory/Combination"]
+[node name="InventoryCombine" type="Sprite" parent="Inventory/Toolbox"]
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 11, 0 )
@@ -362,7 +362,7 @@ __meta__ = {
 use_parent_material = true
 frames = ExtResource( 21 )
 animation = "hand"
-frame = 3
+frame = 2
 playing = true
 
 [node name="Label" type="Label" parent="."]

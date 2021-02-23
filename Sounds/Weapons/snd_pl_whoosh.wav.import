@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_pl_whoosh.wav-1657d7d27b950dd1704c7f1b145f6cdc.sample"
+
+[deps]
+
+source_file="res://Sounds/Weapons/snd_pl_whoosh.wav"
+dest_files=[ "res://.import/snd_pl_whoosh.wav-1657d7d27b950dd1704c7f1b145f6cdc.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

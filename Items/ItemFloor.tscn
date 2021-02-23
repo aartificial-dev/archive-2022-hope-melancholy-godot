@@ -1,0 +1,120 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Items/ItemFloor.cs" type="Script" id=2]
+
+[sub_resource type="PhysicsMaterial" id=1]
+rough = true
+absorbent = true
+
+[sub_resource type="RectangleShape2D" id=22]
+extents = Vector2( 8, 4 )
+
+[sub_resource type="StreamTexture" id=4]
+flags = 2
+load_path = "res://.import/items_floor.png-121dfa7145cc4fd59073087d6a27fc30.stex"
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 0, 0, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 32, 0, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 64, 0, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 96, 0, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 0, 16, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 32, 16, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 64, 16, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 96, 16, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 0, 32, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 32, 32, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 64, 32, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 96, 32, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 0, 48, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=18]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 32, 48, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 64, 48, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=20]
+flags = 2
+atlas = SubResource( 4 )
+region = Rect2( 96, 48, 32, 16 )
+
+[sub_resource type="SpriteFrames" id=21]
+animations = [ {
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="ItemFloor" type="RigidBody2D"]
+input_pickable = true
+collision_layer = 8
+collision_mask = 9
+physics_material_override = SubResource( 1 )
+continuous_cd = 1
+contacts_reported = 10
+contact_monitor = true
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -4 )
+shape = SubResource( 22 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -8 )
+frames = SubResource( 21 )

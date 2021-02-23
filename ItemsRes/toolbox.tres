@@ -11,5 +11,16 @@ sizeGrid = Vector2( 3, 2 )
 sizeSprite = Vector2( 33, 22 )
 type = 9
 intArray = [  ]
-textField = ""
 guiFrame = 0
+textField = ""
+useCommands = "~ defining region for pickup action
+define pickup
+message I think this might be useful to combine things
+
+~ defining region for use action
+define use
+inventory toolbox toggle
+
+~ defining region for drop action
+define drop
+inventory toolbox disable"

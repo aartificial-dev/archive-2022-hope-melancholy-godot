@@ -11,5 +11,9 @@ sizeGrid = Vector2( 2, 1 )
 sizeSprite = Vector2( 22, 11 )
 type = 6
 intArray = [  ]
-textField = ""
 guiFrame = 0
+textField = ""
+useCommands = "define use
+heal health 7
+heal sanity 20
+purge"

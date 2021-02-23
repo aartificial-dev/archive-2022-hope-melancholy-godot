@@ -4,12 +4,15 @@
 
 [resource]
 script = ExtResource( 1 )
-name = "Shotgun Shells"
-spriteFrame = 12
-sizeFloor = Vector2( 15, 6 )
-sizeGrid = Vector2( 3, 2 )
-sizeSprite = Vector2( 33, 22 )
+name = "Battery"
+spriteFrame = 11
+sizeFloor = Vector2( 9, 5 )
+sizeGrid = Vector2( 1, 1 )
+sizeSprite = Vector2( 11, 11 )
 type = 5
 intArray = [  ]
-textField = ""
 guiFrame = 0
+textField = ""
+useCommands = "define pickup
+ammo battery 10
+purge"

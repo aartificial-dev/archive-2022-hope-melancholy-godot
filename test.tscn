@@ -10,9 +10,9 @@
 [ext_resource path="res://Tilesets/backround_space_layer2.png" type="Texture" id=8]
 [ext_resource path="res://Tilesets/backround_space_layer1.png" type="Texture" id=9]
 [ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=10]
-[ext_resource path="res://Objects/Items/ItemFloor.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Items/ItemFloor.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Objects/Ladder/LadderBottom.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Objects/Items/ItemHolder.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Items/ItemHolder.tscn" type="PackedScene" id=13]
 [ext_resource path="res://ItemsRes/handgun.tres" type="Resource" id=14]
 [ext_resource path="res://ItemsRes/handgun_clip.tres" type="Resource" id=15]
 [ext_resource path="res://ItemsRes/toolbox.tres" type="Resource" id=16]
@@ -87,6 +87,9 @@ tile_data = PoolIntArray( -458761, 1, 0, -458760, 1, 0, -458759, 1, 0, -458758, 
 [node name="Light" type="Node2D" parent="."]
 material = SubResource( 4 )
 
+[node name="CanvasModulate" type="CanvasModulate" parent="Light"]
+color = Color( 0.0912, 0.09552, 0.12, 1 )
+
 [node name="Lamp" parent="Light" instance=ExtResource( 7 )]
 
 [node name="Lamp2" parent="Light" instance=ExtResource( 7 )]
@@ -124,9 +127,6 @@ position = Vector2( 320, 32 )
 
 [node name="Lamp13" parent="Light" instance=ExtResource( 7 )]
 position = Vector2( 400, 32 )
-
-[node name="CanvasModulate" type="CanvasModulate" parent="Light"]
-color = Color( 0.101961, 0.101961, 0.101961, 1 )
 
 [node name="Objects" type="Node2D" parent="."]
 
@@ -225,7 +225,7 @@ itemType = 4
 itemPawnResource = ExtResource( 16 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 80, 104 )
+position = Vector2( 64, 104 )
 
 [node name="Camera2D" parent="." instance=ExtResource( 3 )]
 visible = false

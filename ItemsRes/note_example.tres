@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Book"
+spriteFrame = 0
+sizeFloor = Vector2( 1, 1 )
+sizeGrid = Vector2( 1, 1 )
+sizeSprite = Vector2( 11, 11 )
+type = 8
+intArray = [  ]
+guiFrame = 0
+textField = "We have domes that protect our city against the virus. But it also stops the rain from coming in. But I could've sworn I've seen it. How can it even exist in this city? If it really does exist, then people who've heard it must feel really special."
+useCommands = "define use
+note lined-paper"

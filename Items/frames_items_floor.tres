@@ -1,6 +1,7 @@
 [gd_resource type="SpriteFrames" load_steps=18 format=2]
 
-[ext_resource path="res://Objects/Items/items_floor.png" type="Texture" id=1]
+[ext_resource path="res://Items/items_floor.png" type="Texture" id=1]
+
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 2

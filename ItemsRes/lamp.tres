@@ -11,5 +11,6 @@ sizeGrid = Vector2( 1, 2 )
 sizeSprite = Vector2( 11, 22 )
 type = 1
 intArray = [  ]
-textField = ""
 guiFrame = 4
+textField = "off"
+useCommands = ""
