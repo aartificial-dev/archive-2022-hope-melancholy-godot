@@ -3,7 +3,6 @@
 [ext_resource path="res://Items/ItemInventory.cs" type="Script" id=1]
 [ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=2]
 
-
 [sub_resource type="CanvasItemMaterial" id=1]
 light_mode = 1
 

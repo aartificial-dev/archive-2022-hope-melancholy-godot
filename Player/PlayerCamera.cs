@@ -63,6 +63,7 @@ public class PlayerCamera : Camera2D {
     }
 
     public override void _Input(InputEvent @event) {
+        if (!player.GetCanMove()) return;
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed) {
             if ((ButtonList) mouseEvent.ButtonIndex == ButtonList.WheelUp) {
                 selectedWeaponSlot ++;
@@ -169,5 +170,9 @@ public class PlayerCamera : Camera2D {
         weaponAmmoLabel.Visible = visible;
         weaponDivLabel.Visible = visible;
         weaponAmmoMaxLabel.Visible = visible;
+    }
+
+    public bool GetCanMove() {
+        return player.GetCanMove();
     }
 }

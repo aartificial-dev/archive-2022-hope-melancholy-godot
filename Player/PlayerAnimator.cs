@@ -247,25 +247,34 @@ public class PlayerAnimator : Node2D {
 
     public void Reload(ItemPawn itemInHand) {
         if (itemInHand is null) return;
-        isReloading = true;
 
         reloadItemPawnHolder = itemInHand;
 
         switch (itemInHand.name) {
             case "Handgun":
+                if ( (int) reloadItemPawnHolder.intArray[0] == (int) reloadItemPawnHolder.intArray[1] ) break;
+                if ( player.ammoHandgun == 0 ) break; 
+                isReloading = true;
                 PlayAnimation("reload_handgun", null);
             break;
             case "Flashlight":
+                isReloading = true;
                 PlayAnimation("reload_flash", null);
             break;
             case "Lamp":
+                isReloading = true;
                 PlayAnimation("reload_lamp", null);
             break;
         }
     }
 
     public void ReloadHandgun() {
-        reloadItemPawnHolder.intArray[0] = reloadItemPawnHolder.intArray[1];
+        int ammoMax = (int) reloadItemPawnHolder.intArray[1];
+        int ammo = (int) reloadItemPawnHolder.intArray[0];
+        int ammoInv = player.ammoHandgun;
+        int difference = Mathf.Min(ammoMax - ammo, ammoInv);
+        player.ammoHandgun -= difference;
+        reloadItemPawnHolder.intArray[0] = ammo + difference;
     }  
 
     public void ReloadFlash() {

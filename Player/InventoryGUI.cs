@@ -25,6 +25,8 @@ public class InventoryGUI : Node2D {
     public ItemInventory itemInHand = null;
     public Node2D inventoryHand;
 
+    private AudioStreamPlayer itemAudioPlayer;
+
     PackedScene itemFloorScene = ResourceLoader.Load<PackedScene>("res://Items/ItemFloor.tscn");
     PackedScene itemInventoryScene = ResourceLoader.Load<PackedScene>("res://Items/ItemInventory.tscn");
 
@@ -35,6 +37,8 @@ public class InventoryGUI : Node2D {
         startPosX = this.Position.x;
 
         inventoryHand = GetNode<Node2D>("InventoryHand");
+
+        itemAudioPlayer = GetNode<AudioStreamPlayer>("ItemAudioPlayer");
 
         foreach (NodePath path in inventoriesPath) {
             Inventory inv = GetNode<Inventory>(path);
@@ -51,6 +55,7 @@ public class InventoryGUI : Node2D {
         if (itemUseParser is null) {
             itemUseParser = new ItemUseParser(player, player.camera, this);
         }
+        if (!player.GetCanMove()) return;
 
         Vector2 pos = this.Position;
         if (Input.IsActionJustPressed("key_inventory")) {
@@ -122,7 +127,8 @@ public class InventoryGUI : Node2D {
     /// <summary> Returns <c>true</c> if item succesfully can be picked up or should be deleted, otherwise <c>false</c>. </summary>
     public bool PickFloorItem(ItemFloor item) {
         if (!(itemInHand is null)) return false;
-
+        itemAudioPlayer.Stream = item.pickupAudioSample;
+        itemAudioPlayer.Play();
         // GD.Print("Pickup emmited");
         bool doDelete = itemUseParser.PerformAction(ItemUseParser.Actions.Pickup, item.itemPawn);
         // do pickup action
@@ -133,6 +139,9 @@ public class InventoryGUI : Node2D {
 
         ItemInventory itemInventory = (ItemInventory) itemInventoryScene.Instance();
         itemInventory.itemPawn = item.itemPawn;
+        
+        itemInventory.dropAudioSample = item.dropAudioSample;
+        itemInventory.pickupAudioSample = item.pickupAudioSample;
 
         inventoryHand.AddChild(itemInventory);
         itemInHand = itemInventory;
@@ -141,6 +150,8 @@ public class InventoryGUI : Node2D {
 
     public void DropHandItem(Vector2 pos) {
         inventoryHand.RemoveChild(itemInHand);
+        itemAudioPlayer.Stream = itemInHand.pickupAudioSample;
+        itemAudioPlayer.Play();
 
         // GD.Print("Drop emmited");
         bool doDelete = itemUseParser.PerformAction(ItemUseParser.Actions.Drop, itemInHand.itemPawn);
@@ -156,6 +167,8 @@ public class InventoryGUI : Node2D {
     /// <summary> Returns <c>true</c> if one of actions was purge (delete item), otherwise <c>false</c>. </summary>
     public bool UseItem(ItemPawn itemPawn) {
         // GD.Print("Use emmited");
+        itemAudioPlayer.Stream = itemPawn.useAudio;
+        itemAudioPlayer.Play();
         return itemUseParser.PerformAction(ItemUseParser.Actions.Use, itemPawn);
         // do use stuff
     }
@@ -164,6 +177,8 @@ public class InventoryGUI : Node2D {
         ItemFloor itemFloor = (ItemFloor) itemFloorScene.Instance();
         itemFloor.itemPawn = item.itemPawn;
         itemFloor.Position = pos;
+        itemFloor.dropAudioSample = item.dropAudioSample;
+        itemFloor.pickupAudioSample = item.pickupAudioSample;
 
         Godot.Collections.Array arr = this.GetTree().GetNodesInGroup("ItemHolder");
         foreach (Node node in arr) {
@@ -198,15 +213,32 @@ public class InventoryGUI : Node2D {
     }
 
     public void InventoryEnable(String name) {
-        GetInventoryByName(name).Visible = true;
+        Inventory inv = GetInventoryByName(name);
+        if (inv.Visible != true && inv is InventoryToolbox invTool) {
+            invTool.PlayOpenSound();
+        } 
+
+        inv.Visible = true;
     }
 
     public void InventoryDisable(String name) {
-        GetInventoryByName(name).Visible = false;
+        Inventory inv = GetInventoryByName(name);
+        if (inv.Visible != false && inv is InventoryToolbox invTool) {
+            invTool.PlayCloseSound();
+        } 
+
+        inv.Visible = false;
     }
 
     public void InventoryToggle(String name) {
         Inventory inv = GetInventoryByName(name);
+        if (inv is InventoryToolbox invTool) {
+            if (inv.Visible == true) {
+                invTool.PlayCloseSound();
+            } else {
+                invTool.PlayOpenSound();
+            }
+        } 
         inv.Visible = !inv.Visible;
     }
 

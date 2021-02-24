@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Player/PlayerCamera.cs" type="Script" id=1]
 [ext_resource path="res://GUI/Healthbar/gui_healthbar_sanity.png" type="Texture" id=2]
@@ -22,6 +22,11 @@
 [ext_resource path="res://Player/InventoryGUI.cs" type="Script" id=20]
 [ext_resource path="res://GUI/Cursor/gui_frames_use.tres" type="SpriteFrames" id=21]
 [ext_resource path="res://Fonts/Coder's Crux.ttf" type="DynamicFontData" id=22]
+[ext_resource path="res://Scripts/InventoryChip.cs" type="Script" id=23]
+[ext_resource path="res://Scripts/InventoryToolbox.cs" type="Script" id=24]
+[ext_resource path="res://Sounds/Inventory/snd_toolkit_close.wav" type="AudioStream" id=26]
+[ext_resource path="res://Sounds/Inventory/snd_toolkit_combine.wav" type="AudioStream" id=28]
+[ext_resource path="res://Sounds/Inventory/snd_toolkit_open.wav" type="AudioStream" id=29]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 light_mode = 1
@@ -144,10 +149,10 @@ texture = ExtResource( 10 )
 centered = false
 script = ExtResource( 17 )
 name = "weapon 1"
-allowedType = 1
-allowedAmount = 1
-GridSize = Vector2( 5, 2 )
 CellSize = Vector2( 11, 11 )
+GridSize = Vector2( 5, 2 )
+allowedType = 2
+allowedAmount = 1
 
 [node name="SelectOverlay" type="Sprite" parent="Inventory/InventoryWeapon1"]
 use_parent_material = true
@@ -176,10 +181,10 @@ texture = ExtResource( 10 )
 centered = false
 script = ExtResource( 17 )
 name = "weapon 2"
-allowedType = 1
-allowedAmount = 1
-GridSize = Vector2( 5, 2 )
 CellSize = Vector2( 11, 11 )
+GridSize = Vector2( 5, 2 )
+allowedType = 2
+allowedAmount = 1
 
 [node name="SelectOverlay" type="Sprite" parent="Inventory/InventoryWeapon2"]
 visible = false
@@ -209,20 +214,17 @@ texture = ExtResource( 9 )
 centered = false
 script = ExtResource( 17 )
 name = "inventory"
-GridSize = Vector2( 12, 3 )
 CellSize = Vector2( 11, 11 )
+GridSize = Vector2( 12, 3 )
+blacklistType = 5
 
 [node name="InventoryChips" type="Sprite" parent="Inventory"]
+visible = false
 use_parent_material = true
 position = Vector2( 91, 0 )
 texture = ExtResource( 8 )
 centered = false
-script = ExtResource( 17 )
-name = "chips"
-allowedType = 4
-GridSize = Vector2( 2, 2 )
-CellSize = Vector2( 32, 16 )
-CellSpace = Vector2( 2, 1 )
+script = ExtResource( 23 )
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips"]
 visible = false
@@ -277,14 +279,10 @@ frames = ExtResource( 15 )
 frame = 2
 
 [node name="Toolbox" type="Node2D" parent="Inventory"]
-visible = false
 use_parent_material = true
 position = Vector2( 91, 0 )
-script = ExtResource( 17 )
-name = "toolbox"
-GridSize = Vector2( 5, 3 )
-CellOffset = Vector2( 11, 0 )
-CellSize = Vector2( 11, 11 )
+script = ExtResource( 24 )
+itemCombineSound = ExtResource( 28 )
 
 [node name="TextureButton" type="TextureButton" parent="Inventory/Toolbox"]
 show_behind_parent = true
@@ -305,9 +303,17 @@ position = Vector2( 11, 0 )
 texture = ExtResource( 16 )
 centered = false
 
+[node name="ToolBoxOpenPlayer" type="AudioStreamPlayer" parent="Inventory/Toolbox"]
+stream = ExtResource( 29 )
+
+[node name="ToolBoxClosePlayer" type="AudioStreamPlayer" parent="Inventory/Toolbox"]
+stream = ExtResource( 26 )
+
 [node name="InventoryHand" type="Node2D" parent="Inventory"]
 position = Vector2( 0, 87 )
 z_index = 1
+
+[node name="ItemAudioPlayer" type="AudioStreamPlayer" parent="Inventory"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -362,7 +368,7 @@ __meta__ = {
 use_parent_material = true
 frames = ExtResource( 21 )
 animation = "hand"
-frame = 4
+frame = 1
 playing = true
 
 [node name="Label" type="Label" parent="."]

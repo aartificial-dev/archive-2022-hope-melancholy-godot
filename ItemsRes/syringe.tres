@@ -1,6 +1,7 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
+[ext_resource path="res://Sounds/Inventory/snd_item_syringe.wav" type="AudioStream" id=2]
 
 [resource]
 script = ExtResource( 1 )
@@ -9,7 +10,7 @@ spriteFrame = 3
 sizeFloor = Vector2( 16, 4 )
 sizeGrid = Vector2( 2, 1 )
 sizeSprite = Vector2( 22, 11 )
-type = 6
+type = 7
 intArray = [  ]
 guiFrame = 0
 textField = ""
@@ -17,3 +18,4 @@ useCommands = "define use
 heal health 7
 heal sanity 20
 purge"
+useAudio = ExtResource( 2 )

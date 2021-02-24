@@ -2604,6 +2604,7 @@ hframes = 8
 frame = 78
 
 [node name="PositionWeaponBack" type="Position2D" parent="."]
+visible = false
 position = Vector2( -4, -7 )
 __meta__ = {
 "_gizmo_extents_": 2.0
@@ -2620,9 +2621,10 @@ frame = 28
 texture = ExtResource( 15 )
 vframes = 8
 hframes = 7
-frame = 14
+frame = 38
 
 [node name="PositionWeaponFront" type="Position2D" parent="."]
+visible = false
 position = Vector2( -4, -7 )
 __meta__ = {
 "_gizmo_extents_": 2.0

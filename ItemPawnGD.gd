@@ -6,6 +6,7 @@ signal value_changed
 
 enum ITEM_TYPE {
 	ANY, 
+	NONE,
 	WEAPON, 
 	QUEST, 
 	GARBAGE, 
@@ -27,6 +28,7 @@ export (Array, int)		var  intArray 		= []				setget set_intArray
 export (int)			var  guiFrame		= 0					setget set_guiFrame
 export (String, MULTILINE) 		var  textField 		= ""				setget set_textField
 export (String, MULTILINE)			var  useCommands	= ""				setget set_useCommands
+export (AudioStreamSample) var useAudio = null setget set_useAudio
 
 
 # Make sure that every parameter has a default value.
@@ -34,7 +36,7 @@ export (String, MULTILINE)			var  useCommands	= ""				setget set_useCommands
 # your resource via the inspector.
 func _init(p_name = "item", p_spriteFrame = 0, 
 			p_sizeFloor = Vector2(1, 1), p_sizeGrid = Vector2(1, 1), p_sizeSprite = Vector2(1, 1), 
-			p_type = ITEM_TYPE.ANY, p_intArray = [], p_textField = "", p_guiFrame = 0, p_useCommands = ""):
+			p_type = ITEM_TYPE.ANY, p_intArray = [], p_textField = "", p_guiFrame = 0, p_useCommands = "", p_useAudio = null):
 	name = p_name
 	spriteFrame = p_spriteFrame
 	sizeFloor = p_sizeFloor
@@ -45,6 +47,7 @@ func _init(p_name = "item", p_spriteFrame = 0,
 	textField = p_textField
 	guiFrame = p_guiFrame
 	useCommands = p_useCommands
+	useAudio = p_useAudio
 	pass
 
 func set_name(p_name: String):
@@ -94,6 +97,11 @@ func set_guiFrame(p_guiFrame: int):
 	
 func set_useCommands(p_useCommands: String):
 	useCommands = p_useCommands
+	emit_signal("value_changed")
+	pass
+	
+func set_useAudio(p_useAudio: AudioStreamSample):
+	useAudio = p_useAudio
 	emit_signal("value_changed")
 	pass
 	

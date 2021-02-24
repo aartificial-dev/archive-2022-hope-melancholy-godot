@@ -133,6 +133,10 @@ public class Player : KinematicBody2D {
         this.MoveAndSlide(dir * climbSpeed, Vector2.Up);
     }
 
+    public bool GetCanMove() {
+        return animator.GetCanMove();
+    }
+
     private void LadderEndCollision(Area2D _area) {
         isLadderEndCollide = true;
         ladderEndBitmask = _area.CollisionLayer;
