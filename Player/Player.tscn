@@ -5,10 +5,10 @@
 [ext_resource path="res://VFX_Sprites/spr_light_mask.png" type="Texture" id=10]
 [ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=11]
 
-[sub_resource type="RectangleShape2D" id=28]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 21.5 )
 
-[sub_resource type="RectangleShape2D" id=29]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 1, 22.5 )
 
 [node name="Player" type="KinematicBody2D" groups=[
@@ -23,7 +23,7 @@ script = ExtResource( 3 )
 [node name="CollisionShapePlayer" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( 0, 2.5 )
-shape = SubResource( 28 )
+shape = SubResource( 1 )
 
 [node name="LadderEndCollider" type="Area2D" parent="."]
 visible = false
@@ -32,7 +32,7 @@ collision_mask = 48
 
 [node name="CollisionShapeLadder" type="CollisionShape2D" parent="LadderEndCollider"]
 position = Vector2( 0, 2.5 )
-shape = SubResource( 29 )
+shape = SubResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="."]
 visible = false

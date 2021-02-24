@@ -4,8 +4,6 @@ using System;
 [Tool]
 public class ItemFloor : RigidBody2D {
     [Export]
-    public ItemList.Items itemType = ItemList.Items.none;
-    [Export]
     public Resource itemPawnResource;
 
     public ItemPawn itemPawn;
@@ -32,8 +30,9 @@ public class ItemFloor : RigidBody2D {
     }
 
     public override void _Process(float delta) {
-        if (sprite.Frame != (int) itemType) {
-            ChangeItem();
+        if (Engine.EditorHint) {
+            TryConnectItemChangeSignal();
+            return;
         }
 
         if (isMouseIn && !(FindCamera() is null)) {
@@ -43,18 +42,10 @@ public class ItemFloor : RigidBody2D {
                 canPickupDistance = this.GlobalPosition.DistanceTo(player.GlobalPosition) <= player.interactDistance;
             }
             if (canPickupDistance) {
-                camera.ShowInteractHint(ItemList.GetItemName(itemType), PlayerCamera.InteractHintIcon.hand, this.GlobalPosition);
+                camera.ShowInteractHint(itemPawn.name, PlayerCamera.InteractHintIcon.hand, this.GlobalPosition);
             }
         }
-
-        if (!(itemPawnResource is null)) {
-            if (!itemPawnResource.IsConnected("value_changed", this, nameof(ChangeItem))) {
-                itemPawnResource.Connect("value_changed", this, nameof(ChangeItem), default(Godot.Collections.Array), (uint) Godot.Object.ConnectFlags.Persist);
-                ChangeItem();
-            }
-        } else {
-            itemPawn = null;
-        }
+        
     }
 
     private void ChangeItem() {
@@ -65,10 +56,12 @@ public class ItemFloor : RigidBody2D {
             sprite.Frame = (int) itemPawn.spriteFrame;
             rectangleShape2D.Extents = itemPawn.sizeFloor / 2f;
             collision.Position = new Vector2(0f, -rectangleShape2D.Extents.y);
+            if (!Engine.EditorHint) {
+                itemPawn.ParseActions();
+            }
         } else {
-            sprite.Frame = (int) itemType;
-            rectangleShape2D.Extents = ItemList.GetSizeFloor(sprite.Frame) / 2f;
-            collision.Position = new Vector2(0f, -rectangleShape2D.Extents.y);
+            GD.PrintErr("Item Resource not set");
+            this.QueueFree();
         }
     }
 
@@ -128,5 +121,17 @@ public class ItemFloor : RigidBody2D {
             }
         }
         return camera;
+    }
+
+
+    private void TryConnectItemChangeSignal() {
+        if (!(itemPawnResource is null)) {
+            if (!itemPawnResource.IsConnected("value_changed", this, nameof(ChangeItem))) {
+                itemPawnResource.Connect("value_changed", this, nameof(ChangeItem), default(Godot.Collections.Array), (uint) Godot.Object.ConnectFlags.Persist);
+                ChangeItem();
+            }
+        } else {
+            itemPawn = null;
+        }
     }
 }

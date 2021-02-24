@@ -10,9 +10,9 @@ sizeFloor = Vector2( 16, 5 )
 sizeGrid = Vector2( 3, 2 )
 sizeSprite = Vector2( 33, 22 )
 type = 5
-intArray = [ 25 ]
+intArray = [  ]
 guiFrame = 0
 textField = ""
 useCommands = "define pickup
-ammo handgun 25
+ammo handgun 12
 purge"

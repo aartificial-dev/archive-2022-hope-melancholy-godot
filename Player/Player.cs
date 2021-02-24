@@ -21,6 +21,14 @@ public class Player : KinematicBody2D {
     private uint ladderBottomBitmask = 0b100000;
     private uint ladderEndBitmask = 0b0;
 
+    public int health = 20;
+    public int healthMax = 20;
+    public int sanity = 40;
+    public int sanityMax = 40;
+
+    public int ammoHandgun = 0;
+    public int ammoBattery = 0;
+
     public override void _Ready() {
 
         collisionShapePlayer = GetNode<CollisionShape2D>("CollisionShapePlayer");
@@ -161,5 +169,29 @@ public class Player : KinematicBody2D {
             return true;
         }
         return false;
+    }
+
+    public void StatsAddValue(String stat, int value) {
+        switch (stat) {
+            case "health":
+                health += value;
+                health = Mathf.Clamp(health, 0, healthMax);
+            break;
+            case "sanity":
+                sanity += value;
+                sanity = Mathf.Clamp(sanity, 0, sanityMax);
+            break;
+        }
+    }
+
+    public void AmmoAddValue(String type, int value) {
+        switch (type) {
+            case "handgun":
+                ammoHandgun += value;
+            break;
+            case "battery":
+                ammoBattery += value;
+            break;
+        }
     }
 }

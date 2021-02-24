@@ -146,82 +146,66 @@ position = Vector2( 360, 112 )
 
 [node name="ItemFloor" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 152, 96 )
-itemType = 2
 itemPawnResource = ExtResource( 14 )
 
 [node name="ItemFloor2" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 176, 96 )
-itemType = 13
 itemPawnResource = ExtResource( 15 )
 
 [node name="ItemFloor3" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 184, 80 )
-itemType = 13
 itemPawnResource = ExtResource( 15 )
 
 [node name="ItemFloor4" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 208, 96 )
-itemType = 1
 itemPawnResource = ExtResource( 24 )
 
 [node name="ItemFloor5" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 232, 80 )
-itemType = 3
 itemPawnResource = ExtResource( 17 )
 
 [node name="ItemFloor6" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 240, 96 )
-itemType = 3
 itemPawnResource = ExtResource( 17 )
 
 [node name="ItemFloor7" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 264, 96 )
-itemType = 5
 itemPawnResource = ExtResource( 21 )
 
 [node name="ItemFloor8" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 288, 96 )
-itemType = 8
 itemPawnResource = ExtResource( 20 )
 
 [node name="ItemFloor9" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 296, 80 )
-itemType = 8
 itemPawnResource = ExtResource( 20 )
 
 [node name="ItemFloor10" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 296, 64 )
-itemType = 8
 itemPawnResource = ExtResource( 20 )
 
 [node name="ItemFloor11" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 288, 48 )
-itemType = 8
 itemPawnResource = ExtResource( 20 )
 
 [node name="ItemFloor12" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 320, 96 )
-itemType = 7
 itemPawnResource = ExtResource( 22 )
 
 [node name="ItemFloor13" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 320, 80 )
-itemType = 6
 itemPawnResource = ExtResource( 18 )
 
 [node name="ItemFloor14" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 352, 96 )
-itemType = 11
 itemPawnResource = ExtResource( 23 )
 
 [node name="ItemFloor15" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 352, 80 )
-itemType = 10
 itemPawnResource = ExtResource( 19 )
 
 [node name="ItemFloor16" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 376, 96 )
-itemType = 4
 itemPawnResource = ExtResource( 16 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]

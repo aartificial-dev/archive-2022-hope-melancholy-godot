@@ -34,6 +34,8 @@ public class PlayerAnimator : Node2D {
     private bool isAttacking = false;
     private bool isReloading = false;
 
+    private ItemPawn reloadItemPawnHolder = null;
+
     public override void _Ready() {
         player = GetParent<Player>();
 
@@ -194,6 +196,7 @@ public class PlayerAnimator : Node2D {
         }
         switch (itemInHand.name) {
             case "Handgun":
+                AimGun();
                 AttackGun(itemInHand);
             break;
             case "Tube":
@@ -246,6 +249,8 @@ public class PlayerAnimator : Node2D {
         if (itemInHand is null) return;
         isReloading = true;
 
+        reloadItemPawnHolder = itemInHand;
+
         switch (itemInHand.name) {
             case "Handgun":
                 PlayAnimation("reload_handgun", null);
@@ -260,14 +265,14 @@ public class PlayerAnimator : Node2D {
     }
 
     public void ReloadHandgun() {
-
-    }
+        reloadItemPawnHolder.intArray[0] = reloadItemPawnHolder.intArray[1];
+    }  
 
     public void ReloadFlash() {
-
+        reloadItemPawnHolder.intArray[0] = reloadItemPawnHolder.intArray[1];
     }
 
     public void ReloadLamp() {
-
+        reloadItemPawnHolder.intArray[0] = reloadItemPawnHolder.intArray[1];
     }
 }

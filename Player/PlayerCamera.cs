@@ -71,7 +71,7 @@ public class PlayerCamera : Camera2D {
                 selectedWeaponSlot --;
             }
             selectedWeaponSlot = Mathf.Wrap(selectedWeaponSlot, 0, weaponSlotAmount);
-        }        
+        }         
     }
 
     public void UpdateCamera(float delta) {
@@ -79,13 +79,6 @@ public class PlayerCamera : Camera2D {
         
         Transform2D _tr = this.Transform;
         Vector2 pos = _tr.origin;
-
-        // let _h = ( view_h / 2) * 0.75;
-        // x = lerp(x, target.xprevious, 0.05);
-        // x = lerp(x, mouse_x, 0.005);
-        // //x = clamp(x, 0 +  (view_w / 2), room_width -  (view_w / 2));
-
-        // y = lerp(y, target.y - _h, 0.05);
 
         float h = ((this.GetViewport().Size.y * 0.25f) / 2f) * 0.5f;
         Vector2 mousePos = this.GetGlobalMousePosition();
@@ -136,21 +129,45 @@ public class PlayerCamera : Camera2D {
         selectedWeapon = inventoryGUI.GetWeapon(selectedWeaponSlot);
         if (selectedWeapon is null) {
             weaponSprite.Frame = 0;
-            weaponAmmoLabel.Visible = false;
-            weaponDivLabel.Visible = false;
-            weaponAmmoMaxLabel.Visible = false;
+            SetWeaponLableVisible(false);
         } else {
-            weaponSprite.Frame = ItemList.GetWeaponFrame(selectedWeapon);
+            weaponSprite.Frame = selectedWeapon.itemPawn.guiFrame;
 
-            if (selectedWeapon.itemType == ItemList.Items.handgun) {
-                weaponAmmoLabel.Visible = true;
-                weaponDivLabel.Visible = true;
-                weaponAmmoMaxLabel.Visible = true;
-            } else {
-                weaponAmmoLabel.Visible = false;
-                weaponDivLabel.Visible = false;
-                weaponAmmoMaxLabel.Visible = false;
+            String name = selectedWeapon.itemPawn.name;
+            int ammoCount = (int) selectedWeapon.itemPawn.intArray[0];
+
+            switch (name) {
+                case "Handgun":
+                    SetWeaponLabelText(ammoCount, player.ammoHandgun);
+                break;
+                case "Flashlight":
+                    SetWeaponLabelText(ammoCount, player.ammoBattery);
+                break;
+                case "Lamp":
+                    SetWeaponLabelText(ammoCount, player.ammoBattery);
+                break;
+                default:
+                    SetWeaponLableVisible(false);
+                break;
             }
         }
+    }
+
+    private void SetWeaponLabelText(int actual, int max) {
+        SetWeaponLableVisible(true);
+        weaponAmmoLabel.Text = actual.ToString();
+        weaponAmmoMaxLabel.Text = max.ToString();
+        if (weaponAmmoLabel.Text.Length == 1) {
+            weaponAmmoLabel.Text = "0" + weaponAmmoLabel.Text;
+        }
+        if (weaponAmmoMaxLabel.Text.Length == 1) {
+            weaponAmmoMaxLabel.Text = "0" + weaponAmmoMaxLabel.Text;
+        }
+    }
+
+    private void SetWeaponLableVisible(bool visible) {
+        weaponAmmoLabel.Visible = visible;
+        weaponDivLabel.Visible = visible;
+        weaponAmmoMaxLabel.Visible = visible;
     }
 }

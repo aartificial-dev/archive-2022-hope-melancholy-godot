@@ -51,20 +51,20 @@ public class Inventory : Node2D {
     public bool PlaceItem(ItemInventory item) { // return true if cursor on inv
         if (this.Visible == false) return false;
         if (GetMouseGridPosFloor( this.GetLocalMousePosition() ) is null) return false;
-        if (allowedType != ItemPawn.ItemType.Any  && ItemList.GetItemType(item.itemType) != allowedType) return true;
+        if (allowedType != ItemPawn.ItemType.Any  && item.itemPawn.type != allowedType) return true;
 
         // CALCULATE ITEM PLACEMENT
         Vector2? gridPosRaw = GetMouseGridPosRaw( this.GetLocalMousePosition());
         if (gridPosRaw is null) return true;
-        Vector2 gridPos = (Vector2) gridPosRaw - new Vector2(item.gridSize / 2f);
+        Vector2 gridPos = (Vector2) gridPosRaw - new Vector2(item.sizeGrid / 2f);
         gridPos = gridPos.Round();
 
         // if cannot place item
         if (gridPos.x < 0 || gridPos.y < 0 || gridPos.x > gridSize.x || gridPos.y > gridSize.y) return true;
-        if (gridPos.x + item.gridSize.x > gridSize.x + 0.1f || gridPos.y + item.gridSize.y > gridSize.y + 0.1f) return true;
+        if (gridPos.x + item.sizeGrid.x > gridSize.x + 0.1f || gridPos.y + item.sizeGrid.y > gridSize.y + 0.1f) return true;
 
         Vector2 actCellSize = new Vector2(cellSize + cellSpace);
-        ItemArray itemIntersect = GridGetItemIntersectArray((Vector2) gridPos, item.gridSize);
+        ItemArray itemIntersect = GridGetItemIntersectArray((Vector2) gridPos, item.sizeGrid);
         bool forceSwap = false;
         if (itemIntersect.Count == 0) {
             if (itemList.Count + 1 > allowedAmount) {
@@ -95,7 +95,7 @@ public class Inventory : Node2D {
             itemPick.GetParent().RemoveChild(itemPick);
             inventoryGUI.inventoryHand.AddChild(itemPick);
             inventoryGUI.itemInHand = itemPick;
-            inventoryGUI.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryGUI.itemInHand.spriteSize / 2f;
+            inventoryGUI.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryGUI.itemInHand.sizeSprite / 2f;
         }
         return true;
     }
@@ -111,14 +111,29 @@ public class Inventory : Node2D {
             itemPick.GetParent().RemoveChild(itemPick);
             inventoryGUI.inventoryHand.AddChild(itemPick);
             inventoryGUI.itemInHand = itemPick;
-            inventoryGUI.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryGUI.itemInHand.spriteSize / 2f;
+            inventoryGUI.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryGUI.itemInHand.sizeSprite / 2f;
+        }
+    }
+
+    public void UseItem() {
+        if (this.Visible == false) return;
+        Vector2? gridPos = GetMouseGridPosFloor( this.GetLocalMousePosition());
+        if (gridPos is null) return;
+        ItemArray itemIntersect = GridGetItemIntersectArray((Vector2) gridPos, new Vector2(1f, 1f));
+        if (itemIntersect.Count == 1) {
+            ItemInventory itemPick = itemIntersect[0];
+            bool doDelete = inventoryGUI.UseItem(itemPick.itemPawn);
+            if (doDelete) {
+                itemList.Remove(itemPick);
+                itemPick.GetParent().RemoveChild(itemPick);
+            }
         }
     }
 
     private ItemArray GridGetItemIntersectArray(Vector2 pos, Vector2 size) {
         ItemArray itemIntersect = new ItemArray();
         foreach (ItemInventory item in itemList) {
-            Rect2 iItemRect = new Rect2(item.gridPos, item.gridSize);
+            Rect2 iItemRect = new Rect2(item.gridPos, item.sizeGrid);
             Rect2 nItemRect = new Rect2(pos, size);
             if (iItemRect.Intersects(nItemRect)) {
                 itemIntersect.Add(item);

@@ -19,8 +19,10 @@ message I think this might be useful to combine things
 
 ~ defining region for use action
 define use
-inventory toolbox toggle
+inventory toggle toolbox
+inventory toggle chips
 
 ~ defining region for drop action
 define drop
-inventory toolbox disable"
+inventory disable toolbox
+inventory enable chips"

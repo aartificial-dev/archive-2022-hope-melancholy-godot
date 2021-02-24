@@ -6,7 +6,7 @@
 |:------|:------------|
 | [Regions](#regions) | Describes defining action region. |
 | [Commands List](#commands-list) | Contains list of available commands to use in item actions language. |
-| [Examples](#examples) | Contains several exaples on how to use item action language. |
+| [Examples](#examples) | Contains several examples on how to use item action language. |
 
 -------------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@
 > - [comments](#~-comment)
 
 ### `define -action`
-**Description:** Defines beginning of code region that will be executed when `action` will be performed with item. Region ends with next `define` command or with end of text/file. Can be used with no particular order of regions.
+**Description:** Defines beginning of code region that will be executed when `action` will be performed with item. Region ends with next `define` command or with end of text/file. Can be used with no particular order of regions. For advanced uses see [region](#region-example) and [region override](#region-override) exapmles.
 **Arguments:**
 > -action: string
 > Action name that describes type of interact with item. Accepts `pickup`, `use`, `drop`.
@@ -39,14 +39,14 @@
 > - [purge](#purge)
 
 
-### `inventory -name -action`
+### `inventory -action -name`
 **Description:** Enables/Disables inventory with `name`.
 **Arguments:**
-> -name: string
-> Name of inventory to enable/disable.
-
 > -action: string
 > Type of action to do with inventory. Accepts `enable`, `disable`, `toggle`.
+
+> -name: string
+> Name of inventory to enable/disable.
 
 <br>
 
@@ -102,15 +102,16 @@
 ### `purge`
 **Description:** Deletes item. For better description look at [purge example](#purge-example).
 **Arguments:**
-> Acepts no arguments
+> Accepts no arguments
 
 -------------------------------------------------------------------------------
 
 ## Examples
 > - [Region example](#region-example)
+> - [Region override](#region-override)
 > - [Multiple commands example](#multiple-commands-example)
 > - [Comments example](#comments-example)
-> - [Ammo pickip](#ammo-pickip)
+> - [Ammo pickup](#ammo-pickup)
 > - [Purge example](#purge-example)
 
 ### Region example
@@ -129,11 +130,24 @@
 
 This example shows how to use regions to make item that will use `pickup` action to tell what item do, `use` action to toggle toolbox inventory state and `drop` action to disable inventory when item no more present.
 
+### Region override
+
+> ~ defining region for pickup action
+> define pickup
+> ~ this will be overriden by next define pickup
+> message This message would not appear
+>
+> ~ overriding pickup region
+> define pickup
+> message This message will be seen on screen
+
+This example provides understanding on region order. Any `define` commands will be overriden by other `define` commands that will share the same action.
+
 ### Multiple commands example
 
 > define pickup
 > ammo handgun 5
-> message There's less then i expected
+> message There's less then I expected
 > 
 > define use
 > ammo handgun 20
@@ -148,9 +162,9 @@ Here's shown possibility of using multiple commands in region. All commands of r
 > define use
 > ~ this line will be ignored too
 >
-> ammo ~ and this will produce error because `~` (tilde) not in beginning of line
+> ammo ~ and this will produce error because ~ (tilde) not in beginning of line
 
-### Ammo pickip
+### Ammo pickup
 
 > define pickup
 > ammo handgun 25

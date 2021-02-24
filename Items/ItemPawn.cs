@@ -3,16 +3,17 @@ using System;
 using IntArray = Godot.Collections.Array;
 
 public class ItemPawn {
-    public String name;
-    public int spriteFrame;
-    public Vector2 sizeFloor;
-    public Vector2 sizeGrid;
-    public Vector2 sizeSprite;
-    public ItemPawn.ItemType type;
-    public IntArray intArray;
-    public int guiFrame;
-    public String textField;
-    public String useCommands;
+    public String name; // item name
+    public int spriteFrame; // item sprite number
+    public Vector2 sizeFloor; // size of sprite on floor
+    public Vector2 sizeGrid; // size of item on grid
+    public Vector2 sizeSprite; // size of sprite in hand
+    public ItemPawn.ItemType type; // type of item (filter in inv)
+    public IntArray intArray; // used mainly for weapons
+    public int guiFrame; // used mainly for weapons gui
+    public String textField; // used for notes
+    public String useCommands; // see item use parser reference
+    public ItemUseParser.ItemUseActions parsedUse;
 
     public enum ItemType {
         Any, Weapon, Quest, Grabage, Chip, Ammo, Medicine, Keycard, Notes, Tool
@@ -46,5 +47,9 @@ public class ItemPawn {
         String useCommands = (String) res.Get("useCommands");
         // GD.Print(name, "  ", spriteFrame, "  ", sizeFloor, "  ", sizeGrid, "  ", sizeSprite, "  ", type, "  ", intArray, "  ", textField);
         return new ItemPawn(name, spriteFrame, sizeFloor, sizeGrid, sizeSprite, type, intArray, guiFrame, textField, useCommands);
+    }
+
+    public void ParseActions() {
+        parsedUse = ItemUseParser.ParseActions(useCommands);
     }
 }

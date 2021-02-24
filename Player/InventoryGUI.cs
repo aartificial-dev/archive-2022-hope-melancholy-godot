@@ -28,6 +28,8 @@ public class InventoryGUI : Node2D {
     PackedScene itemFloorScene = ResourceLoader.Load<PackedScene>("res://Items/ItemFloor.tscn");
     PackedScene itemInventoryScene = ResourceLoader.Load<PackedScene>("res://Items/ItemInventory.tscn");
 
+    ItemUseParser itemUseParser = null;
+
     public override void _Ready() {
         startPosY = this.Position.y;
         startPosX = this.Position.x;
@@ -46,6 +48,10 @@ public class InventoryGUI : Node2D {
     }
 
     public override void _Process(float delta) {
+        if (itemUseParser is null) {
+            itemUseParser = new ItemUseParser(player, player.camera, this);
+        }
+
         Vector2 pos = this.Position;
         if (Input.IsActionJustPressed("key_inventory")) {
             isOpened = !isOpened;
@@ -68,7 +74,7 @@ public class InventoryGUI : Node2D {
         }
 
         if (!(itemInHand is null)) {
-            itemInHand.GlobalPosition = this.GetGlobalMousePosition() - itemInHand.spriteSize / 2f;
+            itemInHand.GlobalPosition = this.GetGlobalMousePosition() - itemInHand.sizeSprite / 2f;
             if (Input.IsActionJustPressed("mb_left")) {
                 bool doDropItem = true;
                 foreach (Inventory inv in inventories) {
@@ -105,13 +111,27 @@ public class InventoryGUI : Node2D {
                     inv.TakeItem();
                 }
             }
+            if (Input.IsActionJustPressed("mb_right")) {
+                foreach (Inventory inv in inventories) {
+                    inv.UseItem();
+                }
+            }
         }
     }
 
+    /// <summary> Returns <c>true</c> if item succesfully can be picked up or should be deleted, otherwise <c>false</c>. </summary>
     public bool PickFloorItem(ItemFloor item) {
         if (!(itemInHand is null)) return false;
+
+        // GD.Print("Pickup emmited");
+        bool doDelete = itemUseParser.PerformAction(ItemUseParser.Actions.Pickup, item.itemPawn);
+        // do pickup action
+        // return true;
+        if (doDelete) {
+            return true;
+        }
+
         ItemInventory itemInventory = (ItemInventory) itemInventoryScene.Instance();
-        itemInventory.itemType = item.itemType;
         itemInventory.itemPawn = item.itemPawn;
 
         inventoryHand.AddChild(itemInventory);
@@ -121,13 +141,27 @@ public class InventoryGUI : Node2D {
 
     public void DropHandItem(Vector2 pos) {
         inventoryHand.RemoveChild(itemInHand);
+
+        // GD.Print("Drop emmited");
+        bool doDelete = itemUseParser.PerformAction(ItemUseParser.Actions.Drop, itemInHand.itemPawn);
+        // do drop action
+        if (doDelete) {
+            itemInHand = null;
+        }
+        
         DropItem(itemInHand, pos);
         itemInHand = null;
     }
 
+    /// <summary> Returns <c>true</c> if one of actions was purge (delete item), otherwise <c>false</c>. </summary>
+    public bool UseItem(ItemPawn itemPawn) {
+        // GD.Print("Use emmited");
+        return itemUseParser.PerformAction(ItemUseParser.Actions.Use, itemPawn);
+        // do use stuff
+    }
+
     public void DropItem(ItemInventory item, Vector2 pos) {
         ItemFloor itemFloor = (ItemFloor) itemFloorScene.Instance();
-        itemFloor.itemType = item.itemType;
         itemFloor.itemPawn = item.itemPawn;
         itemFloor.Position = pos;
 
@@ -161,6 +195,28 @@ public class InventoryGUI : Node2D {
             }
             
         }
+    }
+
+    public void InventoryEnable(String name) {
+        GetInventoryByName(name).Visible = true;
+    }
+
+    public void InventoryDisable(String name) {
+        GetInventoryByName(name).Visible = false;
+    }
+
+    public void InventoryToggle(String name) {
+        Inventory inv = GetInventoryByName(name);
+        inv.Visible = !inv.Visible;
+    }
+
+    public Inventory GetInventoryByName(String name) {
+        foreach (Inventory inv in inventories) {
+            if (inv.name == name) {
+                return inv;
+            }
+        }
+        return null;
     }
 
 }

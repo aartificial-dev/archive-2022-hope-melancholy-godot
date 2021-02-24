@@ -283,7 +283,7 @@ pre[data-line] .line-highlight[data-end]:after {
 </tr>
 <tr>
 <td style="text-align:left"><a href="#examples">Examples</a></td>
-<td style="text-align:left">Contains several exaples on how to use item action language.</td>
+<td style="text-align:left">Contains several examples on how to use item action language.</td>
 </tr>
 </tbody>
 </table>
@@ -298,7 +298,7 @@ pre[data-line] .line-highlight[data-end]:after {
 </blockquote>
 <h3 class="mume-header" id="define-action"><code>define -action</code></h3>
 
-<p><strong>Description:</strong> Defines beginning of code region that will be executed when <code>action</code> will be performed with item. Region ends with next <code>define</code> command or with end of text/file. Can be used with no particular order of regions.<br>
+<p><strong>Description:</strong> Defines beginning of code region that will be executed when <code>action</code> will be performed with item. Region ends with next <code>define</code> command or with end of text/file. Can be used with no particular order of regions. For advanced uses see <a href="#region-example">region</a> and <a href="#region-override">region override</a> exapmles.<br>
 <strong>Arguments:</strong></p>
 <blockquote>
 <p>-action: string<br>
@@ -326,17 +326,17 @@ Action name that describes type of interact with item. Accepts <code>pickup</cod
 <li><a href="#purge">purge</a></li>
 </ul>
 </blockquote>
-<h3 class="mume-header" id="inventory-name-action"><code>inventory -name -action</code></h3>
+<h3 class="mume-header" id="inventory-action-name"><code>inventory -action -name</code></h3>
 
 <p><strong>Description:</strong> Enables/Disables inventory with <code>name</code>.<br>
 <strong>Arguments:</strong></p>
 <blockquote>
-<p>-name: string<br>
-Name of inventory to enable/disable.</p>
-</blockquote>
-<blockquote>
 <p>-action: string<br>
 Type of action to do with inventory. Accepts <code>enable</code>, <code>disable</code>, <code>toggle</code>.</p>
+</blockquote>
+<blockquote>
+<p>-name: string<br>
+Name of inventory to enable/disable.</p>
 </blockquote>
 <br>
 <h3 class="mume-header" id="message-text"><code>message -text</code></h3>
@@ -401,7 +401,7 @@ Amount of ammo to add.</p>
 <p><strong>Description:</strong> Deletes item. For better description look at <a href="#purge-example">purge example</a>.<br>
 <strong>Arguments:</strong></p>
 <blockquote>
-<p>Acepts no arguments</p>
+<p>Accepts no arguments</p>
 </blockquote>
 <hr>
 <h2 class="mume-header" id="examples">Examples</h2>
@@ -409,9 +409,10 @@ Amount of ammo to add.</p>
 <blockquote>
 <ul>
 <li><a href="#region-example">Region example</a></li>
+<li><a href="#region-override">Region override</a></li>
 <li><a href="#multiple-commands-example">Multiple commands example</a></li>
 <li><a href="#comments-example">Comments example</a></li>
-<li><a href="#ammo-pickip">Ammo pickip</a></li>
+<li><a href="#ammo-pickup">Ammo pickup</a></li>
 <li><a href="#purge-example">Purge example</a></li>
 </ul>
 </blockquote>
@@ -429,12 +430,24 @@ define drop<br>
 inventory toolbox disable</p>
 </blockquote>
 <p>This example shows how to use regions to make item that will use <code>pickup</code> action to tell what item do, <code>use</code> action to toggle toolbox inventory state and <code>drop</code> action to disable inventory when item no more present.</p>
+<h3 class="mume-header" id="region-override">Region override</h3>
+
+<blockquote>
+<p>~ defining region for pickup action<br>
+define pickup<br>
+~ this will be overriden by next define pickup<br>
+message This message would not appear</p>
+<p>~ overriding pickup region<br>
+define pickup<br>
+message This message will be seen on screen</p>
+</blockquote>
+<p>This example provides understanding on region order. Any <code>define</code> commands will be overriden by other <code>define</code> commands that will share the same action.</p>
 <h3 class="mume-header" id="multiple-commands-example">Multiple commands example</h3>
 
 <blockquote>
 <p>define pickup<br>
 ammo handgun 5<br>
-message There&apos;s less then i expected</p>
+message There&apos;s less then I expected</p>
 <p>define use<br>
 ammo handgun 20<br>
 message Oh, I just didn&apos;t notice<br>
@@ -447,9 +460,9 @@ purge</p>
 <p>~ this line will be ignored by parser<br>
 define use<br>
 ~ this line will be ignored too</p>
-<p>ammo ~ and this will produce error because <code>~</code> (tilde) not in beginning of line</p>
+<p>ammo ~ and this will produce error because ~ (tilde) not in beginning of line</p>
 </blockquote>
-<h3 class="mume-header" id="ammo-pickip">Ammo pickip</h3>
+<h3 class="mume-header" id="ammo-pickup">Ammo pickup</h3>
 
 <blockquote>
 <p>define pickup<br>
