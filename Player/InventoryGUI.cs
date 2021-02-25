@@ -30,7 +30,7 @@ public class InventoryGUI : Node2D {
     PackedScene itemFloorScene = ResourceLoader.Load<PackedScene>("res://Items/ItemFloor.tscn");
     PackedScene itemInventoryScene = ResourceLoader.Load<PackedScene>("res://Items/ItemInventory.tscn");
 
-    ItemUseParser itemUseParser = null;
+    ItemScriptParser itemUseParser = null;
 
     public override void _Ready() {
         startPosY = this.Position.y;
@@ -53,7 +53,7 @@ public class InventoryGUI : Node2D {
 
     public override void _Process(float delta) {
         if (itemUseParser is null) {
-            itemUseParser = new ItemUseParser(player, player.camera, this);
+            itemUseParser = new ItemScriptParser(player, player.camera, this);
         }
         if (!player.GetCanMove()) return;
 
@@ -130,7 +130,7 @@ public class InventoryGUI : Node2D {
         itemAudioPlayer.Stream = item.pickupAudioSample;
         itemAudioPlayer.Play();
         // GD.Print("Pickup emmited");
-        bool doDelete = itemUseParser.PerformAction(ItemUseParser.Actions.Pickup, item.itemPawn);
+        bool doDelete = itemUseParser.PerformAction(ItemScriptParser.Actions.Pickup, item.itemPawn);
         // do pickup action
         // return true;
         if (doDelete) {
@@ -154,7 +154,7 @@ public class InventoryGUI : Node2D {
         itemAudioPlayer.Play();
 
         // GD.Print("Drop emmited");
-        bool doDelete = itemUseParser.PerformAction(ItemUseParser.Actions.Drop, itemInHand.itemPawn);
+        bool doDelete = itemUseParser.PerformAction(ItemScriptParser.Actions.Drop, itemInHand.itemPawn);
         // do drop action
         if (doDelete) {
             itemInHand = null;
@@ -169,7 +169,7 @@ public class InventoryGUI : Node2D {
         // GD.Print("Use emmited");
         itemAudioPlayer.Stream = itemPawn.useAudio;
         itemAudioPlayer.Play();
-        return itemUseParser.PerformAction(ItemUseParser.Actions.Use, itemPawn);
+        return itemUseParser.PerformAction(ItemScriptParser.Actions.Use, itemPawn);
         // do use stuff
     }
 
@@ -242,6 +242,24 @@ public class InventoryGUI : Node2D {
         inv.Visible = !inv.Visible;
     }
 
+    public void InventoryDrop(String name) {
+        Inventory inv = GetInventoryByName(name);
+        AudioStreamSample sound = null;
+
+        while (inv.GetItemCount() > 0) {
+            ItemInventory item = inv.GetItem(0);
+            inv.RemoveItem(0);
+            sound = item.dropAudioSample;
+            DropItem(item, player.Position);
+        }
+
+        if (!(sound is null)) {
+            itemAudioPlayer.Stream = sound;
+            itemAudioPlayer.Play();
+        }
+        
+    }
+
     public Inventory GetInventoryByName(String name) {
         foreach (Inventory inv in inventories) {
             if (inv.name == name) {
@@ -249,6 +267,14 @@ public class InventoryGUI : Node2D {
             }
         }
         return null;
+    }
+
+    public bool IsCursorOnInventory() {
+        foreach (Inventory inv in inventories) {
+            //GD.Print(inv.IsCursorOnInventory());
+            if (inv.IsCursorOnInventory()) {return true;}
+        }
+        return false;
     }
 
 }

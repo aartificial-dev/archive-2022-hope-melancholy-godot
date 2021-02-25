@@ -1,4 +1,4 @@
-# Item Action Language Reference
+# Item Script Language Reference
 
 ## Table of contents
 
@@ -40,13 +40,13 @@
 
 
 ### `inventory -action -name`
-**Description:** Enables/Disables inventory with `name`.
+**Description:** Performs `action` on inventory with `name`.
 **Arguments:**
 > -action: string
-> Type of action to do with inventory. Accepts `enable`, `disable`, `toggle`.
+> Type of action to do with inventory. Accepts `enable`, `disable`, `toggle` (toggles enabled state), `drop` (drops all items from inventory).
 
 > -name: string
-> Name of inventory to enable/disable.
+> Name of inventory to perform action with.
 
 <br>
 

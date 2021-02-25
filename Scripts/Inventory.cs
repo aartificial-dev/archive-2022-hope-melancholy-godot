@@ -81,7 +81,7 @@ public class Inventory : Node2D {
                 item.gridPos = (Vector2) gridPos;
                 item.GetParent().RemoveChild(item);
                 this.AddChild(item);
-                item.Position = (Vector2) gridPos * actCellSize;
+                item.Position = (Vector2) gridPos * actCellSize + cellOffset;
                 inventoryGUI.itemInHand = null;
                 itemSoundPlayer.Play();
             }
@@ -98,12 +98,13 @@ public class Inventory : Node2D {
             item.gridPos = (Vector2) gridPos;
             item.GetParent().RemoveChild(item);
             this.AddChild(item);
-            item.Position = (Vector2) gridPos * actCellSize;
+            item.Position = (Vector2) gridPos * actCellSize + cellOffset;
             itemList.Remove(itemPick);
             itemPick.GetParent().RemoveChild(itemPick);
             inventoryGUI.inventoryHand.AddChild(itemPick);
             inventoryGUI.itemInHand = itemPick;
             inventoryGUI.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryGUI.itemInHand.sizeSprite / 2f;
+            inventoryGUI.itemInHand.Visible = true;
             itemSoundPlayer.Play();
         }
         return true;
@@ -121,6 +122,7 @@ public class Inventory : Node2D {
             inventoryGUI.inventoryHand.AddChild(itemPick);
             inventoryGUI.itemInHand = itemPick;
             inventoryGUI.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryGUI.itemInHand.sizeSprite / 2f;
+            inventoryGUI.itemInHand.Visible = true;
             itemSoundPlayer.Play();
         }
     }
@@ -165,7 +167,6 @@ public class Inventory : Node2D {
     }
 
     protected Vector2? GetMouseGridPosRaw(Vector2 mousePos) {
-        //GD.Print(name, ": ", mousePos);
         bool mouseInInvX = mousePos.x >= leftTopPos.x && mousePos.x <= rightBottomPos.x;
         bool mouseInInvY = mousePos.y >= leftTopPos.y && mousePos.y <= rightBottomPos.y;
         bool mouseInInv = mouseInInvX && mouseInInvY;
@@ -174,9 +175,13 @@ public class Inventory : Node2D {
             return null;
         }
         Vector2 actCellSize = new Vector2(cellSize + cellSpace);
-        Vector2 gridPos = mousePos / actCellSize;
-        // GD.Print(name, ": ", gridPos);
+        Vector2 gridPos = (mousePos - cellOffset) / actCellSize;
+        //GD.Print(name, ": ", gridPos);
         return gridPos;
+    }
+
+    public bool IsCursorOnInventory() {
+        return (GetMouseGridPosRaw(this.GetLocalMousePosition()) is null ? false : true);
     }
 
     protected virtual void UpdateGrid() {
@@ -206,5 +211,23 @@ public class Inventory : Node2D {
             return itemList[index];
         }
         return null;
+    }
+
+    public int GetItemCount() {
+        return itemList.Count;
+    }
+
+    public void RemoveItem(int index) {
+        index = Mathf.Clamp(index, 0, itemList.Count - 1);
+        ItemInventory itemPick = itemList[index];
+        itemList.Remove(itemPick); 
+        itemPick.GetParent().RemoveChild(itemPick);
+    }
+
+    public void RemoveItem(ItemInventory item) {
+        int ind = itemList.IndexOf(item);
+        if (ind >= 0) {
+            RemoveItem(ind);
+        }
     }
 }

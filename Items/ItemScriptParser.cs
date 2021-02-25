@@ -3,14 +3,14 @@ using System;
 using Godot.Collections;
 using ActionDictionary = System.Collections.Generic.Dictionary<System.String, Godot.Collections.Array<System.String>>;
 using StringList = System.Collections.Generic.List<System.String>;
-using CommandList = System.Collections.Generic.List<ItemUseParser.ItemUseCommand>;
+using CommandList = System.Collections.Generic.List<ItemScriptParser.ItemScriptCommand>;
 
-public class ItemUseParser {
+public class ItemScriptParser {
     private Player player;
     private PlayerCamera camera;
     private InventoryGUI inventoryGUI;
     
-    public struct ItemUseActions {
+    public struct ItemScriptActions {
         private CommandList pickup;
         public CommandList Pickup { get => pickup; }
 
@@ -20,7 +20,7 @@ public class ItemUseParser {
         private CommandList drop;
         public CommandList Drop { get => drop; }
 
-        public ItemUseActions(CommandList pickup, CommandList use, CommandList drop) {
+        public ItemScriptActions(CommandList pickup, CommandList use, CommandList drop) {
             this.pickup = pickup;
             this.use = use;
             this.drop = drop;
@@ -72,7 +72,7 @@ public class ItemUseParser {
             if (list is null) {
                 return "null";
             }
-            foreach (ItemUseCommand command in list) {
+            foreach (ItemScriptCommand command in list) {
                 toString += command.ToString();
                 toString += "\n";
             }
@@ -80,14 +80,14 @@ public class ItemUseParser {
         }
     }
 
-    public struct ItemUseCommand {
+    public struct ItemScriptCommand {
         private String command;
         public String Command { get => command; }
 
         private Array<String> args;
         public Array<String> Args { get => args; }
 
-        public ItemUseCommand(String command, Array<String> args) {
+        public ItemScriptCommand(String command, Array<String> args) {
             this.command = command;
             this.args = args;
         }
@@ -109,7 +109,7 @@ public class ItemUseParser {
 
     private static ActionDictionary actionDictionary = new ActionDictionary(){
         {"define",      new Array<String>(){"pickup", "use", "drop"}},                                          // define -action
-        {"inventory",   new Array<String>(){"enable", "disable", "toggle"}},                                    // inventory -action -name
+        {"inventory",   new Array<String>(){"enable", "disable", "toggle", "drop"}},                                    // inventory -action -name
         {"message",     null},                                                                                  // message -text
         {"heal",        new Array<String>(){"health", "sanity"}},                                               // heal -attribute -value
         {"damage",      new Array<String>(){"health", "sanity"}},                                               // damage -attribute -value
@@ -118,13 +118,13 @@ public class ItemUseParser {
         {"purge",       null}                                                                                   // purge
     };
 
-    public ItemUseParser(Player player, PlayerCamera camera, InventoryGUI inventoryGUI) {
+    public ItemScriptParser(Player player, PlayerCamera camera, InventoryGUI inventoryGUI) {
         this.player = player;
         this.camera = camera;
         this.inventoryGUI = inventoryGUI;
     }
 
-    public static ItemUseActions ParseActions(String actions) {
+    public static ItemScriptActions ParseActions(String actions) {
         String[] arr = actions.Split("\n", false);
         StringList commands = new StringList();
         // Loop for ignoring comments
@@ -168,7 +168,7 @@ public class ItemUseParser {
             Array<String> args = new Array<String>();
             for (int i = 1; i < command.Length; i ++) args.Add(command[i].ToString());
 
-            ItemUseCommand newCommand = new ItemUseCommand(command[0], args);
+            ItemScriptCommand newCommand = new ItemScriptCommand(command[0], args);
             
             switch (currentAction) {
                 case Actions.Pickup: pickup.Add(newCommand); break;
@@ -178,7 +178,7 @@ public class ItemUseParser {
             CommandList it = new CommandList();
         }
         
-        return new ItemUseActions(pickup, use, drop);
+        return new ItemScriptActions(pickup, use, drop);
     }
 
     private static bool CheckCommandSyntax(String[] command) {
@@ -193,9 +193,9 @@ public class ItemUseParser {
     }
     
     /// <summary> Returns <c>true</c> if one of actions was purge (delete item), otherwise <c>false</c>. </summary>
-    public bool PerformAction(ItemUseParser.Actions action, ItemPawn itemPawn) {
+    public bool PerformAction(ItemScriptParser.Actions action, ItemPawn itemPawn) {
         if (!itemPawn.parsedUse.CheckAction(action)) return false;
-        ItemUseActions actions = itemPawn.parsedUse;
+        ItemScriptActions actions = itemPawn.parsedUse;
         CommandList list = null;
         switch (action) {
             case Actions.Pickup:
@@ -209,7 +209,7 @@ public class ItemUseParser {
             break;
         }
         
-        foreach (ItemUseCommand command in list) {
+        foreach (ItemScriptCommand command in list) {
             switch (command.Command) {
                 case "inventory":
                     PerformInventory(command.Args);
@@ -252,6 +252,9 @@ public class ItemUseParser {
                 return;
             case "toggle":
                 inventoryGUI.InventoryToggle(name);
+                return;
+            case "drop":
+                inventoryGUI.InventoryDrop(name);
                 return;
         }
     }

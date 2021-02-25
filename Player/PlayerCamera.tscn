@@ -149,10 +149,10 @@ texture = ExtResource( 10 )
 centered = false
 script = ExtResource( 17 )
 name = "weapon 1"
-CellSize = Vector2( 11, 11 )
-GridSize = Vector2( 5, 2 )
-allowedType = 2
 allowedAmount = 1
+allowedType = 2
+GridSize = Vector2( 5, 2 )
+CellSize = Vector2( 11, 11 )
 
 [node name="SelectOverlay" type="Sprite" parent="Inventory/InventoryWeapon1"]
 use_parent_material = true
@@ -181,10 +181,10 @@ texture = ExtResource( 10 )
 centered = false
 script = ExtResource( 17 )
 name = "weapon 2"
-CellSize = Vector2( 11, 11 )
-GridSize = Vector2( 5, 2 )
-allowedType = 2
 allowedAmount = 1
+allowedType = 2
+GridSize = Vector2( 5, 2 )
+CellSize = Vector2( 11, 11 )
 
 [node name="SelectOverlay" type="Sprite" parent="Inventory/InventoryWeapon2"]
 visible = false
@@ -214,71 +214,71 @@ texture = ExtResource( 9 )
 centered = false
 script = ExtResource( 17 )
 name = "inventory"
-CellSize = Vector2( 11, 11 )
-GridSize = Vector2( 12, 3 )
 blacklistType = 5
+GridSize = Vector2( 12, 3 )
+CellSize = Vector2( 11, 11 )
 
 [node name="InventoryChips" type="Sprite" parent="Inventory"]
-visible = false
 use_parent_material = true
 position = Vector2( 91, 0 )
 texture = ExtResource( 8 )
 centered = false
 script = ExtResource( 23 )
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips"]
+[node name="ChipSlot1" type="AnimatedSprite" parent="Inventory/InventoryChips"]
 visible = false
 use_parent_material = true
 position = Vector2( 16, 8 )
 frames = ExtResource( 15 )
 frame = 1
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips/AnimatedSprite2"]
+[node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot1"]
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
 frame = 2
 
-[node name="AnimatedSprite4" type="AnimatedSprite" parent="Inventory/InventoryChips"]
+[node name="ChipSlot2" type="AnimatedSprite" parent="Inventory/InventoryChips"]
 visible = false
 use_parent_material = true
 position = Vector2( 50, 8 )
 frames = ExtResource( 15 )
 frame = 1
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips/AnimatedSprite4"]
+[node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot2"]
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
 frame = 2
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Inventory/InventoryChips"]
+[node name="ChipSlot3" type="AnimatedSprite" parent="Inventory/InventoryChips"]
 visible = false
 use_parent_material = true
 position = Vector2( 16, 25 )
 frames = ExtResource( 15 )
 frame = 1
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips/AnimatedSprite"]
+[node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot3"]
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
 frame = 2
 
-[node name="AnimatedSprite3" type="AnimatedSprite" parent="Inventory/InventoryChips"]
+[node name="ChipSlot4" type="AnimatedSprite" parent="Inventory/InventoryChips"]
 visible = false
 use_parent_material = true
 position = Vector2( 50, 25 )
 frames = ExtResource( 15 )
 frame = 1
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Inventory/InventoryChips/AnimatedSprite3"]
+[node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot4"]
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
 frame = 2
 
 [node name="Toolbox" type="Node2D" parent="Inventory"]
+visible = false
 use_parent_material = true
 position = Vector2( 91, 0 )
 script = ExtResource( 24 )

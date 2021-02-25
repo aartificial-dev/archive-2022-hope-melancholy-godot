@@ -43,16 +43,22 @@ public class Player : KinematicBody2D {
 
     public override void _Process(float delta) {
         ItemPawn itemInHand = (camera.selectedWeapon is null) ? null : camera.selectedWeapon.itemPawn;
+        animator.SetItemInHand(itemInHand);
         if (Input.IsActionPressed("key_aim")) {
-            if (Input.IsActionJustPressed("mb_left")) {
+            if (Input.IsActionJustPressed("mb_left") && !camera.IsCursorOnInventory()) {
                 animator.Attack(itemInHand);
             } else {
                 animator.Aim(itemInHand);
+            }
+        } else {
+            if (Input.IsActionJustPressed("mb_left") && !camera.IsCursorOnInventory()) {
+                animator.UseItem(itemInHand);
             }
         }
         if (Input.IsActionJustPressed("key_reload")) {
             animator.Reload(itemInHand);
         }
+
         camera.UpdateCamera(delta);
     }
 
@@ -198,4 +204,5 @@ public class Player : KinematicBody2D {
             break;
         }
     }
+
 }

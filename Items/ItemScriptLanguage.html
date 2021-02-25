@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>ItemUseParser</title>
+      <title>ItemScriptLanguage</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -261,7 +261,7 @@ pre[data-line] .line-highlight[data-end]:after {
     </head>
     <body for="html-export">
       <div class="mume markdown-preview  ">
-      <h1 class="mume-header" id="item-action-language-reference">Item Action Language Reference</h1>
+      <h1 class="mume-header" id="item-script-language-reference">Item Script Language Reference</h1>
 
 <h2 class="mume-header" id="table-of-contents">Table of contents</h2>
 
@@ -328,15 +328,15 @@ Action name that describes type of interact with item. Accepts <code>pickup</cod
 </blockquote>
 <h3 class="mume-header" id="inventory-action-name"><code>inventory -action -name</code></h3>
 
-<p><strong>Description:</strong> Enables/Disables inventory with <code>name</code>.<br>
+<p><strong>Description:</strong> Performs <code>action</code> on inventory with <code>name</code>.<br>
 <strong>Arguments:</strong></p>
 <blockquote>
 <p>-action: string<br>
-Type of action to do with inventory. Accepts <code>enable</code>, <code>disable</code>, <code>toggle</code>.</p>
+Type of action to do with inventory. Accepts <code>enable</code>, <code>disable</code>, <code>toggle</code> (toggles enabled state), <code>drop</code> (drops all items from inventory).</p>
 </blockquote>
 <blockquote>
 <p>-name: string<br>
-Name of inventory to enable/disable.</p>
+Name of inventory to perform action with.</p>
 </blockquote>
 <br>
 <h3 class="mume-header" id="message-text"><code>message -text</code></h3>

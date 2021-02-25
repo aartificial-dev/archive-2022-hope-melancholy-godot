@@ -4,19 +4,20 @@
 [ext_resource path="res://Objects/Bullet.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 1.28003, 1.03561 )
+extents = Vector2( 2.00994, 0.230563 )
 
 [sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
 
 [node name="Bullet" type="KinematicBody2D"]
 collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.498039 )
 material = SubResource( 2 )
+scale = Vector2( 1, 0.45 )
 texture = ExtResource( 1 )

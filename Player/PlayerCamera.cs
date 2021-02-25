@@ -59,7 +59,7 @@ public class PlayerCamera : Camera2D {
 
     public override void _Process(float delta) {
         GetNode<Label>("Label").Text = Engine.GetFramesPerSecond().ToString();
-        ProcessWeapons();
+        ProcessWeapons(delta);
     }
 
     public override void _Input(InputEvent @event) {
@@ -125,27 +125,35 @@ public class PlayerCamera : Camera2D {
         interactHint.Visible = false;
     }
 
-    public void ProcessWeapons() {
+    public void ProcessWeapons(float delta) {
         inventoryGUI.SetWeaponSlot(selectedWeaponSlot);
         selectedWeapon = inventoryGUI.GetWeapon(selectedWeaponSlot);
         if (selectedWeapon is null) {
             weaponSprite.Frame = 0;
             SetWeaponLableVisible(false);
-        } else {
+        } else if (selectedWeapon.itemPawn.intArray.Count > 0) {
             weaponSprite.Frame = selectedWeapon.itemPawn.guiFrame;
 
             String name = selectedWeapon.itemPawn.name;
             int ammoCount = (int) selectedWeapon.itemPawn.intArray[0];
-
+            int actAmmo, maxAmmo;
             switch (name) {
                 case "Handgun":
                     SetWeaponLabelText(ammoCount, player.ammoHandgun);
                 break;
                 case "Flashlight":
-                    SetWeaponLabelText(ammoCount, player.ammoBattery);
+                    actAmmo = Mathf.CeilToInt(ammoCount / 1000);
+                    maxAmmo = Mathf.CeilToInt(player.ammoBattery / 1000);
+                    if (actAmmo == 0 && ammoCount > 0) actAmmo = 1;
+                    if (maxAmmo == 0 && player.ammoBattery > 0) maxAmmo = 1;
+                    SetWeaponLabelText(actAmmo, maxAmmo);
                 break;
                 case "Lamp":
-                    SetWeaponLabelText(ammoCount, player.ammoBattery);
+                    actAmmo = Mathf.CeilToInt(ammoCount / 1000);
+                    maxAmmo = Mathf.CeilToInt(player.ammoBattery / 1000);
+                    if (actAmmo == 0 && ammoCount > 0) actAmmo = 1;
+                    if (maxAmmo == 0 && player.ammoBattery > 0) maxAmmo = 1;
+                    SetWeaponLabelText(actAmmo, maxAmmo);
                 break;
                 default:
                     SetWeaponLableVisible(false);
@@ -154,10 +162,14 @@ public class PlayerCamera : Camera2D {
         }
     }
 
+    public bool IsCursorOnInventory() {
+        return inventoryGUI.IsCursorOnInventory();
+    }
+
     private void SetWeaponLabelText(int actual, int max) {
         SetWeaponLableVisible(true);
-        weaponAmmoLabel.Text = actual.ToString();
-        weaponAmmoMaxLabel.Text = max.ToString();
+        weaponAmmoLabel.Text = Mathf.Clamp(Mathf.Ceil(actual), 0, 99).ToString();
+        weaponAmmoMaxLabel.Text = Mathf.Clamp(Mathf.Ceil(max), 0, 99).ToString();
         if (weaponAmmoLabel.Text.Length == 1) {
             weaponAmmoLabel.Text = "0" + weaponAmmoLabel.Text;
         }

@@ -13,7 +13,7 @@ public class ItemPawn {
     public int guiFrame; // used mainly for weapons gui
     public String textField; // used for notes
     public String useCommands; // see item use parser reference
-    public ItemUseParser.ItemUseActions parsedUse;
+    public ItemScriptParser.ItemScriptActions parsedUse;
     public AudioStreamSample useAudio;
 
     public enum ItemType {
@@ -54,6 +54,6 @@ public class ItemPawn {
     }
 
     public void ParseActions() {
-        parsedUse = ItemUseParser.ParseActions(useCommands);
+        parsedUse = ItemScriptParser.ParseActions(useCommands);
     }
 }

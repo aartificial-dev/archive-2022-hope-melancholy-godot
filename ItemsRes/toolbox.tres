@@ -25,4 +25,5 @@ inventory toggle chips
 ~ defining region for drop action
 define drop
 inventory disable toolbox
+inventory drop toolbox
 inventory enable chips"

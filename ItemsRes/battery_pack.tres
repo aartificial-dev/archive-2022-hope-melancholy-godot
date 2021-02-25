@@ -14,5 +14,5 @@ intArray = [  ]
 guiFrame = 0
 textField = ""
 useCommands = "define pickup
-ammo battery 10
+ammo battery 10000
 purge"
