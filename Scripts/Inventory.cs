@@ -57,8 +57,8 @@ public class Inventory : Node2D {
     public bool PlaceItem(ItemInventory item) { // return true if cursor on inv
         if (this.Visible == false) return false;
         if (GetMouseGridPosFloor( this.GetLocalMousePosition() ) is null) return false;
-        if (allowedType != ItemPawn.ItemType.Any && item.itemPawn.type != allowedType) return true;
-        if (item.itemPawn.type == blacklistType) return true;
+        if (allowedType != ItemPawn.ItemType.Any && item.itemPawn.Type != allowedType) return true;
+        if (item.itemPawn.Type == blacklistType) return true;
 
         // CALCULATE ITEM PLACEMENT
         Vector2? gridPosRaw = GetMouseGridPosRaw( this.GetLocalMousePosition());

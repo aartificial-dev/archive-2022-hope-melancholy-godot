@@ -3,57 +3,152 @@ using System;
 using IntArray = Godot.Collections.Array;
 
 public class ItemPawn {
-    public String name; // item name
-    public int spriteFrame; // item sprite number
-    public Vector2 sizeFloor; // size of sprite on floor
-    public Vector2 sizeGrid; // size of item on grid
-    public Vector2 sizeSprite; // size of sprite in hand
-    public ItemPawn.ItemType type; // type of item (filter in inv)
-    public IntArray intArray; // used mainly for weapons
-    public int guiFrame; // used mainly for weapons gui
-    public String textField; // used for notes
-    public String useCommands; // see item use parser reference
-    public ItemScriptParser.ItemScriptActions parsedUse;
-    public AudioStreamSample useAudio;
+    private String name;
+    private ItemPawn.ItemType type;
+    private String id;
+
+    private SpriteFrames spriteFloorFrames;
+    private int spriteFloorFrame;
+    private Vector2 spriteFloorSize;
+
+    private SpriteFrames spriteInventoryFrames;
+    private int spriteInventoryFrame;
+    private Vector2 spriteInventorySize;
+    private Vector2 spriteInventoryGridSize;
+
+    private int ammo;
+    private int ammoMax;
+    private bool isActive;
+
+    private Mesh model;
+    private String description;
+
+    private String itemScript;
+    private AudioStreamSample audioPickup;
+    private AudioStreamSample audioUse;
+    private AudioStreamSample audioDrop;
+    private AudioStreamSample audioActivate;
+
+    private ItemScriptParser.ItemScriptActions parsedScript;
+
+    private bool isRotated = false;
+
+    public string Name { get => name; }
+    public ItemType Type { get => type; }
+    public string Id { get => id; }
+
+    public SpriteFrames SpriteFloorFrames { get => spriteFloorFrames; }
+    public int SpriteFloorFrame { get => spriteFloorFrame; }
+    public Vector2 SpriteFloorSize { get => spriteFloorSize; }
+
+    public SpriteFrames SpriteInventoryFrames { get => spriteInventoryFrames; }
+    public int SpriteInventoryFrame { get => spriteInventoryFrame; }
+    public Vector2 SpriteInventorySize { get => GetSpriteInventorySize(); }
+    public Vector2 SpriteInventoryGridSize { get => GetSpriteInventoryGridSize(); }
+
+    public int Ammo { get => ammo; set => ammo = value; }
+    public int AmmoMax { get => ammoMax; }
+    public bool IsActive {get => isActive; set => isActive = value; }
+
+    public Mesh Model { get => model; }
+    public string Description { get => description; }
+
+    public string ItemScript { get => itemScript; }
+    public AudioStreamSample AudioPickup { get => audioPickup; }
+    public AudioStreamSample AudioUse { get => audioUse; }
+    public AudioStreamSample AudioDrop { get => audioDrop; }
+    public AudioStreamSample AudioActivate { get => audioActivate; }
+
+    public ItemScriptParser.ItemScriptActions ParsedScript { get => parsedScript; }
+    public bool IsRotated { get => isRotated; }
 
     public enum ItemType {
-        Any, None, Weapon, Quest, Grabage, Chip, Ammo, Medicine, Keycard, Notes, Tool
+        Any, None, Weapon, Quest, Grabage, Chip, Ammo, Medicine, Notes, Tool, Usable
     }
-
-    public ItemPawn(String name = "item", int spriteFrame = 0, 
-                    Vector2 sizeFloor = default(Vector2), Vector2 sizeGrid = default(Vector2), Vector2 sizeSprite = default(Vector2), 
-                    ItemPawn.ItemType type = ItemPawn.ItemType.Any, IntArray intArray = default(IntArray), int guiFrame = 0, String textField = "", 
-                    String useCommands = "", AudioStreamSample useAudio = default(AudioStreamSample)) {
+    
+    public ItemPawn(string name, ItemType type, string id, 
+                    SpriteFrames spriteFloorFrames, int spriteFloorFrame, Vector2 spriteFloorSize, 
+                    SpriteFrames spriteInventoryFrames, int spriteInventoryFrame, Vector2 spriteInventorySize, Vector2 spriteInventoryGridSize, 
+                    int ammo, int ammoMax, bool isActive,
+                    Mesh model, string description, 
+                    string itemScript, AudioStreamSample audioPickup, AudioStreamSample audioUse, AudioStreamSample audioDrop, AudioStreamSample audioActivate) {
         this.name = name;
-        this.spriteFrame = spriteFrame;
-        this.sizeFloor = sizeFloor;
-        this.sizeGrid = sizeGrid;
-        this.sizeSprite = sizeSprite;
         this.type = type;
-        this.intArray = intArray;
-        this.guiFrame = guiFrame;
-        this.textField = textField;
-        this.useCommands = useCommands;
-        this.useAudio = useAudio;
+        this.id = id;
+        this.spriteFloorFrames = spriteFloorFrames;
+        this.spriteFloorFrame = spriteFloorFrame;
+        this.spriteFloorSize = spriteFloorSize;
+        this.spriteInventoryFrames = spriteInventoryFrames;
+        this.spriteInventoryFrame = spriteInventoryFrame;
+        this.spriteInventorySize = spriteInventorySize;
+        this.spriteInventoryGridSize = spriteInventoryGridSize;
+        this.ammo = ammo;
+        this.ammoMax = ammoMax;
+        this.isActive = isActive;
+        this.model = model;
+        this.description = description;
+        this.itemScript = itemScript;
+        this.audioPickup = audioPickup;
+        this.audioUse = audioUse;
+        this.audioDrop = audioDrop;
+        this.audioActivate = audioActivate;
     }
 
     public static ItemPawn MakePawnFromGD(Resource res) { 
+
         String name = (String) res.Get("name");
-        int spriteFrame = (int) res.Get("spriteFrame");
-        Vector2 sizeFloor = (Vector2) res.Get("sizeFloor");
-        Vector2 sizeGrid = (Vector2) res.Get("sizeGrid");
-        Vector2 sizeSprite = (Vector2) res.Get("sizeSprite");
-        ItemPawn.ItemType type = (ItemPawn.ItemType) Enum.ToObject(typeof(ItemPawn.ItemType) , (int) res.Get("type"));
-        IntArray intArray = (IntArray) res.Get("intArray");
-        int guiFrame = (int) res.Get("guiFrame");
-        String textField = (String) res.Get("textField");
-        String useCommands = (String) res.Get("useCommands");
-        AudioStreamSample useAudio = (AudioStreamSample) res.Get("useAudio");
+        ItemPawn.ItemType type = (ItemPawn.ItemType) Enum.ToObject(typeof(ItemPawn.ItemType) , (int) res.Get("itemType"));
+        String id= (String) res.Get("itemID");
+
+        SpriteFrames spriteFloorFrames = (SpriteFrames) res.Get("spriteFloorFrames");
+        int spriteFloorFrame = (int) res.Get("spriteFloorFrame");
+        Vector2 spriteFloorSize = (Vector2) res.Get("spriteFloorSize");
+
+        SpriteFrames spriteInventoryFrames = (SpriteFrames) res.Get("spriteInventoryFrames");
+        int spriteInventoryFrame = (int) res.Get("spriteInventoryFrame");
+        Vector2 spriteInventorySize = (Vector2) res.Get("spriteInventorySize");
+        Vector2 spriteInventoryGridSize = (Vector2) res.Get("spriteInventoryGridSize");
+
+        int ammo = (int) res.Get("ammo");
+        int ammoMax = (int) res.Get("ammoMax");
+        bool isActive = (bool) res.Get("isActive");
+
+        Mesh model = (Mesh) res.Get("model");
+        String description = (String) res.Get("description");
+
+        String itemScript = (String) res.Get("itemScript");
+        AudioStreamSample audioPickup = (AudioStreamSample) res.Get("audioPickup");
+        AudioStreamSample audioUse = (AudioStreamSample) res.Get("audioUse");
+        AudioStreamSample audioDrop = (AudioStreamSample) res.Get("audioDrop");
+        AudioStreamSample audioActivate = (AudioStreamSample) res.Get("audioActivate");
         // GD.Print(name, "  ", spriteFrame, "  ", sizeFloor, "  ", sizeGrid, "  ", sizeSprite, "  ", type, "  ", intArray, "  ", textField);
-        return new ItemPawn(name, spriteFrame, sizeFloor, sizeGrid, sizeSprite, type, intArray, guiFrame, textField, useCommands, useAudio);
+        return new ItemPawn(name, type, id, 
+                            spriteFloorFrames, spriteFloorFrame, spriteFloorSize, 
+                            spriteInventoryFrames, spriteInventoryFrame, spriteInventorySize, spriteInventoryGridSize, 
+                            ammo, ammoMax, isActive,
+                            model, description,
+                            itemScript, audioPickup, audioUse, audioDrop, audioActivate);
+    }
+
+    private Vector2 GetSpriteInventorySize() {
+        if (isRotated) {
+            return new Vector2(spriteInventorySize.y, spriteInventorySize.x);
+        }
+        return spriteInventorySize;
+    }
+
+    private Vector2 GetSpriteInventoryGridSize() {
+        if (isRotated) {
+            return new Vector2(spriteInventoryGridSize.y, spriteInventoryGridSize.x);
+        }
+        return spriteInventoryGridSize;
+    }
+
+    public void Rotate() {
+        isRotated = !isRotated;
     }
 
     public void ParseActions() {
-        parsedUse = ItemScriptParser.ParseActions(useCommands);
+        parsedScript = ItemScriptParser.ParseActions(itemScript);
     }
 }

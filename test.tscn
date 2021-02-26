@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Tilesets/tileset_walls.tres" type="TileSet" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -14,17 +14,18 @@
 [ext_resource path="res://Objects/Ladder/LadderBottom.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Items/ItemHolder.tscn" type="PackedScene" id=13]
 [ext_resource path="res://ItemsRes/handgun.tres" type="Resource" id=14]
-[ext_resource path="res://ItemsRes/handgun_clip.tres" type="Resource" id=15]
-[ext_resource path="res://ItemsRes/toolbox.tres" type="Resource" id=16]
-[ext_resource path="res://ItemsRes/syringe.tres" type="Resource" id=17]
-[ext_resource path="res://ItemsRes/lamp.tres" type="Resource" id=18]
-[ext_resource path="res://ItemsRes/tape_player_broken.tres" type="Resource" id=19]
-[ext_resource path="res://ItemsRes/chip.tres" type="Resource" id=20]
-[ext_resource path="res://ItemsRes/keycard.tres" type="Resource" id=21]
-[ext_resource path="res://ItemsRes/flashlight.tres" type="Resource" id=22]
-[ext_resource path="res://ItemsRes/battery.tres" type="Resource" id=23]
-[ext_resource path="res://ItemsRes/tube.tres" type="Resource" id=24]
-[ext_resource path="res://ItemsRes/battery_pack.tres" type="Resource" id=25]
+[ext_resource path="res://ItemsRes/syringe.tres" type="Resource" id=15]
+[ext_resource path="res://ItemsRes/tape_player.tres" type="Resource" id=16]
+[ext_resource path="res://ItemsRes/handgun_clip.tres" type="Resource" id=18]
+[ext_resource path="res://ItemsRes/toolbox.tres" type="Resource" id=19]
+[ext_resource path="res://ItemsRes/keycard.tres" type="Resource" id=20]
+[ext_resource path="res://ItemsRes/lamp.tres" type="Resource" id=21]
+[ext_resource path="res://ItemsRes/battery.tres" type="Resource" id=22]
+[ext_resource path="res://ItemsRes/chip.tres" type="Resource" id=23]
+[ext_resource path="res://ItemsRes/battery_pack.tres" type="Resource" id=24]
+[ext_resource path="res://ItemsRes/flashlight.tres" type="Resource" id=25]
+[ext_resource path="res://ItemsRes/tape_player_broken.tres" type="Resource" id=26]
+[ext_resource path="res://ItemsRes/tube.tres" type="Resource" id=27]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 light_mode = 1
@@ -150,79 +151,55 @@ position = Vector2( 376, 112 )
 
 [node name="ItemFloor" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 176, 104 )
-itemPawnResource = ExtResource( 14 )
+itemPawnResource = ExtResource( 22 )
 
 [node name="ItemFloor2" parent="Items" instance=ExtResource( 11 )]
 position = Vector2( 200, 104 )
-itemPawnResource = ExtResource( 15 )
-
-[node name="ItemFloor3" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 208, 96 )
-itemPawnResource = ExtResource( 15 )
-
-[node name="ItemFloor4" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 144, 104 )
 itemPawnResource = ExtResource( 24 )
 
-[node name="ItemFloor5" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 232, 96 )
-itemPawnResource = ExtResource( 17 )
-
-[node name="ItemFloor6" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 232, 104 )
-itemPawnResource = ExtResource( 17 )
-
-[node name="ItemFloor7" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 360, 104 )
-itemPawnResource = ExtResource( 21 )
-
-[node name="ItemFloor8" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 264, 104 )
-itemPawnResource = ExtResource( 20 )
-
-[node name="ItemFloor9" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 280, 104 )
-itemPawnResource = ExtResource( 20 )
-
-[node name="ItemFloor10" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 280, 96 )
-itemPawnResource = ExtResource( 20 )
-
-[node name="ItemFloor11" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 264, 96 )
-itemPawnResource = ExtResource( 20 )
-
-[node name="ItemFloor12" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 304, 104 )
-itemPawnResource = ExtResource( 22 )
-
-[node name="ItemFloor13" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 320, 104 )
-itemPawnResource = ExtResource( 18 )
-
-[node name="ItemFloor14" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 376, 96 )
+[node name="ItemFloor3" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 224, 104 )
 itemPawnResource = ExtResource( 23 )
 
-[node name="ItemFloor15" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 376, 104 )
-itemPawnResource = ExtResource( 19 )
+[node name="ItemFloor4" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 248, 104 )
+itemPawnResource = ExtResource( 25 )
 
-[node name="ItemFloor16" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 400, 104 )
+[node name="ItemFloor5" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 272, 104 )
+itemPawnResource = ExtResource( 14 )
+
+[node name="ItemFloor6" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 296, 104 )
+itemPawnResource = ExtResource( 18 )
+
+[node name="ItemFloor7" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 320, 104 )
+itemPawnResource = ExtResource( 20 )
+
+[node name="ItemFloor8" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 344, 104 )
+itemPawnResource = ExtResource( 21 )
+
+[node name="ItemFloor10" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 368, 104 )
+itemPawnResource = ExtResource( 15 )
+
+[node name="ItemFloor11" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 392, 104 )
 itemPawnResource = ExtResource( 16 )
 
-[node name="ItemFloor17" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 304, 96 )
-itemPawnResource = ExtResource( 25 )
+[node name="ItemFloor12" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 344, 88 )
+itemPawnResource = ExtResource( 26 )
 
-[node name="ItemFloor18" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 320, 88 )
-itemPawnResource = ExtResource( 25 )
+[node name="ItemFloor13" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 368, 88 )
+itemPawnResource = ExtResource( 19 )
 
-[node name="ItemFloor19" parent="Items" instance=ExtResource( 11 )]
-position = Vector2( 304, 88 )
-itemPawnResource = ExtResource( 25 )
+[node name="ItemFloor14" parent="Items" instance=ExtResource( 11 )]
+position = Vector2( 392, 88 )
+itemPawnResource = ExtResource( 27 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 64, 104 )

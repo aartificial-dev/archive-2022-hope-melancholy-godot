@@ -127,9 +127,9 @@ public class PlayerAnimator : Node2D {
     }
 
     public String GetAnimationItemName(String animation, ItemPawn itemInHand) {
-        switch (itemInHand.name) {
+        switch (itemInHand.Name) {
             case "Flashlight":
-                return animation + (itemInHand.textField == "on" ? "_flash_on" : "_flash_off");
+                return animation + (itemInHand.IsActive ? "_flash_on" : "_flash_off");
             case "Handgun":
                 return animation + "_handgun";
             case "Lamp":
@@ -180,7 +180,7 @@ public class PlayerAnimator : Node2D {
             PlayAnimation("aim_fists", null);
             return;
         }
-        switch (itemInHand.name) {
+        switch (itemInHand.Name) {
             case "Handgun":
                 AimGun();
             break;
@@ -227,7 +227,7 @@ public class PlayerAnimator : Node2D {
             PlayAnimation("attack_fists", null);
             return;
         }
-        switch (itemInHand.name) {
+        switch (itemInHand.Name) {
             case "Handgun":
                 AimGun();
                 AttackGun(itemInHand);
@@ -239,13 +239,13 @@ public class PlayerAnimator : Node2D {
     }
     
     public void AttackGun(ItemPawn itemInHand) {
-            int currentAmmo = (int) itemInHand.intArray[0];
+            int currentAmmo = itemInHand.Ammo;
             if (currentAmmo == 0) {
                 audioPistolNoAmmo.Play();
                 return;
             }
             currentAmmo --;
-            itemInHand.intArray[0] = currentAmmo;
+            itemInHand.Ammo = currentAmmo;
             PlayAnimation("attack_handgun", null);
             audioPistolShoot.PlayRandom();
             Vector2 dir = handFrontPosition.GlobalPosition.DirectionTo(this.GetGlobalMousePosition() + new Vector2(rnd.Randf(), rnd.Randf()));
@@ -284,21 +284,21 @@ public class PlayerAnimator : Node2D {
 
         reloadItemPawnHolder = itemInHand;
 
-        switch (itemInHand.name) {
+        switch (itemInHand.Name) {
             case "Handgun":
-                if ( (int) reloadItemPawnHolder.intArray[0] == (int) reloadItemPawnHolder.intArray[1] ) break;
+                if ( reloadItemPawnHolder.Ammo == reloadItemPawnHolder.AmmoMax ) break;
                 if ( player.ammoHandgun == 0 ) break; 
                 isReloading = true;
                 PlayAnimation("reload_handgun", null);
             break;
             case "Flashlight":
-                if ( (int) reloadItemPawnHolder.intArray[0] == (int) reloadItemPawnHolder.intArray[1] ) break;
+                if ( reloadItemPawnHolder.Ammo == reloadItemPawnHolder.AmmoMax ) break;
                 if ( player.ammoBattery == 0 ) break; 
                 isReloading = true;
                 PlayAnimation("reload_flash", null);
             break;
             case "Lamp":
-                if ( (int) reloadItemPawnHolder.intArray[0] == (int) reloadItemPawnHolder.intArray[1] ) break;
+                if ( reloadItemPawnHolder.Ammo == reloadItemPawnHolder.AmmoMax ) break;
                 if ( player.ammoBattery == 0 ) break; 
                 isReloading = true;
                 PlayAnimation("reload_lamp", null);
@@ -307,30 +307,30 @@ public class PlayerAnimator : Node2D {
     }
 
     public void ReloadHandgun() {
-        int ammoMax = (int) reloadItemPawnHolder.intArray[1];
-        int ammo = (int) reloadItemPawnHolder.intArray[0];
+        int ammoMax = reloadItemPawnHolder.AmmoMax;
+        int ammo = reloadItemPawnHolder.Ammo;
         int ammoInv = player.ammoHandgun;
         int difference = Mathf.Min(ammoMax - ammo, ammoInv);
         player.ammoHandgun -= difference;
-        reloadItemPawnHolder.intArray[0] = ammo + difference;
+        reloadItemPawnHolder.Ammo = ammo + difference;
     }  
 
     public void ReloadFlash() {
-        int ammoMax = (int) reloadItemPawnHolder.intArray[1];
-        int ammo = (int) reloadItemPawnHolder.intArray[0];
+        int ammoMax = reloadItemPawnHolder.AmmoMax;
+        int ammo = reloadItemPawnHolder.Ammo;
         int ammoInv = player.ammoBattery;
         int difference = Mathf.Min(ammoMax - ammo, ammoInv);
         player.ammoBattery -= difference;
-        reloadItemPawnHolder.intArray[0] = ammo + difference;
+        reloadItemPawnHolder.Ammo = ammo + difference;
     }
 
     public void ReloadLamp() {
-        int ammoMax = (int) reloadItemPawnHolder.intArray[1];
-        int ammo = (int) reloadItemPawnHolder.intArray[0];
+        int ammoMax = reloadItemPawnHolder.AmmoMax;
+        int ammo = reloadItemPawnHolder.Ammo;
         int ammoInv = player.ammoBattery;
         int difference = Mathf.Min(ammoMax - ammo, ammoInv);
         player.ammoBattery -= difference;
-        reloadItemPawnHolder.intArray[0] = ammo + difference;
+        reloadItemPawnHolder.Ammo = ammo + difference;
     }
 
     /// <summary> Function that using item (weaapon) in hardcoded way. Do not mistake with Item Script Language actions use </summary>
@@ -338,7 +338,7 @@ public class PlayerAnimator : Node2D {
         if (!GetCanMove()) return;
         if (itemInHand is null) return;
 
-        switch (itemInHand.name) {
+        switch (itemInHand.Name) {
             case "Flashlight":
                 UseLightSource(itemInHand);
             break;
@@ -349,12 +349,12 @@ public class PlayerAnimator : Node2D {
     }
 
     public void UseLightSource(ItemPawn itemInHand) {
-        if (itemInHand.textField == "on") {
-            itemInHand.textField = "off";
+        if (itemInHand.IsActive) {
+            itemInHand.IsActive = false;
             audioLightToggle.Play();
         } else {
-            if ((int) itemInHand.intArray[0] > 0) {
-                itemInHand.textField = "on";
+            if ((int) itemInHand.Ammo > 0) {
+                itemInHand.IsActive = true;
                 audioLightToggle.Play();
             }
         }
@@ -366,22 +366,22 @@ public class PlayerAnimator : Node2D {
         if (!GetCanMove()) return;
         if (itemInHand is null) return;
         // GD.Print(itemInHand.name, " ", itemInHand.textField, " ", itemInHand.intArray);
-        if (!lightDictionary.ContainsKey(itemInHand.name)) return;
+        if (!lightDictionary.ContainsKey(itemInHand.Name)) return;
 
         bool isLightOn = false;
-        int ammo = (int) itemInHand.intArray[0];
-        if (ammo > 0 && itemInHand.textField == "on") {
+        int ammo = (int) itemInHand.Ammo;
+        if (ammo > 0 && itemInHand.IsActive) {
             isLightOn = true;
             ammo -= Mathf.RoundToInt(delta * 100f);
-            itemInHand.intArray[0] = ammo;
+            itemInHand.Ammo = ammo;
         }
-        if (ammo <= 0 && itemInHand.textField == "on") {
+        if (ammo <= 0 && itemInHand.IsActive) {
             audioLightToggle.Play();
-            itemInHand.textField = "off";
+            itemInHand.IsActive = false;
             isLightOn = false;
         }
 
         if (!isLightOn) return;
-        lightDictionary[itemInHand.name].Visible = true;
+        lightDictionary[itemInHand.Name].Visible = true;
     }
 }

@@ -1,16 +1,27 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=6 format=2]
 
 [ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
+[ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Items/frames_items_floor.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Sounds/Inventory/snd_inv_pickup.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/Inventory/snd_inv_drop.wav" type="AudioStream" id=5]
 
 [resource]
 script = ExtResource( 1 )
 name = "Handgun"
-spriteFrame = 2
-sizeFloor = Vector2( 18, 9 )
-sizeGrid = Vector2( 3, 2 )
-sizeSprite = Vector2( 33, 22 )
-type = 2
-intArray = [ 10, 12 ]
-guiFrame = 2
-textField = ""
-useCommands = ""
+itemType = 2
+itemID = ""
+spriteFloorFrames = ExtResource( 3 )
+spriteFloorFrame = 2
+spriteFloorSize = Vector2( 20, 9 )
+spriteInventoryFrames = ExtResource( 2 )
+spriteInventoryFrame = 2
+spriteInventorySize = Vector2( 33, 22 )
+spriteInventoryGridSize = Vector2( 3, 2 )
+ammo = 12
+ammoMax = 12
+isActive = false
+description = ""
+itemScript = ""
+audioPickup = ExtResource( 4 )
+audioDrop = ExtResource( 5 )

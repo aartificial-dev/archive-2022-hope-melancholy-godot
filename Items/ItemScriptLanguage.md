@@ -34,7 +34,6 @@
 > - [message](#message-text)
 > - [heal](#heal-attribute-value)
 > - [damage](#damage-attribute-value)
-> - [note](#note-type)
 > - [ammo](#ammo-type-amount)
 > - [purge](#purge)
 
@@ -77,14 +76,6 @@
 
 > -value: integer
 > Value to subtract from attribute.
-
-<br>
-
-### `note -type`
-**Description:** Opens a note of `type` with text defined in item text field.
-**Arguments:**
-> -type: string
-> Type of note to open. Accepts `sticker`, `lined-paper`, `blank-paper`, `newspaper`, `book`.
 
 <br>
 

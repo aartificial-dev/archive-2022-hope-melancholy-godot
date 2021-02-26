@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Player/PlayerCamera.cs" type="Script" id=1]
 [ext_resource path="res://GUI/Healthbar/gui_healthbar_sanity.png" type="Texture" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://Fonts/Coder's Crux.ttf" type="DynamicFontData" id=22]
 [ext_resource path="res://Scripts/InventoryChip.cs" type="Script" id=23]
 [ext_resource path="res://Scripts/InventoryToolbox.cs" type="Script" id=24]
+[ext_resource path="res://Sounds/Inventory/snd_inv_chip.wav" type="AudioStream" id=25]
 [ext_resource path="res://Sounds/Inventory/snd_toolkit_close.wav" type="AudioStream" id=26]
 [ext_resource path="res://Sounds/Inventory/snd_toolkit_combine.wav" type="AudioStream" id=28]
 [ext_resource path="res://Sounds/Inventory/snd_toolkit_open.wav" type="AudioStream" id=29]
@@ -149,8 +150,8 @@ texture = ExtResource( 10 )
 centered = false
 script = ExtResource( 17 )
 name = "weapon 1"
-allowedAmount = 1
 allowedType = 2
+allowedAmount = 1
 GridSize = Vector2( 5, 2 )
 CellSize = Vector2( 11, 11 )
 
@@ -181,8 +182,8 @@ texture = ExtResource( 10 )
 centered = false
 script = ExtResource( 17 )
 name = "weapon 2"
-allowedAmount = 1
 allowedType = 2
+allowedAmount = 1
 GridSize = Vector2( 5, 2 )
 CellSize = Vector2( 11, 11 )
 
@@ -214,9 +215,9 @@ texture = ExtResource( 9 )
 centered = false
 script = ExtResource( 17 )
 name = "inventory"
-blacklistType = 5
 GridSize = Vector2( 12, 3 )
 CellSize = Vector2( 11, 11 )
+blacklistType = 5
 
 [node name="InventoryChips" type="Sprite" parent="Inventory"]
 use_parent_material = true
@@ -224,6 +225,12 @@ position = Vector2( 91, 0 )
 texture = ExtResource( 8 )
 centered = false
 script = ExtResource( 23 )
+name = "chips"
+CellSpace = Vector2( 2, 1 )
+allowedType = 5
+itemSound = ExtResource( 25 )
+GridSize = Vector2( 2, 2 )
+CellSize = Vector2( 32, 16 )
 
 [node name="ChipSlot1" type="AnimatedSprite" parent="Inventory/InventoryChips"]
 visible = false
@@ -233,6 +240,7 @@ frames = ExtResource( 15 )
 frame = 1
 
 [node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot1"]
+visible = false
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
@@ -246,6 +254,7 @@ frames = ExtResource( 15 )
 frame = 1
 
 [node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot2"]
+visible = false
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
@@ -259,6 +268,7 @@ frames = ExtResource( 15 )
 frame = 1
 
 [node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot3"]
+visible = false
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
@@ -272,6 +282,7 @@ frames = ExtResource( 15 )
 frame = 1
 
 [node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot4"]
+visible = false
 modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
 use_parent_material = true
 frames = ExtResource( 15 )
@@ -282,6 +293,11 @@ visible = false
 use_parent_material = true
 position = Vector2( 91, 0 )
 script = ExtResource( 24 )
+name = "toolbox"
+CellOffset = Vector2( 11, 0 )
+GridSize = Vector2( 5, 3 )
+CellSize = Vector2( 11, 11 )
+blacklistType = 5
 itemCombineSound = ExtResource( 28 )
 
 [node name="TextureButton" type="TextureButton" parent="Inventory/Toolbox"]
@@ -368,7 +384,7 @@ __meta__ = {
 use_parent_material = true
 frames = ExtResource( 21 )
 animation = "hand"
-frame = 1
+frame = 3
 playing = true
 
 [node name="Label" type="Label" parent="."]

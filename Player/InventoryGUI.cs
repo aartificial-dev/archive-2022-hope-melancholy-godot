@@ -167,7 +167,7 @@ public class InventoryGUI : Node2D {
     /// <summary> Returns <c>true</c> if one of actions was purge (delete item), otherwise <c>false</c>. </summary>
     public bool UseItem(ItemPawn itemPawn) {
         // GD.Print("Use emmited");
-        itemAudioPlayer.Stream = itemPawn.useAudio;
+        itemAudioPlayer.Stream = itemPawn.AudioUse;
         itemAudioPlayer.Play();
         return itemUseParser.PerformAction(ItemScriptParser.Actions.Use, itemPawn);
         // do use stuff

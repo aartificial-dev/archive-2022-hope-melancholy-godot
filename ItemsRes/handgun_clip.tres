@@ -1,18 +1,25 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
+[ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Items/frames_items_floor.tres" type="SpriteFrames" id=3]
 
 [resource]
 script = ExtResource( 1 )
 name = "Handgun Clip"
-spriteFrame = 13
-sizeFloor = Vector2( 16, 5 )
-sizeGrid = Vector2( 3, 2 )
-sizeSprite = Vector2( 33, 22 )
-type = 2
-intArray = [  ]
-guiFrame = 0
-textField = ""
-useCommands = "define pickup
+itemType = 6
+itemID = ""
+spriteFloorFrames = ExtResource( 3 )
+spriteFloorFrame = 13
+spriteFloorSize = Vector2( 16, 4 )
+spriteInventoryFrames = ExtResource( 2 )
+spriteInventoryFrame = 13
+spriteInventorySize = Vector2( 1, 1 )
+spriteInventoryGridSize = Vector2( 1, 1 )
+ammo = 0
+ammoMax = 0
+isActive = false
+description = ""
+itemScript = "define pickup
 ammo handgun 12
 purge"

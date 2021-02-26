@@ -23,10 +23,11 @@ public class ItemInventory : Node2D {
 	}
 
 	private void ChangeItem() {
-		sprite.Frame = (int) itemPawn.spriteFrame;
-		sizeSprite = itemPawn.sizeSprite;
+		sprite.Frames = itemPawn.SpriteInventoryFrames;
+		sprite.Frame = itemPawn.SpriteInventoryFrame;
+		sizeSprite = itemPawn.SpriteInventorySize;
 		//sprite.Position = - spriteSize / 2f;
-		sizeGrid = itemPawn.sizeGrid;
+		sizeGrid = itemPawn.SpriteInventoryGridSize;
 
         if (!Engine.EditorHint) {
 		    itemPawn.ParseActions();

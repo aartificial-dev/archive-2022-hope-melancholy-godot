@@ -1,16 +1,23 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
+[ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Items/frames_items_floor.tres" type="SpriteFrames" id=3]
 
 [resource]
 script = ExtResource( 1 )
 name = "Lamp"
-spriteFrame = 6
-sizeFloor = Vector2( 9, 11 )
-sizeGrid = Vector2( 1, 2 )
-sizeSprite = Vector2( 11, 22 )
-type = 2
-intArray = [ 0, 10000 ]
-guiFrame = 4
-textField = "off"
-useCommands = ""
+itemType = 2
+itemID = ""
+spriteFloorFrames = ExtResource( 3 )
+spriteFloorFrame = 6
+spriteFloorSize = Vector2( 8, 10 )
+spriteInventoryFrames = ExtResource( 2 )
+spriteInventoryFrame = 6
+spriteInventorySize = Vector2( 11, 22 )
+spriteInventoryGridSize = Vector2( 1, 2 )
+ammo = 0
+ammoMax = 0
+isActive = false
+description = ""
+itemScript = ""

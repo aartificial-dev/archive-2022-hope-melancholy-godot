@@ -47,7 +47,7 @@ public class ItemFloor : RigidBody2D {
                 canPickupDistance = this.GlobalPosition.DistanceTo(player.GlobalPosition) <= player.interactDistance;
             }
             if (canPickupDistance) {
-                camera.ShowInteractHint(itemPawn.name, PlayerCamera.InteractHintIcon.hand, this.GlobalPosition);
+                camera.ShowInteractHint(itemPawn.Name, PlayerCamera.InteractHintIcon.hand, this.GlobalPosition);
             }
         }
         
@@ -58,8 +58,9 @@ public class ItemFloor : RigidBody2D {
             itemPawn = ItemPawn.MakePawnFromGD(itemPawnResource);
         }
         if (!(itemPawn is null)) {
-            sprite.Frame = (int) itemPawn.spriteFrame;
-            rectangleShape2D.Extents = itemPawn.sizeFloor / 2f;
+            sprite.Frames = itemPawn.SpriteFloorFrames;
+            sprite.Frame = itemPawn.SpriteFloorFrame;
+            rectangleShape2D.Extents = itemPawn.SpriteFloorSize / 2f;
             collision.Position = new Vector2(0f, -rectangleShape2D.Extents.y);
             if (!Engine.EditorHint) {
                 itemPawn.ParseActions();

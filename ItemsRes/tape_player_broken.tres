@@ -1,16 +1,23 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
+[ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Items/frames_items_floor.tres" type="SpriteFrames" id=3]
 
 [resource]
 script = ExtResource( 1 )
 name = "Broken Tape Player"
-spriteFrame = 10
-sizeFloor = Vector2( 21, 6 )
-sizeGrid = Vector2( 2, 1 )
-sizeSprite = Vector2( 22, 11 )
-type = 4
-intArray = [  ]
-guiFrame = 0
-textField = ""
-useCommands = ""
+itemType = 4
+itemID = ""
+spriteFloorFrames = ExtResource( 3 )
+spriteFloorFrame = 10
+spriteFloorSize = Vector2( 16, 6 )
+spriteInventoryFrames = ExtResource( 2 )
+spriteInventoryFrame = 10
+spriteInventorySize = Vector2( 22, 11 )
+spriteInventoryGridSize = Vector2( 2, 1 )
+ammo = 0
+ammoMax = 0
+isActive = false
+description = ""
+itemScript = ""

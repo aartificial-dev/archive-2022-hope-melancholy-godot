@@ -194,8 +194,8 @@ public class ItemScriptParser {
     
     /// <summary> Returns <c>true</c> if one of actions was purge (delete item), otherwise <c>false</c>. </summary>
     public bool PerformAction(ItemScriptParser.Actions action, ItemPawn itemPawn) {
-        if (!itemPawn.parsedUse.CheckAction(action)) return false;
-        ItemScriptActions actions = itemPawn.parsedUse;
+        if (!itemPawn.ParsedScript.CheckAction(action)) return false;
+        ItemScriptActions actions = itemPawn.ParsedScript;
         CommandList list = null;
         switch (action) {
             case Actions.Pickup:

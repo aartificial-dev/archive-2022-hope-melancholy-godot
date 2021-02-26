@@ -131,11 +131,11 @@ public class PlayerCamera : Camera2D {
         if (selectedWeapon is null) {
             weaponSprite.Frame = 0;
             SetWeaponLableVisible(false);
-        } else if (selectedWeapon.itemPawn.intArray.Count > 0) {
-            weaponSprite.Frame = selectedWeapon.itemPawn.guiFrame;
+        } else if (selectedWeapon.itemPawn.AmmoMax != 0) {
+            weaponSprite.Frame = 0;//selectedWeapon.itemPawn.guiFrame;
 
-            String name = selectedWeapon.itemPawn.name;
-            int ammoCount = (int) selectedWeapon.itemPawn.intArray[0];
+            String name = selectedWeapon.itemPawn.Name;
+            int ammoCount = (int) selectedWeapon.itemPawn.Ammo;
             int actAmmo, maxAmmo;
             switch (name) {
                 case "Handgun":
