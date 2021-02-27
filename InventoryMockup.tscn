@@ -1,39 +1,263 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=38 format=2]
 
-[ext_resource path="res://INVENTORY_MOCKUP.png" type="Texture" id=1]
+[ext_resource path="res://Shaders/shader_heartbeat.tres" type="Material" id=1]
 [ext_resource path="res://GUI/Inventory/gui_inv_cell8x8.png" type="Texture" id=2]
 [ext_resource path="res://GUI/Inventory/gui_inv_chip.png" type="Texture" id=3]
 [ext_resource path="res://GUI/Inventory/spr_inv_weapon.png" type="Texture" id=4]
 [ext_resource path="res://GUI/Inventory/spr_inv_wtool.png" type="Texture" id=5]
 [ext_resource path="res://GUI/Inventory/spr_inv_wuse.png" type="Texture" id=6]
-[ext_resource path="res://new_gradient.tres" type="Gradient" id=7]
 [ext_resource path="res://Fonts/Coder's Crux.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://Sprites/sheet_pl_movement_10x10.png" type="Texture" id=9]
 [ext_resource path="res://Tilesets/tile_background.png" type="Texture" id=10]
 [ext_resource path="res://CSGPolygon.gd" type="Script" id=11]
 [ext_resource path="res://buttonstyle.tres" type="StyleBox" id=12]
+[ext_resource path="res://Shaders/shader_gm.shader" type="Shader" id=13]
+[ext_resource path="res://Shaders/shader_crt.tres" type="Material" id=14]
+[ext_resource path="res://InventoryMockup.cs" type="Script" id=15]
+[ext_resource path="res://GUI/Inventory/spr_inv_wnoconnect.png" type="Texture" id=16]
+[ext_resource path="res://Shaders/shader_tv_noise.tres" type="Material" id=17]
+[ext_resource path="res://GUI/Inventory/gui_inv_frames_chip.tres" type="SpriteFrames" id=18]
+[ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=19]
+[ext_resource path="res://GUI/Inventory/gui_inv_cell16x16.png" type="Texture" id=20]
 
-[sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0, 0.305882, 0.752941, 1 )
-colors = PoolColorArray( 0, 0, 0, 0, 0.219608, 0.231373, 0.945098, 1, 0.219608, 0.231373, 0.945098, 0.329412, 0.894118, 0.490196, 0.537255, 0 )
+[sub_resource type="Shader" id=18]
+code = "shader_type canvas_item;
 
-[sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 0, 0.147059, 0.858824, 1 )
-colors = PoolColorArray( 0, 0, 0, 0, 0.341176, 0.635294, 0.780392, 1, 0.341176, 0.635294, 0.780392, 0.458824, 0.894118, 0.490196, 0.537255, 0 )
+uniform vec2 iResolution;
+uniform vec4 blend_color: hint_color;
+uniform sampler2D gradient;
+uniform float offset = 0;
 
-[sub_resource type="ViewportTexture" id=10]
+
+float sinc(float x) {
+    return (x == 0.0) ? 1.0 : sin(x) / x;
+}
+
+float triIsolate(float x) {
+    return abs(-1.0 + fract(clamp(x, -0.5, 0.5)) * 2.0);
+}
+
+// Probably not a healthy heart
+float heartbeat(float x) {
+    float prebeat = -sinc((x - 0.4) * 40.0) * 0.6 * triIsolate((x - 0.4) * 1.0);
+    float mainbeat = (sinc((x - 0.5) * 60.0)) * 1.2 * triIsolate((x - 0.5) * 0.7);
+    float postbeat = sinc((x - 0.85) * 15.0) * 0.5 * triIsolate((x - 0.85) * 0.6);
+    return (prebeat + mainbeat + postbeat) * triIsolate((x - 0.625) * 0.8); // width 1.25
+}
+
+float distanceToLineSegment(vec2 p0, vec2 p1, vec2 p) {
+    float distanceP0 = length(p0 - p);
+    float distanceP1 = length(p1 - p);
+    
+    float l2 =pow(length(p0 - p1), 2.);
+    float t = max(0., min(1., dot(p - p0, p1 - p0) / l2));
+    vec2 projection = p0 + t * (p1 - p0); 
+    float distanceToProjection = length(projection - p);
+    
+    return min(min(distanceP0, distanceP1), distanceToProjection);
+}
+
+float saw(float x, float period) {
+	return x - ceil(x / period - 0.5) * period;
+}
+
+float function(float x) {
+//	x += 0.1;
+//	x *= 1.9;
+//	 if (x > 1.25) x -= 1.25;
+//	return 0.5 - heartbeat(x) / 2.;
+	return 0.5 - sin(x * 20.) / 2.;
+}
+
+float distanceToFunction(vec2 p, float xDelta) {
+    float result = 100.;
+    for (float i = -3.; i < 3.; i += 1.)
+    {
+        vec2 q = p;
+        q.x += xDelta * i;
+        
+        vec2 p0 = vec2(q.x, function(q.x));
+    	vec2 p1 = vec2(q.x + xDelta, function(q.x + xDelta));
+        result = min(result, distanceToLineSegment(p0, p1, p));
+    }
+
+    return result;
+}
+
+float getFunctionLine(vec2 uv) {
+	float distanceToPlot = distanceToFunction(uv, 1. / iResolution.x);
+    float intensity = smoothstep(0., 1., 1. - distanceToPlot * 1. * iResolution.y);
+    intensity = pow(intensity,1./2.2);
+	return intensity;
+}
+
+float cot(float x) {
+	return cos(x) / sin(x);
+}
+
+float sawtooth(float x, float amplitude, float period) {
+	float a1 = (2. * amplitude) / 3.1416;
+	float a2 = (x * 3.1416) / period;
+	return -a1 * atan(cot(a2));
+}
+
+void fragment() {
+    vec2 uv = UV;
+
+    float intensity = getFunctionLine(uv);
+    
+    vec3 col = vec3(blend_color.rgb) * intensity;
+	
+	float grad = texture(gradient, vec2(UV.x - sawtooth(TIME + offset, 1., 2.), UV.y)).r;
+	
+    COLOR = vec4(col,1.0);
+	COLOR.a = intensity * grad;
+}"
+
+[sub_resource type="Gradient" id=15]
+offsets = PoolRealArray( 0.105634, 0.464789, 0.669014, 0.711268 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.263158, 0.263158, 0.263158, 1, 1, 1, 1, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=16]
+gradient = SubResource( 15 )
+
+[sub_resource type="ShaderMaterial" id=17]
+shader = SubResource( 18 )
+shader_param/iResolution = Vector2( 10, 30 )
+shader_param/blend_color = Color( 0.168627, 0.321569, 0.917647, 1 )
+shader_param/offset = 0.75
+shader_param/gradient = SubResource( 16 )
+
+[sub_resource type="Shader" id=19]
+code = "shader_type canvas_item;
+
+uniform vec2 iResolution;
+uniform vec4 blend_color: hint_color;
+uniform sampler2D gradient;
+uniform float offset = 0;
+uniform sampler2D noise;
+
+
+float sinc(float x) {
+    return (x == 0.0) ? 1.0 : sin(x) / x;
+}
+
+float triIsolate(float x) {
+    return abs(-1.0 + fract(clamp(x, -0.5, 0.5)) * 2.0);
+}
+
+// Probably not a healthy heart
+float heartbeat(float x) {
+    float prebeat = -sinc((x - 0.4) * 40.0) * 0.6 * triIsolate((x - 0.4) * 1.0);
+    float mainbeat = (sinc((x - 0.5) * 60.0)) * 1.2 * triIsolate((x - 0.5) * 0.7);
+    float postbeat = sinc((x - 0.85) * 15.0) * 0.5 * triIsolate((x - 0.85) * 0.6);
+    return (prebeat + mainbeat + postbeat) * triIsolate((x - 0.625) * 0.8); // width 1.25
+}
+
+float distanceToLineSegment(vec2 p0, vec2 p1, vec2 p) {
+    float distanceP0 = length(p0 - p);
+    float distanceP1 = length(p1 - p);
+    
+    float l2 =pow(length(p0 - p1), 2.);
+    float t = max(0., min(1., dot(p - p0, p1 - p0) / l2));
+    vec2 projection = p0 + t * (p1 - p0); 
+    float distanceToProjection = length(projection - p);
+    
+    return min(min(distanceP0, distanceP1), distanceToProjection);
+}
+
+float saw(float x, float period) {
+	return x - ceil(x / period - 0.5) * period;
+}
+
+float function(float x) {
+//	x += 0.1;
+//	x *= 1.9;
+//	 if (x > 1.25) x -= 1.25;
+//	return 0.5 - heartbeat(x) / 2.;
+	return 0.3 + texture(noise, vec2(x, 0.5)).r / 2.;
+}
+
+float distanceToFunction(vec2 p, float xDelta) {
+    float result = 100.;
+    for (float i = -3.; i < 3.; i += 1.)
+    {
+        vec2 q = p;
+        q.x += xDelta * i;
+        
+        vec2 p0 = vec2(q.x, function(q.x));
+    	vec2 p1 = vec2(q.x + xDelta, function(q.x + xDelta));
+        result = min(result, distanceToLineSegment(p0, p1, p));
+    }
+
+    return result;
+}
+
+float getFunctionLine(vec2 uv) {
+	float distanceToPlot = distanceToFunction(uv, 1. / iResolution.x);
+    float intensity = smoothstep(0., 1., 1. - distanceToPlot * 1. * iResolution.y);
+    intensity = pow(intensity,1./2.2);
+	return intensity;
+}
+
+float cot(float x) {
+	return cos(x) / sin(x);
+}
+
+float sawtooth(float x, float amplitude, float period) {
+	float a1 = (2. * amplitude) / 3.1416;
+	float a2 = (x * 3.1416) / period;
+	return -a1 * atan(cot(a2));
+}
+
+void fragment() {
+    vec2 uv = UV;
+
+    float intensity = getFunctionLine(uv);
+    
+    vec3 col = vec3(blend_color.rgb) * intensity;
+	
+	float grad = texture(gradient, vec2(UV.x - sawtooth(TIME + offset, 1., 2.), UV.y)).r;
+	
+    COLOR = vec4(col,1.0);
+	COLOR.a = intensity * grad;
+}"
+
+[sub_resource type="OpenSimplexNoise" id=20]
+octaves = 5
+period = 138.4
+persistence = 0.791
+
+[sub_resource type="NoiseTexture" id=21]
+seamless = true
+noise = SubResource( 20 )
+
+[sub_resource type="ShaderMaterial" id=22]
+shader = SubResource( 19 )
+shader_param/iResolution = Vector2( 10, 30 )
+shader_param/blend_color = Color( 0.262745, 0.8, 0.905882, 1 )
+shader_param/offset = 0.302
+shader_param/gradient = SubResource( 16 )
+shader_param/noise = SubResource( 21 )
+
+[sub_resource type="ViewportTexture" id=5]
 viewport_path = NodePath("Preview/Viewport")
 
-[sub_resource type="ProceduralSky" id=4]
+[sub_resource type="ProceduralSky" id=6]
 
-[sub_resource type="Environment" id=5]
-background_sky = SubResource( 4 )
+[sub_resource type="Environment" id=7]
+background_sky = SubResource( 6 )
 ambient_light_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=6]
+[sub_resource type="SpatialMaterial" id=8]
 albedo_texture = ExtResource( 10 )
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="DynamicFont" id=9]
+size = 12
+use_mipmaps = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.5247, 0.53, 0.53, 1 )
 border_width_left = 1
 border_width_top = 1
@@ -41,7 +265,7 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0.34902, 0.337255, 0.321569, 1 )
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.2772, 0.28, 0.28, 1 )
 border_width_left = 1
 border_width_top = 1
@@ -49,107 +273,49 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0.34902, 0.337255, 0.321569, 1 )
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=12]
 size = 12
 font_data = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=13]
 size = 14
 extra_spacing_space = -3
 font_data = ExtResource( 8 )
 
-[sub_resource type="Shader" id=11]
-code = "shader_type canvas_item;
-
-uniform float warp = 0.75; // simulate curvature of CRT monitor
-uniform float scan = 0.75; // simulate darkness between scanlines
-uniform float noiseBrightness = 0.;
-uniform float noiseContrast = 1.;
-uniform sampler2D S_Noise;
-
-void fragment()	{
-	// squared distance from center
-	vec2 uv = SCREEN_UV;
-	vec2 dc = abs(0.5-uv);
-	dc *= dc;
-
-	// warp the fragment coordinates
-	uv.x -= 0.5; uv.x *= 1.0+(dc.y*(0.3*warp)); uv.x += 0.5;
-	uv.y -= 0.5; uv.y *= 1.0+(dc.x*(0.4*warp)); uv.y += 0.5;
-
-	// sample inside boundaries, otherwise set to black
-	if (uv.y > 1.0 || uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0) {
-		COLOR = vec4(0.0,0.0,0.0,1.0);
-	} else {
-		// determine if we are drawing in a scanline
-		float apply = abs(sin(uv.y / SCREEN_PIXEL_SIZE.y)*0.5*scan);
-		// sample the texture
-		COLOR = vec4(mix(texture(SCREEN_TEXTURE,uv).rgb,vec3(0.0),apply),1.0);
-	}
-	
-	vec2 screenSize = vec2(1.) / SCREEN_PIXEL_SIZE;
-	float screenAspect = screenSize.y / screenSize.x;
-	float noise = texture(S_Noise, vec2(SCREEN_UV.x, SCREEN_UV.y * screenAspect)).r;
-	// Apply contrast.
-	noise = ((noise - 0.5f) * max(noiseContrast, 0)) + 0.5f;
-	// Apply brightness.
-	noise += noiseBrightness;
-	COLOR.rgb *= clamp(noise, 0, 1);
-	
-}"
-
-[sub_resource type="OpenSimplexNoise" id=14]
-period = 6.1
-persistence = 1.0
-lacunarity = 4.0
-
-[sub_resource type="NoiseTexture" id=15]
-seamless = true
-noise = SubResource( 14 )
-
-[sub_resource type="ShaderMaterial" id=12]
-shader = SubResource( 11 )
-shader_param/warp = 0.5
-shader_param/scan = 1.0
-shader_param/noiseBrightness = 0.5
-shader_param/noiseContrast = 1.0
-shader_param/S_Noise = SubResource( 15 )
+[sub_resource type="ShaderMaterial" id=14]
+shader = ExtResource( 13 )
+shader_param/vignette_amount = 0.5
+shader_param/chroma_amount = 0.5
+shader_param/grain_amount = 16.0
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -960.0
 margin_bottom = -540.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 320.0
-margin_bottom = 180.0
-color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect" type="TextureRect" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 1 )
+script = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="InvBacklay" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="InvBacklay"]
+margin_right = 320.0
+margin_bottom = 180.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="ColorRect3" type="ColorRect" parent="InvBacklay"]
-show_behind_parent = true
 margin_left = 23.0
 margin_top = 84.0
 margin_right = 177.0
@@ -160,7 +326,6 @@ __meta__ = {
 }
 
 [node name="ColorRect4" type="ColorRect" parent="InvBacklay"]
-show_behind_parent = true
 margin_left = 23.0
 margin_top = 52.0
 margin_right = 65.0
@@ -171,7 +336,6 @@ __meta__ = {
 }
 
 [node name="ColorRect5" type="ColorRect" parent="InvBacklay"]
-show_behind_parent = true
 margin_left = 71.0
 margin_top = 52.0
 margin_right = 97.0
@@ -182,7 +346,6 @@ __meta__ = {
 }
 
 [node name="ColorRect6" type="ColorRect" parent="InvBacklay"]
-show_behind_parent = true
 margin_left = 23.0
 margin_top = 12.0
 margin_right = 97.0
@@ -193,7 +356,6 @@ __meta__ = {
 }
 
 [node name="ColorRect7" type="ColorRect" parent="InvBacklay"]
-show_behind_parent = true
 margin_left = 103.0
 margin_top = 12.0
 margin_right = 137.0
@@ -204,7 +366,6 @@ __meta__ = {
 }
 
 [node name="ColorRect8" type="ColorRect" parent="InvBacklay"]
-show_behind_parent = true
 margin_left = 143.0
 margin_top = 12.0
 margin_right = 177.0
@@ -215,7 +376,6 @@ __meta__ = {
 }
 
 [node name="ColorRect9" type="ColorRect" parent="InvBacklay"]
-show_behind_parent = true
 margin_left = 183.0
 margin_top = 12.0
 margin_right = 289.0
@@ -226,7 +386,6 @@ __meta__ = {
 }
 
 [node name="ColorRect10" type="ColorRect" parent="InvBacklay"]
-show_behind_parent = true
 margin_left = 183.0
 margin_top = 84.0
 margin_right = 289.0
@@ -251,36 +410,32 @@ centered = false
 region_enabled = true
 region_rect = Rect2( 12, 0, 24, 48 )
 
-[node name="Line2D" type="Line2D" parent="Status"]
-position = Vector2( -8, -4 )
-scale = Vector2( 1.51042, 1 )
-points = PoolVector2Array( 24, 16, 26, 16, 27, 14, 28, 17, 29, 15, 30, 16, 31, 18, 33, 10, 35, 20, 37, 18, 41, 15, 43, 16, 51, 16, 52, 14, 53, 17, 54, 15, 55, 16, 56, 18, 58, 10, 60, 20, 62, 18, 66, 15, 68, 16, 71, 16 )
-width = 0.5
-default_color = Color( 0.894118, 0.490196, 0.537255, 1 )
-gradient = ExtResource( 7 )
+[node name="ColorRect" type="ColorRect" parent="Status"]
+material = ExtResource( 1 )
+margin_left = 29.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Line2D2" type="Line2D" parent="Status"]
-position = Vector2( -8, -4 )
-scale = Vector2( 1.51042, 1 )
-points = PoolVector2Array( 24, 28, 27, 25, 32, 24, 37, 25, 40, 28, 43, 31, 48, 32, 53, 31, 56, 28, 59, 26, 64, 24, 69, 26, 71, 28 )
-width = 0.5
-default_color = Color( 0.219608, 0.231373, 0.945098, 1 )
-gradient = SubResource( 1 )
+[node name="ColorRect2" type="ColorRect" parent="Status"]
+material = SubResource( 17 )
+margin_left = 29.0
+margin_top = 18.0
+margin_right = 100.0
+margin_bottom = 32.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Line2D3" type="Line2D" parent="Status"]
-position = Vector2( -8, -4 )
-scale = Vector2( 1.51042, 1 )
-points = PoolVector2Array( 24, 40, 32, 40, 40, 40, 48, 40, 56, 40, 64, 40, 71, 40 )
-width = 0.5
-default_color = Color( 0.341176, 0.635294, 0.780392, 1 )
-gradient = SubResource( 2 )
-
-[node name="PreviewBack" type="ColorRect" parent="."]
-margin_left = 184.0
-margin_top = 88.0
-margin_right = 288.0
-margin_bottom = 160.0
-color = Color( 0.129412, 0.129412, 0.129412, 1 )
+[node name="ColorRect3" type="ColorRect" parent="Status"]
+material = SubResource( 22 )
+margin_left = 29.0
+margin_top = 34.0
+margin_right = 100.0
+margin_bottom = 48.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -290,10 +445,27 @@ margin_left = 180.0
 margin_top = 88.0
 margin_right = 292.0
 margin_bottom = 160.0
-texture = SubResource( 10 )
+texture = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PreviewBack" type="ColorRect" parent="Preview"]
+show_behind_parent = true
+margin_left = 4.0
+margin_right = 108.0
+margin_bottom = 72.0
+color = Color( 0.129412, 0.129412, 0.129412, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Preview"]
+material = ExtResource( 17 )
+margin_left = 4.0
+margin_right = 108.0
+margin_bottom = 72.0
+texture = ExtResource( 16 )
 
 [node name="Viewport" type="Viewport" parent="Preview"]
 size = Vector2( 112, 72 )
@@ -303,21 +475,47 @@ render_target_v_flip = true
 
 [node name="Camera" type="Camera" parent="Preview/Viewport"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.537783, 1.48049 )
-environment = SubResource( 5 )
+environment = SubResource( 7 )
 current = true
 
 [node name="Spatial" type="Spatial" parent="Preview/Viewport"]
 
 [node name="CSGPolygon" type="CSGPolygon" parent="Preview/Viewport/Spatial"]
-transform = Transform( 0.542434, 0, -0.840946, 0, 1, 0, 0.840946, 0, 0.542434, -0.00520279, 0, -0.199116 )
+transform = Transform( -0.251841, 0, -0.970998, 0, 1, 0, 0.970998, 0, -0.251841, -0.00520279, 0, -0.199116 )
 polygon = PoolVector2Array( 0, 0, 0.00414866, 1.08307, 0.631928, 0.971976, 0.486659, 0.199928 )
 mode = 1
 spin_degrees = 360.0
 spin_sides = 8
-material = SubResource( 6 )
+material = SubResource( 8 )
 script = ExtResource( 11 )
 
-[node name="Main" type="TextureRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="Preview"]
+visible = false
+margin_left = 4.0
+margin_right = 108.0
+margin_bottom = 72.0
+color = Color( 0, 0, 0, 0.662745 )
+
+[node name="Label" type="Label" parent="Preview/ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 9 )
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis mattis massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed facilisis nibh eu felis scelerisque vestibulum. Fusce sed condimentum magna, quis imperdiet mauris. Donec posuere neque a lacinia sollicitudin. Mauris imperdiet non arcu eu faucibus. In in sollicitudin lectus. Maecenas blandit nunc ante. Ut cursus vel ligula eget congue. Praesent ullamcorper convallis scelerisque. Aliquam a tempor sem, at malesuada arcu. Mauris tristique suscipit nulla et commodo."
+align = 1
+valign = 1
+autowrap = true
+clip_text = true
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Main" type="TextureRect" parent="Control"]
 margin_left = 24.0
 margin_top = 88.0
 margin_right = 176.0
@@ -328,22 +526,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="Control"]
 margin_left = 24.0
 margin_top = 16.0
 margin_right = 96.0
 margin_bottom = 26.0
-custom_styles/hover = SubResource( 16 )
-custom_styles/pressed = SubResource( 17 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
 custom_styles/normal = ExtResource( 12 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 12 )
 text = "Combine"
 clip_text = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Toolbox" type="TextureRect" parent="."]
+[node name="Toolbox" type="TextureRect" parent="Control"]
 margin_left = 24.0
 margin_top = 24.0
 margin_right = 96.0
@@ -354,7 +552,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Weapon1" type="TextureRect" parent="."]
+[node name="Weapon1" type="TextureRect" parent="Control"]
 margin_left = 104.0
 margin_top = 16.0
 margin_right = 136.0
@@ -366,7 +564,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Weapon2" type="TextureRect" parent="."]
+[node name="Weapon2" type="TextureRect" parent="Control"]
 margin_left = 144.0
 margin_top = 16.0
 margin_right = 176.0
@@ -378,7 +576,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Usable" type="TextureRect" parent="."]
+[node name="Usable" type="TextureRect" parent="Control"]
 margin_left = 72.0
 margin_top = 56.0
 margin_right = 96.0
@@ -389,7 +587,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Usable2" type="TextureRect" parent="."]
+[node name="Usable2" type="TextureRect" parent="Control"]
 margin_left = 24.0
 margin_top = 56.0
 margin_right = 64.0
@@ -400,7 +598,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Chip1" type="TextureRect" parent="."]
+[node name="Chip1" type="TextureRect" parent="Control"]
 margin_left = 186.0
 margin_top = 66.0
 margin_right = 210.0
@@ -412,7 +610,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Chip2" type="TextureRect" parent="."]
+[node name="Chip2" type="TextureRect" parent="Control"]
 margin_left = 224.0
 margin_top = 66.0
 margin_right = 248.0
@@ -424,7 +622,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Chip3" type="TextureRect" parent="."]
+[node name="Chip3" type="TextureRect" parent="Control"]
 margin_left = 261.0
 margin_top = 66.0
 margin_right = 285.0
@@ -436,21 +634,153 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="NinePatchRect" type="NinePatchRect" parent="Control"]
+margin_left = 104.0
+margin_top = 16.0
+margin_right = 136.0
+margin_bottom = 80.0
+texture = ExtResource( 20 )
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="Control"]
+margin_left = 72.0
+margin_top = 56.0
+margin_right = 96.0
+margin_bottom = 80.0
+texture = ExtResource( 20 )
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Items" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Items"]
+position = Vector2( 108, 64 )
+rotation = -1.5708
+frames = ExtResource( 19 )
+frame = 2
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Items"]
+position = Vector2( 153, 91 )
+frames = ExtResource( 19 )
+frame = 3
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite4" type="AnimatedSprite" parent="Items"]
+position = Vector2( 144, 136 )
+frames = ExtResource( 19 )
+frame = 13
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite5" type="AnimatedSprite" parent="Items"]
+position = Vector2( 112, 136 )
+frames = ExtResource( 19 )
+frame = 13
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite6" type="AnimatedSprite" parent="Items"]
+position = Vector2( 25, 91 )
+frames = ExtResource( 19 )
+frame = 7
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite7" type="AnimatedSprite" parent="Items"]
+position = Vector2( 79, 57 )
+frames = ExtResource( 19 )
+frame = 6
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite8" type="AnimatedSprite" parent="Items"]
+position = Vector2( 58, 90 )
+frames = ExtResource( 19 )
+frame = 11
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite9" type="AnimatedSprite" parent="Items"]
+position = Vector2( 74, 90 )
+frames = ExtResource( 19 )
+frame = 11
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite3" type="AnimatedSprite" parent="Items"]
+position = Vector2( 28, 137 )
+frames = ExtResource( 19 )
+frame = 4
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite10" type="AnimatedSprite" parent="Items"]
+position = Vector2( 224, 66 )
+scale = Vector2( 0.75, 0.75 )
+frames = ExtResource( 18 )
+frame = 1
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite11" type="AnimatedSprite" parent="Items"]
+modulate = Color( 0.478431, 0.533333, 0.65098, 1 )
+position = Vector2( 224, 66 )
+scale = Vector2( 0.75, 0.75 )
+frames = ExtResource( 18 )
+frame = 2
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 margin_left = 8.0
 margin_top = 168.0
 margin_right = 304.0
 margin_bottom = 184.0
-custom_fonts/normal_font = SubResource( 9 )
+custom_fonts/normal_font = SubResource( 13 )
 bbcode_enabled = true
 bbcode_text = "[center] [img]res://GUI/Inventory/gui_inv_cell8x8.png[/img] - use, [img]res://GUI/Inventory/gui_inv_cell8x8.png[/img] - drop, [img]res://GUI/Inventory/gui_inv_cell8x8.png[/img] - description, [img]res://GUI/Inventory/gui_inv_cell8x8.png[/img] - scroll [/center]"
 text = "  - use,  - drop,  - description,  - scroll "
 scroll_active = false
-
-[node name="ColorRectEffect" type="ColorRect" parent="."]
-material = SubResource( 12 )
-margin_right = 320.0
-margin_bottom = 180.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -460,3 +790,33 @@ anchor_mode = 0
 current = true
 zoom = Vector2( 0.25, 0.25 )
 editor_draw_screen = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRectEffect" type="ColorRect" parent="CanvasLayer"]
+material = ExtResource( 14 )
+margin_right = 1280.0
+margin_bottom = 720.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="CanvasLayer"]
+rect = Rect2( 0, 0, 1280, 720 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="ColorRectEffect2" type="ColorRect" parent="CanvasLayer2"]
+material = SubResource( 14 )
+margin_right = 1280.0
+margin_bottom = 720.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
