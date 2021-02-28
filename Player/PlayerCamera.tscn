@@ -1,32 +1,12 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Player/PlayerCamera.cs" type="Script" id=1]
-[ext_resource path="res://GUI/Healthbar/gui_healthbar_sanity.png" type="Texture" id=2]
-[ext_resource path="res://GUI/Healthbar/gui_healthbar_health.png" type="Texture" id=3]
-[ext_resource path="res://GUI/Healthbar/gui_healthbar.png" type="Texture" id=4]
 [ext_resource path="res://Fonts/main_font.tres" type="DynamicFont" id=5]
-[ext_resource path="res://GUI/Weapons/gui_frames_weapons.tres" type="SpriteFrames" id=6]
-[ext_resource path="res://GUI/Healthbar/gui_frames_face.tres" type="SpriteFrames" id=7]
-[ext_resource path="res://GUI/Inventory/gui_inv_grid_chip.png" type="Texture" id=8]
-[ext_resource path="res://GUI/Inventory/gui_inv_grid.png" type="Texture" id=9]
-[ext_resource path="res://GUI/Inventory/gui_inv_grid_weapon.png" type="Texture" id=10]
-[ext_resource path="res://GUI/Inventory/gui_inv_weapon_select.png" type="Texture" id=11]
-[ext_resource path="res://GUI/Inventory/gui_inv_button_comb_norm.png" type="Texture" id=12]
-[ext_resource path="res://GUI/Inventory/gui_inv_button_comb_pressed.png" type="Texture" id=13]
-[ext_resource path="res://GUI/Inventory/gui_inv_button_comb_hover.png" type="Texture" id=14]
-[ext_resource path="res://GUI/Inventory/gui_inv_frames_chip.tres" type="SpriteFrames" id=15]
-[ext_resource path="res://GUI/Inventory/gui_inv_grid_comb.png" type="Texture" id=16]
-[ext_resource path="res://Scripts/Inventory.cs" type="Script" id=17]
 [ext_resource path="res://Shaders/shader_gm.tres" type="Material" id=18]
 [ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=19]
-[ext_resource path="res://Player/InventoryGUI.cs" type="Script" id=20]
 [ext_resource path="res://GUI/Cursor/gui_frames_use.tres" type="SpriteFrames" id=21]
 [ext_resource path="res://Fonts/Coder's Crux.ttf" type="DynamicFontData" id=22]
-[ext_resource path="res://Scripts/InventoryChip.cs" type="Script" id=23]
-[ext_resource path="res://Scripts/InventoryToolbox.cs" type="Script" id=24]
-[ext_resource path="res://Sounds/Inventory/snd_toolkit_close.wav" type="AudioStream" id=26]
-[ext_resource path="res://Sounds/Inventory/snd_toolkit_combine.wav" type="AudioStream" id=28]
-[ext_resource path="res://Sounds/Inventory/snd_toolkit_open.wav" type="AudioStream" id=29]
+[ext_resource path="res://Player/GUI.tscn" type="PackedScene" id=27]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 light_mode = 1
@@ -41,6 +21,9 @@ bg_color = Color( 0.0941176, 0.101961, 0.141176, 0.392157 )
 size = 12
 font_data = ExtResource( 22 )
 
+[sub_resource type="CanvasItemMaterial" id=5]
+light_mode = 1
+
 [node name="Camera2D" type="Camera2D" groups=[
 "Player",
 ]]
@@ -49,288 +32,6 @@ z_index = 1000
 current = true
 zoom = Vector2( 0.25, 0.25 )
 script = ExtResource( 1 )
-
-[node name="Weapons" type="Node2D" parent="."]
-use_parent_material = true
-position = Vector2( 156, 71 )
-
-[node name="SpriteWeapon" type="AnimatedSprite" parent="Weapons"]
-use_parent_material = true
-position = Vector2( -8, 8 )
-frames = ExtResource( 6 )
-
-[node name="LabelAmmo" type="Label" parent="Weapons"]
-visible = false
-use_parent_material = true
-margin_left = -49.0
-margin_top = 5.0
-margin_right = -37.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 5 )
-text = "08"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LabelDivider" type="Label" parent="Weapons"]
-visible = false
-use_parent_material = true
-margin_left = -36.0
-margin_top = 5.0
-margin_right = -30.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 5 )
-text = "/"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LabelAmmoMax" type="Label" parent="Weapons"]
-visible = false
-use_parent_material = true
-margin_left = -29.0
-margin_top = 5.0
-margin_right = -17.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 5 )
-text = "35"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Status" type="Node2D" parent="."]
-use_parent_material = true
-position = Vector2( -156, 70 )
-
-[node name="SpriteFace" type="AnimatedSprite" parent="Status"]
-use_parent_material = true
-position = Vector2( 9, 9 )
-frames = ExtResource( 7 )
-animation = "calm"
-playing = true
-
-[node name="BarHealth" type="TextureProgress" parent="Status"]
-use_parent_material = true
-margin_left = 17.0
-margin_top = 2.0
-margin_right = 63.0
-margin_bottom = 9.0
-value = 100.0
-texture_under = ExtResource( 4 )
-texture_progress = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BarSanity" type="TextureProgress" parent="Status"]
-use_parent_material = true
-margin_left = 17.0
-margin_top = 10.0
-margin_right = 63.0
-margin_bottom = 17.0
-value = 100.0
-texture_under = ExtResource( 4 )
-texture_progress = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Inventory" type="Node2D" parent="."]
-use_parent_material = true
-position = Vector2( 0, -87 )
-script = ExtResource( 20 )
-inventoriesPath = [ NodePath("InventoryWeapon1"), NodePath("InventoryWeapon2"), NodePath("InventoryMain"), NodePath("InventoryChips"), NodePath("Toolbox") ]
-weaponsPath = [ NodePath("InventoryWeapon1"), NodePath("InventoryWeapon2") ]
-
-[node name="InventoryWeapon1" type="Sprite" parent="Inventory"]
-use_parent_material = true
-position = Vector2( -157, 11 )
-texture = ExtResource( 10 )
-centered = false
-script = ExtResource( 17 )
-name = "weapon 1"
-GridSize = Vector2( 5, 2 )
-allowedAmount = 1
-CellSize = Vector2( 11, 11 )
-allowedType = 2
-
-[node name="SelectOverlay" type="Sprite" parent="Inventory/InventoryWeapon1"]
-use_parent_material = true
-position = Vector2( -1, -1 )
-texture = ExtResource( 11 )
-centered = false
-
-[node name="Label" type="Label" parent="Inventory/InventoryWeapon1"]
-use_parent_material = true
-margin_left = -1.0
-margin_top = -12.0
-margin_right = 56.0
-margin_bottom = -1.0
-custom_fonts/font = ExtResource( 5 )
-text = "Weapon 1"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="InventoryWeapon2" type="Sprite" parent="Inventory"]
-use_parent_material = true
-position = Vector2( -100, 11 )
-texture = ExtResource( 10 )
-centered = false
-script = ExtResource( 17 )
-name = "weapon 2"
-GridSize = Vector2( 5, 2 )
-allowedAmount = 1
-CellSize = Vector2( 11, 11 )
-allowedType = 2
-
-[node name="SelectOverlay" type="Sprite" parent="Inventory/InventoryWeapon2"]
-visible = false
-use_parent_material = true
-position = Vector2( -1, -1 )
-texture = ExtResource( 11 )
-centered = false
-
-[node name="Label" type="Label" parent="Inventory/InventoryWeapon2"]
-use_parent_material = true
-margin_left = -1.0
-margin_top = -12.0
-margin_right = 56.0
-margin_bottom = -1.0
-custom_fonts/font = ExtResource( 5 )
-text = "Weapon 2"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="InventoryMain" type="Sprite" parent="Inventory"]
-use_parent_material = true
-position = Vector2( -43, 0 )
-texture = ExtResource( 9 )
-centered = false
-script = ExtResource( 17 )
-name = "inventory"
-blacklistType = 5
-GridSize = Vector2( 12, 3 )
-CellSize = Vector2( 11, 11 )
-
-[node name="InventoryChips" type="Sprite" parent="Inventory"]
-use_parent_material = true
-position = Vector2( 91, 0 )
-texture = ExtResource( 8 )
-centered = false
-script = ExtResource( 23 )
-
-[node name="ChipSlot1" type="AnimatedSprite" parent="Inventory/InventoryChips"]
-visible = false
-use_parent_material = true
-position = Vector2( 16, 8 )
-frames = ExtResource( 15 )
-frame = 1
-
-[node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot1"]
-visible = false
-modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
-use_parent_material = true
-frames = ExtResource( 15 )
-frame = 2
-
-[node name="ChipSlot2" type="AnimatedSprite" parent="Inventory/InventoryChips"]
-visible = false
-use_parent_material = true
-position = Vector2( 50, 8 )
-frames = ExtResource( 15 )
-frame = 1
-
-[node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot2"]
-visible = false
-modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
-use_parent_material = true
-frames = ExtResource( 15 )
-frame = 2
-
-[node name="ChipSlot3" type="AnimatedSprite" parent="Inventory/InventoryChips"]
-visible = false
-use_parent_material = true
-position = Vector2( 16, 25 )
-frames = ExtResource( 15 )
-frame = 1
-
-[node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot3"]
-visible = false
-modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
-use_parent_material = true
-frames = ExtResource( 15 )
-frame = 2
-
-[node name="ChipSlot4" type="AnimatedSprite" parent="Inventory/InventoryChips"]
-visible = false
-use_parent_material = true
-position = Vector2( 50, 25 )
-frames = ExtResource( 15 )
-frame = 1
-
-[node name="ChipHint" type="AnimatedSprite" parent="Inventory/InventoryChips/ChipSlot4"]
-visible = false
-modulate = Color( 0.435294, 0.513726, 0.694118, 1 )
-use_parent_material = true
-frames = ExtResource( 15 )
-frame = 2
-
-[node name="Toolbox" type="Node2D" parent="Inventory"]
-visible = false
-use_parent_material = true
-position = Vector2( 91, 0 )
-script = ExtResource( 24 )
-itemCombineSound = ExtResource( 28 )
-
-[node name="TextureButton" type="TextureButton" parent="Inventory/Toolbox"]
-show_behind_parent = true
-use_parent_material = true
-margin_right = 11.0
-margin_bottom = 33.0
-texture_normal = ExtResource( 12 )
-texture_pressed = ExtResource( 13 )
-texture_hover = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="InventoryCombine" type="Sprite" parent="Inventory/Toolbox"]
-show_behind_parent = true
-use_parent_material = true
-position = Vector2( 11, 0 )
-texture = ExtResource( 16 )
-centered = false
-
-[node name="ToolBoxOpenPlayer" type="AudioStreamPlayer" parent="Inventory/Toolbox"]
-stream = ExtResource( 29 )
-
-[node name="ToolBoxClosePlayer" type="AudioStreamPlayer" parent="Inventory/Toolbox"]
-stream = ExtResource( 26 )
-
-[node name="InventoryHand" type="Node2D" parent="Inventory"]
-position = Vector2( 0, 87 )
-z_index = 1
-
-[node name="ItemAudioPlayer" type="AudioStreamPlayer" parent="Inventory"]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-visible = false
-material = ExtResource( 18 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-script = ExtResource( 19 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="InteractHint" type="Node2D" parent="."]
 visible = false
@@ -377,10 +78,10 @@ playing = true
 
 [node name="Label" type="Label" parent="."]
 use_parent_material = true
-margin_left = -152.0
-margin_top = 53.0
-margin_right = -134.0
-margin_bottom = 62.0
+margin_left = -155.0
+margin_top = 77.0
+margin_right = -137.0
+margin_bottom = 86.0
 custom_fonts/font = ExtResource( 5 )
 text = "fps"
 __meta__ = {
@@ -401,6 +102,25 @@ custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 0.0784314 )
 text = "h.o.p.e.: melancholy pre-alpha"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+scale = Vector2( 4, 4 )
+transform = Transform2D( 4, 0, 0, 4, 0, 0 )
+
+[node name="GUI" parent="CanvasLayer" instance=ExtResource( 27 )]
+visible = false
+material = SubResource( 5 )
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = ExtResource( 18 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 19 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

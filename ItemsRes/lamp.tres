@@ -1,23 +1,27 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" load_steps=6 format=2]
 
 [ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
 [ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Items/frames_items_floor.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Sounds/Inventory/snd_inv_drop.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/Inventory/snd_inv_pickup.wav" type="AudioStream" id=5]
 
 [resource]
 script = ExtResource( 1 )
 name = "Lamp"
 itemType = 2
-itemID = ""
+itemID = "w_lamp"
 spriteFloorFrames = ExtResource( 3 )
 spriteFloorFrame = 6
 spriteFloorSize = Vector2( 8, 10 )
 spriteInventoryFrames = ExtResource( 2 )
 spriteInventoryFrame = 6
 spriteInventorySize = Vector2( 11, 22 )
-spriteInventoryGridSize = Vector2( 1, 2 )
+spriteInventoryGridSize = Vector2( 2, 3 )
 ammo = 0
-ammoMax = 0
+ammoMax = 10000
 isActive = false
-description = ""
+description = "The Hand lamps are used for inspection of work space."
 itemScript = ""
+audioPickup = ExtResource( 5 )
+audioDrop = ExtResource( 4 )

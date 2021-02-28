@@ -1,25 +1,27 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" load_steps=6 format=2]
 
 [ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
-[ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Items/frames_items_16x16.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Items/frames_items_floor.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Sounds/Inventory/snd_inv_drop.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/Inventory/snd_inv_pickup.wav" type="AudioStream" id=5]
 
 [resource]
 script = ExtResource( 1 )
 name = "Battery Pack"
 itemType = 6
-itemID = ""
+itemID = "a_battery"
 spriteFloorFrames = ExtResource( 3 )
 spriteFloorFrame = 11
 spriteFloorSize = Vector2( 8, 5 )
 spriteInventoryFrames = ExtResource( 2 )
-spriteInventoryFrame = 11
-spriteInventorySize = Vector2( 11, 11 )
-spriteInventoryGridSize = Vector2( 1, 1 )
+spriteInventoryFrame = 1
+spriteInventorySize = Vector2( 16, 16 )
+spriteInventoryGridSize = Vector2( 2, 2 )
 ammo = 0
 ammoMax = 0
 isActive = false
-description = ""
-itemScript = "define pickup
-ammo battery 10000
-purge"
+description = "A battery back is a set of any number of (preferably) identical batteries or individual battery cells."
+itemScript = ""
+audioPickup = ExtResource( 5 )
+audioDrop = ExtResource( 4 )

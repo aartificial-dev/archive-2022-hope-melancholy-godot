@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Shaders/shader_heartbeat.tres" type="Material" id=1]
 [ext_resource path="res://GUI/Inventory/gui_inv_cell8x8.png" type="Texture" id=2]
@@ -6,23 +6,28 @@
 [ext_resource path="res://GUI/Inventory/spr_inv_weapon.png" type="Texture" id=4]
 [ext_resource path="res://GUI/Inventory/spr_inv_wtool.png" type="Texture" id=5]
 [ext_resource path="res://GUI/Inventory/spr_inv_wuse.png" type="Texture" id=6]
+[ext_resource path="res://GUI/Inventory/spr_grid_9patch.png" type="Texture" id=7]
 [ext_resource path="res://Fonts/Coder's Crux.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://Sprites/sheet_pl_movement_10x10.png" type="Texture" id=9]
-[ext_resource path="res://Tilesets/tile_background.png" type="Texture" id=10]
+[ext_resource path="res://Models/defaultModelMaterial.tres" type="Material" id=10]
 [ext_resource path="res://CSGPolygon.gd" type="Script" id=11]
 [ext_resource path="res://buttonstyle.tres" type="StyleBox" id=12]
-[ext_resource path="res://Shaders/shader_gm.shader" type="Shader" id=13]
+[ext_resource path="res://Player/GUIStatus.cs" type="Script" id=13]
 [ext_resource path="res://Shaders/shader_crt.tres" type="Material" id=14]
-[ext_resource path="res://InventoryMockup.cs" type="Script" id=15]
+[ext_resource path="res://Player/GUI.cs" type="Script" id=15]
 [ext_resource path="res://GUI/Inventory/spr_inv_wnoconnect.png" type="Texture" id=16]
 [ext_resource path="res://Shaders/shader_tv_noise.tres" type="Material" id=17]
-[ext_resource path="res://GUI/Inventory/gui_inv_frames_chip.tres" type="SpriteFrames" id=18]
-[ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=19]
-[ext_resource path="res://GUI/Inventory/gui_inv_cell16x16.png" type="Texture" id=20]
+[ext_resource path="res://Scripts/Inventory.cs" type="Script" id=18]
+[ext_resource path="res://Player/InventoryManager.cs" type="Script" id=20]
+[ext_resource path="res://Player/GUIPreview.cs" type="Script" id=21]
 
-[sub_resource type="Shader" id=18]
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.129412, 0.129412, 0.129412, 1 )
+
+[sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
 
+uniform float breathRate: hint_range(1., 3.);
 uniform vec2 iResolution;
 uniform vec4 blend_color: hint_color;
 uniform sampler2D gradient;
@@ -66,7 +71,7 @@ float function(float x) {
 //	x *= 1.9;
 //	 if (x > 1.25) x -= 1.25;
 //	return 0.5 - heartbeat(x) / 2.;
-	return 0.5 - sin(x * 20.) / 2.;
+	return 0.5 - sin(x * 9. * breathRate) / 2.5;
 }
 
 float distanceToFunction(vec2 p, float xDelta) {
@@ -105,7 +110,7 @@ void fragment() {
     vec2 uv = UV;
 
     float intensity = getFunctionLine(uv);
-    
+	intensity = min(intensity * 1.5, 1.);
     vec3 col = vec3(blend_color.rgb) * intensity;
 	
 	float grad = texture(gradient, vec2(UV.x - sawtooth(TIME + offset, 1., 2.), UV.y)).r;
@@ -114,23 +119,25 @@ void fragment() {
 	COLOR.a = intensity * grad;
 }"
 
-[sub_resource type="Gradient" id=15]
+[sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0.105634, 0.464789, 0.669014, 0.711268 )
 colors = PoolColorArray( 0, 0, 0, 1, 0.263158, 0.263158, 0.263158, 1, 1, 1, 1, 1, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=16]
-gradient = SubResource( 15 )
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
 
-[sub_resource type="ShaderMaterial" id=17]
-shader = SubResource( 18 )
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 2 )
+shader_param/breathRate = 1.0
 shader_param/iResolution = Vector2( 10, 30 )
-shader_param/blend_color = Color( 0.168627, 0.321569, 0.917647, 1 )
+shader_param/blend_color = Color( 0.0823529, 0.254902, 0.937255, 1 )
 shader_param/offset = 0.75
-shader_param/gradient = SubResource( 16 )
+shader_param/gradient = SubResource( 4 )
 
-[sub_resource type="Shader" id=19]
+[sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
 
+uniform float chiRate: hint_range(1., 3.);
 uniform vec2 iResolution;
 uniform vec4 blend_color: hint_color;
 uniform sampler2D gradient;
@@ -175,7 +182,7 @@ float function(float x) {
 //	x *= 1.9;
 //	 if (x > 1.25) x -= 1.25;
 //	return 0.5 - heartbeat(x) / 2.;
-	return 0.3 + texture(noise, vec2(x, 0.5)).r / 2.;
+	return 0.5 + (texture(noise, vec2(x, 0.5)).r - 0.5) / 2. * chiRate;
 }
 
 float distanceToFunction(vec2 p, float xDelta) {
@@ -214,7 +221,7 @@ void fragment() {
     vec2 uv = UV;
 
     float intensity = getFunctionLine(uv);
-    
+	intensity = min(intensity * 1.5, 1.);
     vec3 col = vec3(blend_color.rgb) * intensity;
 	
 	float grad = texture(gradient, vec2(UV.x - sawtooth(TIME + offset, 1., 2.), UV.y)).r;
@@ -223,90 +230,91 @@ void fragment() {
 	COLOR.a = intensity * grad;
 }"
 
-[sub_resource type="OpenSimplexNoise" id=20]
+[sub_resource type="OpenSimplexNoise" id=7]
 octaves = 5
 period = 138.4
 persistence = 0.791
 
-[sub_resource type="NoiseTexture" id=21]
+[sub_resource type="NoiseTexture" id=8]
 seamless = true
-noise = SubResource( 20 )
+noise = SubResource( 7 )
 
-[sub_resource type="ShaderMaterial" id=22]
-shader = SubResource( 19 )
+[sub_resource type="ShaderMaterial" id=9]
+shader = SubResource( 6 )
+shader_param/chiRate = 3.0
 shader_param/iResolution = Vector2( 10, 30 )
-shader_param/blend_color = Color( 0.262745, 0.8, 0.905882, 1 )
+shader_param/blend_color = Color( 0.141176, 0.811765, 0.945098, 1 )
 shader_param/offset = 0.302
-shader_param/gradient = SubResource( 16 )
-shader_param/noise = SubResource( 21 )
+shader_param/gradient = SubResource( 4 )
+shader_param/noise = SubResource( 8 )
 
-[sub_resource type="ViewportTexture" id=5]
+[sub_resource type="ViewportTexture" id=10]
 viewport_path = NodePath("Preview/Viewport")
 
-[sub_resource type="ProceduralSky" id=6]
+[sub_resource type="ProceduralSky" id=11]
 
-[sub_resource type="Environment" id=7]
-background_sky = SubResource( 6 )
+[sub_resource type="Environment" id=12]
+background_sky = SubResource( 11 )
 ambient_light_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=8]
-albedo_texture = ExtResource( 10 )
+[sub_resource type="CapsuleMesh" id=13]
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=14]
 size = 12
 use_mipmaps = true
 font_data = ExtResource( 8 )
 
-[sub_resource type="StyleBoxFlat" id=10]
-bg_color = Color( 0.5247, 0.53, 0.53, 1 )
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0.137255, 0.137255, 0.137255, 1 )
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0.34902, 0.337255, 0.321569, 1 )
 
-[sub_resource type="StyleBoxFlat" id=11]
-bg_color = Color( 0.2772, 0.28, 0.28, 1 )
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 0.0980392, 0.0980392, 0.0980392, 1 )
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0.34902, 0.337255, 0.321569, 1 )
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=17]
 size = 12
 font_data = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=18]
 size = 14
+use_mipmaps = true
+extra_spacing_bottom = -3
 extra_spacing_space = -3
 font_data = ExtResource( 8 )
 
-[sub_resource type="ShaderMaterial" id=14]
-shader = ExtResource( 13 )
-shader_param/vignette_amount = 0.5
-shader_param/chroma_amount = 0.5
-shader_param/grain_amount = 16.0
-
-[node name="Control" type="Control"]
+[node name="GUI" type="Control"]
+light_mask = 524288
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -960.0
 margin_bottom = -540.0
+mouse_filter = 2
 script = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="InvBacklay" type="Control" parent="."]
+light_mask = 524288
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="ColorRect" type="ColorRect" parent="InvBacklay"]
+light_mask = 524288
 margin_right = 320.0
 margin_bottom = 180.0
 color = Color( 0, 0, 0, 1 )
@@ -316,6 +324,7 @@ __meta__ = {
 }
 
 [node name="ColorRect3" type="ColorRect" parent="InvBacklay"]
+light_mask = 524288
 margin_left = 23.0
 margin_top = 84.0
 margin_right = 177.0
@@ -326,6 +335,7 @@ __meta__ = {
 }
 
 [node name="ColorRect4" type="ColorRect" parent="InvBacklay"]
+light_mask = 524288
 margin_left = 23.0
 margin_top = 52.0
 margin_right = 65.0
@@ -336,6 +346,7 @@ __meta__ = {
 }
 
 [node name="ColorRect5" type="ColorRect" parent="InvBacklay"]
+light_mask = 524288
 margin_left = 71.0
 margin_top = 52.0
 margin_right = 97.0
@@ -346,6 +357,7 @@ __meta__ = {
 }
 
 [node name="ColorRect6" type="ColorRect" parent="InvBacklay"]
+light_mask = 524288
 margin_left = 23.0
 margin_top = 12.0
 margin_right = 97.0
@@ -356,6 +368,7 @@ __meta__ = {
 }
 
 [node name="ColorRect7" type="ColorRect" parent="InvBacklay"]
+light_mask = 524288
 margin_left = 103.0
 margin_top = 12.0
 margin_right = 137.0
@@ -366,6 +379,7 @@ __meta__ = {
 }
 
 [node name="ColorRect8" type="ColorRect" parent="InvBacklay"]
+light_mask = 524288
 margin_left = 143.0
 margin_top = 12.0
 margin_right = 177.0
@@ -376,6 +390,7 @@ __meta__ = {
 }
 
 [node name="ColorRect9" type="ColorRect" parent="InvBacklay"]
+light_mask = 524288
 margin_left = 183.0
 margin_top = 12.0
 margin_right = 289.0
@@ -386,6 +401,7 @@ __meta__ = {
 }
 
 [node name="ColorRect10" type="ColorRect" parent="InvBacklay"]
+light_mask = 524288
 margin_left = 183.0
 margin_top = 84.0
 margin_right = 289.0
@@ -396,62 +412,125 @@ __meta__ = {
 }
 
 [node name="Status" type="Panel" parent="."]
+light_mask = 524288
 margin_left = 184.0
 margin_top = 16.0
 margin_right = 288.0
 margin_bottom = 80.0
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Sprite" type="Sprite" parent="Status"]
+[node name="HealthBar" type="NinePatchRect" parent="Status"]
+light_mask = 524288
+margin_left = 26.0
+margin_top = 1.0
+margin_right = 103.0
+margin_bottom = 17.0
+texture = ExtResource( 7 )
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthGraph" type="ColorRect" parent="Status/HealthBar"]
+light_mask = 524288
+material = ExtResource( 1 )
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 76.0
+margin_bottom = 15.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SanityBar" type="NinePatchRect" parent="Status"]
+light_mask = 524288
+margin_left = 26.0
+margin_top = 19.0
+margin_right = 103.0
+margin_bottom = 35.0
+texture = ExtResource( 7 )
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SanityGraph" type="ColorRect" parent="Status/SanityBar"]
+light_mask = 524288
+material = SubResource( 5 )
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 76.0
+margin_bottom = 15.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChiBar" type="NinePatchRect" parent="Status"]
+light_mask = 524288
+margin_left = 26.0
+margin_top = 38.0
+margin_right = 103.0
+margin_bottom = 46.0
+texture = ExtResource( 7 )
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChiGraph" type="ColorRect" parent="Status/ChiBar"]
+light_mask = 524288
+material = SubResource( 9 )
+margin_left = 1.0
+margin_top = -3.0
+margin_right = 76.0
+margin_bottom = 10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerSprite" type="Sprite" parent="Status"]
+light_mask = 524288
+position = Vector2( 1, -2 )
 texture = ExtResource( 9 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 12, 0, 24, 48 )
 
-[node name="ColorRect" type="ColorRect" parent="Status"]
-material = ExtResource( 1 )
-margin_left = 29.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 16.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect2" type="ColorRect" parent="Status"]
-material = SubResource( 17 )
-margin_left = 29.0
-margin_top = 18.0
-margin_right = 100.0
-margin_bottom = 32.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect3" type="ColorRect" parent="Status"]
-material = SubResource( 22 )
-margin_left = 29.0
-margin_top = 34.0
-margin_right = 100.0
-margin_bottom = 48.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Preview" type="TextureRect" parent="."]
+light_mask = 524288
 margin_left = 180.0
 margin_top = 88.0
 margin_right = 292.0
 margin_bottom = 160.0
-texture = SubResource( 5 )
+mouse_filter = 2
+texture = SubResource( 10 )
+script = ExtResource( 21 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PreviewBack" type="ColorRect" parent="Preview"]
 show_behind_parent = true
+light_mask = 524288
 margin_left = 4.0
 margin_right = 108.0
 margin_bottom = 72.0
@@ -460,7 +539,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="Preview"]
+[node name="NoItemScreen" type="TextureRect" parent="Preview"]
+light_mask = 524288
 material = ExtResource( 17 )
 margin_left = 4.0
 margin_right = 108.0
@@ -475,84 +555,107 @@ render_target_v_flip = true
 
 [node name="Camera" type="Camera" parent="Preview/Viewport"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.537783, 1.48049 )
-environment = SubResource( 7 )
+environment = SubResource( 12 )
 current = true
 
 [node name="Spatial" type="Spatial" parent="Preview/Viewport"]
-
-[node name="CSGPolygon" type="CSGPolygon" parent="Preview/Viewport/Spatial"]
-transform = Transform( -0.251841, 0, -0.970998, 0, 1, 0, 0.970998, 0, -0.251841, -0.00520279, 0, -0.199116 )
-polygon = PoolVector2Array( 0, 0, 0.00414866, 1.08307, 0.631928, 0.971976, 0.486659, 0.199928 )
-mode = 1
-spin_degrees = 360.0
-spin_sides = 8
-material = SubResource( 8 )
+transform = Transform( 0.10765, 0, -0.998015, 0, 1, 0, 0.998015, 0, 0.10765, 0, 0, 0 )
 script = ExtResource( 11 )
 
-[node name="ColorRect" type="ColorRect" parent="Preview"]
-visible = false
+[node name="ItemModel" type="CSGMesh" parent="Preview/Viewport/Spatial"]
+transform = Transform( 0.152264, -0.0636028, 1.03613e-08, 0, -2.68841e-08, -0.165, 0.0636028, 0.152264, -2.48049e-08, 0, 0.6, 0 )
+mesh = SubResource( 13 )
+material = ExtResource( 10 )
+
+[node name="Description" type="ColorRect" parent="Preview"]
+light_mask = 524288
 margin_left = 4.0
 margin_right = 108.0
 margin_bottom = 72.0
 color = Color( 0, 0, 0, 0.662745 )
 
-[node name="Label" type="Label" parent="Preview/ColorRect"]
+[node name="Text" type="Label" parent="Preview/Description"]
+light_mask = 524288
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = SubResource( 9 )
-text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis mattis massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed facilisis nibh eu felis scelerisque vestibulum. Fusce sed condimentum magna, quis imperdiet mauris. Donec posuere neque a lacinia sollicitudin. Mauris imperdiet non arcu eu faucibus. In in sollicitudin lectus. Maecenas blandit nunc ante. Ut cursus vel ligula eget congue. Praesent ullamcorper convallis scelerisque. Aliquam a tempor sem, at malesuada arcu. Mauris tristique suscipit nulla et commodo."
+custom_fonts/font = SubResource( 14 )
+text = "A handgun is a short-barrelled firearm that can be held and used with one hand.
+Ammo: 7/12"
 align = 1
 valign = 1
 autowrap = true
 clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Control" type="Control" parent="."]
+[node name="InventoryManager" type="Control" parent="."]
+light_mask = 524288
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+script = ExtResource( 20 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+inventoriesPath = [ NodePath("Main"), NodePath("Toolbox"), NodePath("Weapon1"), NodePath("Weapon2"), NodePath("Usable"), NodePath("Tools"), NodePath("Chip1"), NodePath("Chip2"), NodePath("Chip3") ]
+weaponsPath = [ NodePath("Weapon1"), NodePath("Weapon2") ]
+toolPath = NodePath("Tools")
+usablePath = NodePath("Usable")
+inventoryPath = NodePath("Main")
 
-[node name="Main" type="TextureRect" parent="Control"]
+[node name="Main" type="TextureRect" parent="InventoryManager"]
+light_mask = 524288
 margin_left = 24.0
 margin_top = 88.0
 margin_right = 176.0
 margin_bottom = 160.0
 texture = ExtResource( 2 )
 stretch_mode = 2
+script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+name = "inventory"
+CellSize = Vector2( 8, 8 )
+blacklistType = 5
+GridSize = Vector2( 19, 9 )
 
-[node name="Button" type="Button" parent="Control"]
-margin_left = 24.0
-margin_top = 16.0
-margin_right = 96.0
-margin_bottom = 26.0
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 11 )
-custom_styles/normal = ExtResource( 12 )
-custom_fonts/font = SubResource( 12 )
-text = "Combine"
-clip_text = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Toolbox" type="TextureRect" parent="Control"]
+[node name="Toolbox" type="TextureRect" parent="InventoryManager"]
+light_mask = 524288
 margin_left = 24.0
 margin_top = 24.0
 margin_right = 96.0
 margin_bottom = 48.0
 texture = ExtResource( 2 )
 stretch_mode = 2
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+name = "toolbox"
+CellSize = Vector2( 8, 8 )
+blacklistType = 5
+GridSize = Vector2( 9, 3 )
+
+[node name="Button" type="Button" parent="InventoryManager/Toolbox"]
+light_mask = 524288
+margin_top = -8.0
+margin_right = 72.0
+margin_bottom = 2.0
+custom_styles/hover = SubResource( 15 )
+custom_styles/pressed = SubResource( 16 )
+custom_styles/normal = ExtResource( 12 )
+custom_fonts/font = SubResource( 17 )
+text = "Combine"
+clip_text = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Weapon1" type="TextureRect" parent="Control"]
+[node name="Weapon1" type="TextureRect" parent="InventoryManager"]
+light_mask = 524288
 margin_left = 104.0
 margin_top = 16.0
 margin_right = 136.0
@@ -560,11 +663,19 @@ margin_bottom = 80.0
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 1
+script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+name = "weapon1"
+CellSize = Vector2( 8, 8 )
+isItemSlot = true
+allowedType = 2
+blacklistType = 5
+GridSize = Vector2( 4, 8 )
 
-[node name="Weapon2" type="TextureRect" parent="Control"]
+[node name="Weapon2" type="TextureRect" parent="InventoryManager"]
+light_mask = 524288
 margin_left = 144.0
 margin_top = 16.0
 margin_right = 176.0
@@ -572,33 +683,57 @@ margin_bottom = 80.0
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 1
+script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+name = "weapon2"
+CellSize = Vector2( 8, 8 )
+isItemSlot = true
+allowedType = 2
+blacklistType = 5
+GridSize = Vector2( 4, 8 )
 
-[node name="Usable" type="TextureRect" parent="Control"]
+[node name="Usable" type="TextureRect" parent="InventoryManager"]
+light_mask = 524288
 margin_left = 72.0
 margin_top = 56.0
 margin_right = 96.0
 margin_bottom = 80.0
 texture = ExtResource( 6 )
 stretch_mode = 2
+script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+name = "usable"
+CellSize = Vector2( 8, 8 )
+isItemSlot = true
+allowedType = 10
+blacklistType = 5
+GridSize = Vector2( 3, 3 )
 
-[node name="Usable2" type="TextureRect" parent="Control"]
+[node name="Tools" type="TextureRect" parent="InventoryManager"]
+light_mask = 524288
 margin_left = 24.0
 margin_top = 56.0
 margin_right = 64.0
 margin_bottom = 80.0
 texture = ExtResource( 5 )
 stretch_mode = 2
+script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+name = "tools"
+CellSize = Vector2( 8, 8 )
+isItemSlot = true
+allowedType = 9
+blacklistType = 5
+GridSize = Vector2( 5, 3 )
 
-[node name="Chip1" type="TextureRect" parent="Control"]
+[node name="Chip1" type="TextureRect" parent="InventoryManager"]
+light_mask = 524288
 margin_left = 186.0
 margin_top = 66.0
 margin_right = 210.0
@@ -606,11 +741,17 @@ margin_bottom = 78.0
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 1
+script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+name = "chip1"
+CellSize = Vector2( 24, 12 )
+isItemSlot = true
+allowedType = 5
 
-[node name="Chip2" type="TextureRect" parent="Control"]
+[node name="Chip2" type="TextureRect" parent="InventoryManager"]
+light_mask = 524288
 margin_left = 224.0
 margin_top = 66.0
 margin_right = 248.0
@@ -618,11 +759,17 @@ margin_bottom = 78.0
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 1
+script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+name = "chip2"
+CellSize = Vector2( 24, 12 )
+isItemSlot = true
+allowedType = 5
 
-[node name="Chip3" type="TextureRect" parent="Control"]
+[node name="Chip3" type="TextureRect" parent="InventoryManager"]
+light_mask = 524288
 margin_left = 261.0
 margin_top = 66.0
 margin_right = 285.0
@@ -630,36 +777,17 @@ margin_bottom = 78.0
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 1
+script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+name = "chip3"
+CellSize = Vector2( 24, 12 )
+isItemSlot = true
+allowedType = 5
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Control"]
-margin_left = 104.0
-margin_top = 16.0
-margin_right = 136.0
-margin_bottom = 80.0
-texture = ExtResource( 20 )
-patch_margin_left = 1
-patch_margin_top = 1
-patch_margin_right = 1
-patch_margin_bottom = 1
-
-[node name="NinePatchRect2" type="NinePatchRect" parent="Control"]
-margin_left = 72.0
-margin_top = 56.0
-margin_right = 96.0
-margin_bottom = 80.0
-texture = ExtResource( 20 )
-patch_margin_left = 1
-patch_margin_top = 1
-patch_margin_right = 1
-patch_margin_bottom = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Items" type="Control" parent="."]
+[node name="Items" type="Control" parent="InventoryManager"]
+light_mask = 524288
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -668,132 +796,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Items"]
-position = Vector2( 108, 64 )
-rotation = -1.5708
-frames = ExtResource( 19 )
-frame = 2
-centered = false
+[node name="InventoryHand" type="Control" parent="InventoryManager"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
-"_edit_lock_": true
+"_edit_lock_": true,
+"_edit_use_anchors_": false
 }
 
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Items"]
-position = Vector2( 153, 91 )
-frames = ExtResource( 19 )
-frame = 3
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AnimatedSprite4" type="AnimatedSprite" parent="Items"]
-position = Vector2( 144, 136 )
-frames = ExtResource( 19 )
-frame = 13
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AnimatedSprite5" type="AnimatedSprite" parent="Items"]
-position = Vector2( 112, 136 )
-frames = ExtResource( 19 )
-frame = 13
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AnimatedSprite6" type="AnimatedSprite" parent="Items"]
-position = Vector2( 25, 91 )
-frames = ExtResource( 19 )
-frame = 7
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AnimatedSprite7" type="AnimatedSprite" parent="Items"]
-position = Vector2( 79, 57 )
-frames = ExtResource( 19 )
-frame = 6
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AnimatedSprite8" type="AnimatedSprite" parent="Items"]
-position = Vector2( 58, 90 )
-frames = ExtResource( 19 )
-frame = 11
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AnimatedSprite9" type="AnimatedSprite" parent="Items"]
-position = Vector2( 74, 90 )
-frames = ExtResource( 19 )
-frame = 11
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AnimatedSprite3" type="AnimatedSprite" parent="Items"]
-position = Vector2( 28, 137 )
-frames = ExtResource( 19 )
-frame = 4
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AnimatedSprite10" type="AnimatedSprite" parent="Items"]
-position = Vector2( 224, 66 )
-scale = Vector2( 0.75, 0.75 )
-frames = ExtResource( 18 )
-frame = 1
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AnimatedSprite11" type="AnimatedSprite" parent="Items"]
-modulate = Color( 0.478431, 0.533333, 0.65098, 1 )
-position = Vector2( 224, 66 )
-scale = Vector2( 0.75, 0.75 )
-frames = ExtResource( 18 )
-frame = 2
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
+[node name="ControlsHint" type="RichTextLabel" parent="."]
+light_mask = 524288
 margin_left = 8.0
-margin_top = 168.0
+margin_top = 163.0
 margin_right = 304.0
-margin_bottom = 184.0
-custom_fonts/normal_font = SubResource( 13 )
+margin_bottom = 174.0
+custom_fonts/normal_font = SubResource( 18 )
 bbcode_enabled = true
-bbcode_text = "[center] [img]res://GUI/Inventory/gui_inv_cell8x8.png[/img] - use, [img]res://GUI/Inventory/gui_inv_cell8x8.png[/img] - drop, [img]res://GUI/Inventory/gui_inv_cell8x8.png[/img] - description, [img]res://GUI/Inventory/gui_inv_cell8x8.png[/img] - scroll [/center]"
+bbcode_text = "[center] [img]res://GUI/Inventory/spr_inventory_hint3.png[/img] - use, [img]res://GUI/Inventory/spr_inventory_hint2.png[/img] - drop, [img]res://GUI/Inventory/spr_inventory_hint1.png[/img] - description, [img]res://GUI/Inventory/spr_inventory_hint4.png[/img] - scroll [/center]"
 text = "  - use,  - drop,  - description,  - scroll "
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Camera2D" type="Camera2D" parent="."]
-anchor_mode = 0
-current = true
-zoom = Vector2( 0.25, 0.25 )
-editor_draw_screen = false
+[node name="CanvasCRT" type="CanvasLayer" parent="."]
+layer = 2
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ColorRectEffect" type="ColorRect" parent="CanvasLayer"]
+[node name="CRTEffect" type="ColorRect" parent="CanvasCRT"]
+visible = false
 material = ExtResource( 14 )
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -803,20 +834,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BackBufferCopy" type="BackBufferCopy" parent="CanvasLayer"]
+[node name="BackBufferCopy" type="BackBufferCopy" parent="CanvasCRT"]
+visible = false
 rect = Rect2( 0, 0, 1280, 720 )
 __meta__ = {
 "_edit_lock_": true
-}
-
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
-
-[node name="ColorRectEffect2" type="ColorRect" parent="CanvasLayer2"]
-material = SubResource( 14 )
-margin_right = 1280.0
-margin_bottom = 720.0
-mouse_filter = 2
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
 }

@@ -1,23 +1,27 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" load_steps=6 format=2]
 
 [ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
 [ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Items/frames_items_floor.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Sounds/Inventory/snd_inv_drop.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/Inventory/snd_inv_pickup.wav" type="AudioStream" id=5]
 
 [resource]
 script = ExtResource( 1 )
 name = "Flashlight"
 itemType = 2
-itemID = ""
+itemID = "w_flashlight"
 spriteFloorFrames = ExtResource( 3 )
 spriteFloorFrame = 7
 spriteFloorSize = Vector2( 16, 4 )
 spriteInventoryFrames = ExtResource( 2 )
 spriteInventoryFrame = 7
 spriteInventorySize = Vector2( 22, 11 )
-spriteInventoryGridSize = Vector2( 2, 1 )
-ammo = 0
+spriteInventoryGridSize = Vector2( 3, 2 )
+ammo = 3576
 ammoMax = 10000
 isActive = false
-description = ""
+description = "A flashlight (US) or torch or torchlight (UK) is a portable hand-held electric light. "
 itemScript = ""
+audioPickup = ExtResource( 5 )
+audioDrop = ExtResource( 4 )

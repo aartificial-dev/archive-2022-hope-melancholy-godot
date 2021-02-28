@@ -8,7 +8,7 @@ using CommandList = System.Collections.Generic.List<ItemScriptParser.ItemScriptC
 public class ItemScriptParser {
     private Player player;
     private PlayerCamera camera;
-    private InventoryGUI inventoryGUI;
+    private InventoryManager inventoryManager;
     
     public struct ItemScriptActions {
         private CommandList pickup;
@@ -118,10 +118,10 @@ public class ItemScriptParser {
         {"purge",       null}                                                                                   // purge
     };
 
-    public ItemScriptParser(Player player, PlayerCamera camera, InventoryGUI inventoryGUI) {
+    public ItemScriptParser(Player player, PlayerCamera camera, InventoryManager inventoryManager) {
         this.player = player;
         this.camera = camera;
-        this.inventoryGUI = inventoryGUI;
+        this.inventoryManager = inventoryManager;
     }
 
     public static ItemScriptActions ParseActions(String actions) {
@@ -245,16 +245,16 @@ public class ItemScriptParser {
         String name = args[1];
         switch (state) {
             case "enable":
-                inventoryGUI.InventoryEnable(name);
+                inventoryManager.InventoryEnable(name);
                 return;
             case "disable":
-                inventoryGUI.InventoryDisable(name);
+                inventoryManager.InventoryDisable(name);
                 return;
             case "toggle":
-                inventoryGUI.InventoryToggle(name);
+                inventoryManager.InventoryToggle(name);
                 return;
             case "drop":
-                inventoryGUI.InventoryDrop(name);
+                inventoryManager.InventoryDrop(name);
                 return;
         }
     }

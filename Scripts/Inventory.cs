@@ -3,7 +3,7 @@ using System;
 using ItemArray = Godot.Collections.Array<ItemInventory>;
 
 [Tool]
-public class Inventory : Node2D {
+public class Inventory : Control {
     
     [Export]
     public Vector2 GridSize { set { gridSize = value; UpdateGrid();} get { return gridSize; } }
@@ -18,7 +18,8 @@ public class Inventory : Node2D {
     public Vector2 CellOffset { set { cellOffset = value; UpdateGrid();} get { return cellOffset; } }
     public Vector2 cellOffset = new Vector2(0f, 0f);
     [Export]
-    public bool updateGrid = false;
+    public bool DrawGrid { set {drawGrid = value; UpdateGrid();} get {return drawGrid;}}
+    private bool drawGrid = false;
     [Export]
     public String name = "inv";
     [Export]
@@ -26,16 +27,18 @@ public class Inventory : Node2D {
     [Export]
     public ItemPawn.ItemType blacklistType = ItemPawn.ItemType.None;
     [Export]
-    public int allowedAmount = 999;
+    public bool isItemSlot = false;
     [Export]
     public AudioStreamSample itemSound = ResourceLoader.Load<AudioStreamSample>("res://Sounds/Inventory/snd_inv_pickup.wav");
 
+    PackedScene itemInventoryScene = ResourceLoader.Load<PackedScene>("res://Items/ItemInventory.tscn");
     protected AudioStreamPlayer itemSoundPlayer;
 
-    public InventoryGUI inventoryGUI;
+    public InventoryManager inventoryManager;
     
     protected Vector2 leftTopPos = Vector2.Zero;
     protected Vector2 rightBottomPos = Vector2.Zero;
+    protected Vector2 inventorySize = Vector2.Zero;
 
     protected ItemArray itemList = new ItemArray();
 
@@ -47,50 +50,90 @@ public class Inventory : Node2D {
         this.AddChild(itemSoundPlayer);
     }
 
-    public override void _Process(float delta) {        
-        if (updateGrid) {
-            updateGrid = false;
-            Update();
+    public bool TryAddItem(ItemPawn itemPawn) {
+        if (allowedType != ItemPawn.ItemType.Any && itemPawn.Type != allowedType) return false;
+        if (itemPawn.Type == blacklistType) return false;
+        Vector2 actCellSize = new Vector2(cellSize + cellSpace);
+        for (int y = 0; y < gridSize.y; y ++) {
+            for (int x = 0; x < gridSize.x; x ++) {
+                Vector2 gridPos = new Vector2(x, y);
+                Vector2 itemSizeGrid = itemPawn.SpriteInventoryGridSize;
+                if (gridPos.x + itemSizeGrid.x > gridSize.x + 0.1f || gridPos.y + itemSizeGrid.y > gridSize.y + 0.1f) continue;
+                ItemArray itemIntersect = GridGetItemIntersectArray(gridPos, itemPawn.SpriteInventoryGridSize);
+                // GD.Print(itemIntersect, " ", x, " ", y);
+                if (itemIntersect.Count == 0) {
+                    ItemInventory item = (ItemInventory) itemInventoryScene.Instance();
+                    itemList.Add(item);
+                    item.itemPawn = itemPawn;
+                    item.gridPos = gridPos;
+                    item.Position = gridPos * actCellSize + cellOffset;
+                    this.AddChild(item);
+                    return true;
+                }
+            }
         }
+        return false;
     }
 
-    public bool PlaceItem(ItemInventory item) { // return true if cursor on inv
+    public ItemInventory GetItemUnderCursor() {
+        if (this.Visible == false) return null;
+        Vector2? gridPos = GetMouseGridPosFloor( this.GetLocalMousePosition());
+        if (gridPos is null) return null;
+        if (isItemSlot && itemList.Count > 0) {
+            return itemList[0];
+        }
+        ItemArray itemIntersect = GridGetItemIntersectArray((Vector2) gridPos, new Vector2(1f, 1f));
+        if (itemIntersect.Count == 1) {
+            return itemIntersect[0];
+        }
+        return null;
+    }
+
+    public bool PlaceItem(ItemInventory item) { // return true if item is placed
         if (this.Visible == false) return false;
         if (GetMouseGridPosFloor( this.GetLocalMousePosition() ) is null) return false;
-        if (allowedType != ItemPawn.ItemType.Any && item.itemPawn.Type != allowedType) return true;
-        if (item.itemPawn.Type == blacklistType) return true;
+        if (allowedType != ItemPawn.ItemType.Any && item.itemPawn.Type != allowedType) return false;
+        if (item.itemPawn.Type == blacklistType) return false;
 
+        Vector2 itemSizeGrid = item.itemPawn.SpriteInventoryGridSize;
         // CALCULATE ITEM PLACEMENT
         Vector2? gridPosRaw = GetMouseGridPosRaw( this.GetLocalMousePosition());
-        if (gridPosRaw is null) return true;
-        Vector2 gridPos = (Vector2) gridPosRaw - new Vector2(item.sizeGrid / 2f);
+        if (gridPosRaw is null) return false;
+        Vector2 gridPos = (Vector2) gridPosRaw - new Vector2(itemSizeGrid / 2f);
         gridPos = gridPos.Round();
 
         // if cannot place item
-        if (gridPos.x < 0 || gridPos.y < 0 || gridPos.x > gridSize.x || gridPos.y > gridSize.y) return true;
-        if (gridPos.x + item.sizeGrid.x > gridSize.x + 0.1f || gridPos.y + item.sizeGrid.y > gridSize.y + 0.1f) return true;
+        if (gridPos.x < 0 || gridPos.y < 0 || gridPos.x > gridSize.x || gridPos.y > gridSize.y) return false;
+        if (gridPos.x + itemSizeGrid.x > gridSize.x + 0.1f || gridPos.y + itemSizeGrid.y > gridSize.y + 0.1f) return false;
 
         Vector2 actCellSize = new Vector2(cellSize + cellSpace);
-        ItemArray itemIntersect = GridGetItemIntersectArray((Vector2) gridPos, item.sizeGrid);
+        ItemArray itemIntersect = GridGetItemIntersectArray((Vector2) gridPos, itemSizeGrid);
         bool forceSwap = false;
         if (itemIntersect.Count == 0) {
-            if (itemList.Count + 1 > allowedAmount) {
+            if (isItemSlot && itemList.Count > 0) {
                 forceSwap = true;
             } else {
                 itemList.Add(item);
                 item.gridPos = (Vector2) gridPos;
                 item.GetParent().RemoveChild(item);
                 this.AddChild(item);
-                item.Position = (Vector2) gridPos * actCellSize + cellOffset;
-                inventoryGUI.itemInHand = null;
+                if (isItemSlot) {
+                    Vector2 center = inventorySize / 2f;
+                    Vector2 sprSize = item.itemPawn.SpriteInventorySize;
+                    item.Position = center - sprSize / 2f;
+                } else {
+                    item.Position = (Vector2) gridPos * actCellSize + cellOffset;
+                }
+                inventoryManager.itemInHand = null;
                 itemSoundPlayer.Play();
+                return true;
             }
         }
         if (itemIntersect.Count == 1 || forceSwap) {
             // swap items
             ItemInventory itemPick;
             if (forceSwap) {
-                itemPick = itemList[itemList.Count - 1];
+                itemPick = itemList[0];
             } else {
                 itemPick = itemIntersect[0];
             }
@@ -98,33 +141,45 @@ public class Inventory : Node2D {
             item.gridPos = (Vector2) gridPos;
             item.GetParent().RemoveChild(item);
             this.AddChild(item);
-            item.Position = (Vector2) gridPos * actCellSize + cellOffset;
+            if (isItemSlot) {
+                Vector2 center = inventorySize / 2f;
+                Vector2 sprSize = item.itemPawn.SpriteInventorySize;
+                item.Position = center - sprSize / 2f;
+            } else {
+                item.Position = (Vector2) gridPos * actCellSize + cellOffset;
+            }
             itemList.Remove(itemPick);
             itemPick.GetParent().RemoveChild(itemPick);
-            inventoryGUI.inventoryHand.AddChild(itemPick);
-            inventoryGUI.itemInHand = itemPick;
-            inventoryGUI.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryGUI.itemInHand.sizeSprite / 2f;
-            inventoryGUI.itemInHand.Visible = true;
+            inventoryManager.inventoryHand.AddChild(itemPick);
+            inventoryManager.itemInHand = itemPick;
+            inventoryManager.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryManager.itemInHand.itemPawn.SpriteInventorySize / 2f;
+            inventoryManager.itemInHand.Visible = true;
             itemSoundPlayer.Play();
+            return true;
         }
-        return true;
+        return false;
     }
 
     public void TakeItem() {
         if (this.Visible == false) return;
         Vector2? gridPos = GetMouseGridPosFloor( this.GetLocalMousePosition());
         if (gridPos is null) return;
+        ItemInventory itemPick = null;
+        if (isItemSlot && itemList.Count > 0) {
+            itemPick = itemList[0];
+        }
         ItemArray itemIntersect = GridGetItemIntersectArray((Vector2) gridPos, new Vector2(1f, 1f));
         if (itemIntersect.Count == 1) {
-            ItemInventory itemPick = itemIntersect[0];
-            itemList.Remove(itemPick);
-            itemPick.GetParent().RemoveChild(itemPick);
-            inventoryGUI.inventoryHand.AddChild(itemPick);
-            inventoryGUI.itemInHand = itemPick;
-            inventoryGUI.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryGUI.itemInHand.sizeSprite / 2f;
-            inventoryGUI.itemInHand.Visible = true;
-            itemSoundPlayer.Play();
+            itemPick = itemIntersect[0];
         }
+        if (itemPick is null) return;
+        itemList.Remove(itemPick);
+        itemPick.GetParent().RemoveChild(itemPick);
+        inventoryManager.inventoryHand.AddChild(itemPick);
+        inventoryManager.itemInHand = itemPick;
+        inventoryManager.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryManager.itemInHand.itemPawn.SpriteInventorySize / 2f;
+        inventoryManager.itemInHand.Visible = true;
+        itemSoundPlayer.Play();
     }
 
     public void UseItem() {
@@ -134,7 +189,7 @@ public class Inventory : Node2D {
         ItemArray itemIntersect = GridGetItemIntersectArray((Vector2) gridPos, new Vector2(1f, 1f));
         if (itemIntersect.Count == 1) {
             ItemInventory itemPick = itemIntersect[0];
-            bool doDelete = inventoryGUI.UseItem(itemPick.itemPawn);
+            bool doDelete = inventoryManager.UseItem(itemPick.itemPawn);
             if (doDelete) {
                 itemList.Remove(itemPick);
                 itemPick.GetParent().RemoveChild(itemPick);
@@ -145,7 +200,7 @@ public class Inventory : Node2D {
     protected ItemArray GridGetItemIntersectArray(Vector2 pos, Vector2 size) {
         ItemArray itemIntersect = new ItemArray();
         foreach (ItemInventory item in itemList) {
-            Rect2 iItemRect = new Rect2(item.gridPos, item.sizeGrid);
+            Rect2 iItemRect = new Rect2(item.gridPos, item.itemPawn.SpriteInventoryGridSize);
             Rect2 nItemRect = new Rect2(pos, size);
             if (iItemRect.Intersects(nItemRect)) {
                 itemIntersect.Add(item);
@@ -190,12 +245,15 @@ public class Inventory : Node2D {
         
         rightBottomPos.x = cellOffset.x + cellSize.x * gridSize.x + cellSpace.x * gridSize.x;
         rightBottomPos.y = cellOffset.y + cellSize.y * gridSize.y + cellSpace.y * gridSize.y;
+
+        inventorySize = rightBottomPos;
+
         Update();
     }
 
     public override void _Draw() {
         
-        // if (!Engine.EditorHint) return;
+         if (!(Engine.EditorHint && drawGrid)) return;
         DrawCircle(leftTopPos, 1f, new Color("#00aaaa"));
         DrawCircle(rightBottomPos, 1f, new Color("#00aaaa"));
         for (int y = 0; y < Mathf.FloorToInt(gridSize.y); y ++) {
@@ -229,5 +287,14 @@ public class Inventory : Node2D {
         if (ind >= 0) {
             RemoveItem(ind);
         }
+    }
+
+    public ItemInventory GetItemByID(String id) {
+        foreach (ItemInventory item in itemList) {
+            if (item.itemPawn.Id == id) {
+                return item;
+            }
+        }
+        return null;
     }
 }

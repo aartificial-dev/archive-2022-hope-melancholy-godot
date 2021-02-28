@@ -2,16 +2,17 @@
 
 [ext_resource path="res://Shaders/shader_heartbeat.shader" type="Shader" id=1]
 
-[sub_resource type="Gradient" id=15]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.105634, 0.464789, 0.669014, 0.711268 )
 colors = PoolColorArray( 0, 0, 0, 1, 0.263158, 0.263158, 0.263158, 1, 1, 1, 1, 1, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=16]
-gradient = SubResource( 15 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
 [resource]
 shader = ExtResource( 1 )
+shader_param/heartRate = 1.0
 shader_param/iResolution = Vector2( 10, 30 )
-shader_param/blend_color = Color( 0.905882, 0.262745, 0.262745, 1 )
+shader_param/blend_color = Color( 0.92549, 0.172549, 0.172549, 1 )
 shader_param/offset = 0.0
-shader_param/gradient = SubResource( 16 )
+shader_param/gradient = SubResource( 2 )

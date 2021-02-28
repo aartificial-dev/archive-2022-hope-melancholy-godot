@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/INVENTORY_MOCKUP.png-4615e5abacb69a63a6c5e4c7a4445089.stex"
+path="res://.import/spr_empty_bat.png-59720a85397e3e88fe2cc8d192706c1b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://INVENTORY_MOCKUP.png"
-dest_files=[ "res://.import/INVENTORY_MOCKUP.png-4615e5abacb69a63a6c5e4c7a4445089.stex" ]
+source_file="res://VFX_Sprites/spr_empty_bat.png"
+dest_files=[ "res://.import/spr_empty_bat.png-59720a85397e3e88fe2cc8d192706c1b.stex" ]
 
 [params]
 

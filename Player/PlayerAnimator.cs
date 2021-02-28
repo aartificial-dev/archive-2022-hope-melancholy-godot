@@ -30,8 +30,13 @@ public class PlayerAnimator : Node2D {
 
     private Node2D bulletHolder;
     private PackedScene bulletScene = ResourceLoader.Load<PackedScene>("res://Objects/Bullet.tscn");
+    private PackedScene casingScene = ResourceLoader.Load<PackedScene>("res://Objects/WeaponTrash/BulletCasing.tscn");
+    private PackedScene emptyMagScene = ResourceLoader.Load<PackedScene>("res://Objects/WeaponTrash/EmptyMag.tscn");
     private Bullet bulletInstance = null;
     private RandomNumberGenerator rnd = new RandomNumberGenerator();
+
+    private StreamTexture spriteEmptyClip = ResourceLoader.Load<StreamTexture>("res://VFX_Sprites/spr_empty_clip.png");
+    private StreamTexture spriteEmptyBat = ResourceLoader.Load<StreamTexture>("res://VFX_Sprites/spr_empty_bat.png");
 
     private bool isAttacking = false;
     private bool isReloading = false;
@@ -41,6 +46,8 @@ public class PlayerAnimator : Node2D {
     private Light2D lightFlashlight;
     private Light2D lightLamp;
     private Timer lightBatteryTimer;
+
+    private Position2D emptyMagPos;
 
     private ItemPawn itemInHand;
 
@@ -72,6 +79,8 @@ public class PlayerAnimator : Node2D {
 
         bulletHolder = GetNode<Node2D>("PositionWeaponFront/BulletHolder");
 
+        emptyMagPos = GetNode<Position2D>("EmptyMagDrop");
+
         bulletInstance = (Bullet) bulletScene.Instance();
         bulletInstance.PauseMode = PauseModeEnum.Stop;
         rnd.Randomize();
@@ -86,6 +95,9 @@ public class PlayerAnimator : Node2D {
         
         animationPlayer.AnimationSetNext("hit", "idle");
         animationPlayer.AnimationSetNext("smoke", "idle");
+        
+        animationPlayer.AnimationSetNext("inv_open", "inv_opened");
+        animationPlayer.AnimationSetNext("inv_close", "idle");
 
         lightFlashlight = GetNode<Light2D>("LightFlashlight");
         lightLamp = GetNode<Light2D>("LightLamp");
@@ -141,7 +153,8 @@ public class PlayerAnimator : Node2D {
     }
 
     public bool GetCanMove() {
-        return !(isAttacking || isReloading);
+        String curAnim = animationPlayer.CurrentAnimation;
+        return !(isAttacking || isReloading) && !(curAnim == "inv_close" || curAnim == "inv_open");
     }
 
     public void SetIsAttacking(bool value) {
@@ -167,6 +180,7 @@ public class PlayerAnimator : Node2D {
         handsWeaponsBack.FlipH = flip;
         handsWeaponsFront.FlipH = flip;
         lightFlashlight.Scale = new Vector2 ( ( flip ? -1 : 1 ), 1);
+        emptyMagPos.Position = new Vector2 ( ( flip ? -4 : 4 ), 4);
     }
 
     public bool GetSpriteFlipH() {
@@ -221,6 +235,7 @@ public class PlayerAnimator : Node2D {
     }
 
     public void Attack(ItemPawn itemInHand) {
+        if (IsInventoryOpen()) return;
         if (!GetCanMove()) return;
         // isAttacking = true;
         if (itemInHand is null) {
@@ -239,25 +254,30 @@ public class PlayerAnimator : Node2D {
     }
     
     public void AttackGun(ItemPawn itemInHand) {
-            int currentAmmo = itemInHand.Ammo;
-            if (currentAmmo == 0) {
-                audioPistolNoAmmo.Play();
-                return;
-            }
-            currentAmmo --;
-            itemInHand.Ammo = currentAmmo;
-            PlayAnimation("attack_handgun", null);
-            audioPistolShoot.PlayRandom();
-            Vector2 dir = handFrontPosition.GlobalPosition.DirectionTo(this.GetGlobalMousePosition() + new Vector2(rnd.Randf(), rnd.Randf()));
-            player.camera.Translate(new Vector2(Mathf.Floor(-dir.x * 7f), 0f));
+        int currentAmmo = itemInHand.Ammo;
+        if (currentAmmo == 0) {
+            audioPistolNoAmmo.Play();
+            return;
+        }
+        currentAmmo --;
+        itemInHand.Ammo = currentAmmo;
+        PlayAnimation("attack_handgun", null);
+        audioPistolShoot.PlayRandom();
+        Vector2 dir = handFrontPosition.GlobalPosition.DirectionTo(this.GetGlobalMousePosition() + new Vector2(rnd.Randf(), rnd.Randf()));
+        player.camera.Translate(new Vector2(Mathf.Floor(-dir.x * 7f), 0f));
 
-            player.GetParent().AddChild(bulletInstance);
-            bulletInstance.PauseMode = PauseModeEnum.Inherit;
-            bulletInstance.direction = dir;
-            bulletInstance.Rotation = Mathf.Atan2(dir.y, dir.x);
-            bulletInstance.GlobalPosition = bulletSpawnPosition.GlobalPosition;
-            bulletInstance = (Bullet) bulletScene.Instance();
-            bulletInstance.PauseMode = PauseModeEnum.Stop;
+        player.GetParent().AddChild(bulletInstance);
+        bulletInstance.PauseMode = PauseModeEnum.Inherit;
+        bulletInstance.direction = dir;
+        bulletInstance.Rotation = Mathf.Atan2(dir.y, dir.x);
+        bulletInstance.GlobalPosition = bulletSpawnPosition.GlobalPosition;
+        bulletInstance = (Bullet) bulletScene.Instance();
+        bulletInstance.PauseMode = PauseModeEnum.Stop;
+
+        RigidBody2D casingInstance = (RigidBody2D) casingScene.Instance();
+        player.GetParent().AddChild(casingInstance);
+        casingInstance.GlobalPosition = bulletSpawnPosition.GlobalPosition;
+        casingInstance.ApplyImpulse(new Vector2(GetSpriteFlipH() ? -0.15f : 0.15f, 0f) ,bulletSpawnPosition.GlobalPosition.DirectionTo(new Vector2(player.GlobalPosition.x, player.GlobalPosition.y - 20f)) * (80f + rnd.Randf() * 40f));
     }
 
     public void AttackTube() {
@@ -280,6 +300,7 @@ public class PlayerAnimator : Node2D {
 
     public void Reload(ItemPawn itemInHand) {
         if (!GetCanMove()) return;
+        if (IsInventoryOpen()) return;
         if (itemInHand is null) return;
 
         reloadItemPawnHolder = itemInHand;
@@ -287,54 +308,59 @@ public class PlayerAnimator : Node2D {
         switch (itemInHand.Name) {
             case "Handgun":
                 if ( reloadItemPawnHolder.Ammo == reloadItemPawnHolder.AmmoMax ) break;
-                if ( player.ammoHandgun == 0 ) break; 
+                if ( player.GetAmmo("a_handgun") is null ) break; 
                 isReloading = true;
                 PlayAnimation("reload_handgun", null);
+                CreateEmptyMag(spriteEmptyClip);
             break;
             case "Flashlight":
                 if ( reloadItemPawnHolder.Ammo == reloadItemPawnHolder.AmmoMax ) break;
-                if ( player.ammoBattery == 0 ) break; 
+                if ( player.GetAmmo("a_battery") is null ) break; 
                 isReloading = true;
                 PlayAnimation("reload_flash", null);
+                CreateEmptyMag(spriteEmptyBat);
             break;
             case "Lamp":
                 if ( reloadItemPawnHolder.Ammo == reloadItemPawnHolder.AmmoMax ) break;
-                if ( player.ammoBattery == 0 ) break; 
+                if ( player.GetAmmo("a_battery") is null ) break; 
                 isReloading = true;
                 PlayAnimation("reload_lamp", null);
+                CreateEmptyMag(spriteEmptyBat);
             break;
         }
+    }
+
+    private void CreateEmptyMag(StreamTexture sprite) {
+        RigidBody2D emptyMag = (RigidBody2D) emptyMagScene.Instance();
+        player.GetParent().AddChild(emptyMag);
+        emptyMag.Position = emptyMagPos.GlobalPosition;
+        emptyMag.GetNode<Sprite>("Sprite").Texture = sprite;
     }
 
     public void ReloadHandgun() {
         int ammoMax = reloadItemPawnHolder.AmmoMax;
         int ammo = reloadItemPawnHolder.Ammo;
-        int ammoInv = player.ammoHandgun;
-        int difference = Mathf.Min(ammoMax - ammo, ammoInv);
-        player.ammoHandgun -= difference;
-        reloadItemPawnHolder.Ammo = ammo + difference;
+        reloadItemPawnHolder.Ammo = ammoMax;
+        player.RemoveAmmo("a_handgun");
     }  
 
     public void ReloadFlash() {
         int ammoMax = reloadItemPawnHolder.AmmoMax;
         int ammo = reloadItemPawnHolder.Ammo;
-        int ammoInv = player.ammoBattery;
-        int difference = Mathf.Min(ammoMax - ammo, ammoInv);
-        player.ammoBattery -= difference;
-        reloadItemPawnHolder.Ammo = ammo + difference;
+        reloadItemPawnHolder.Ammo = ammoMax;
+        player.RemoveAmmo("a_battery");
     }
 
     public void ReloadLamp() {
         int ammoMax = reloadItemPawnHolder.AmmoMax;
         int ammo = reloadItemPawnHolder.Ammo;
-        int ammoInv = player.ammoBattery;
-        int difference = Mathf.Min(ammoMax - ammo, ammoInv);
-        player.ammoBattery -= difference;
-        reloadItemPawnHolder.Ammo = ammo + difference;
+        reloadItemPawnHolder.Ammo = ammoMax;
+        player.RemoveAmmo("a_battery");
     }
 
     /// <summary> Function that using item (weaapon) in hardcoded way. Do not mistake with Item Script Language actions use </summary>
     public void UseItem(ItemPawn itemInHand) {
+        if (IsInventoryOpen()) return;
         if (!GetCanMove()) return;
         if (itemInHand is null) return;
 
@@ -383,5 +409,22 @@ public class PlayerAnimator : Node2D {
 
         if (!isLightOn) return;
         lightDictionary[itemInHand.Name].Visible = true;
+    }
+
+    public bool IsInventoryOpen() {
+        return player.IsInventoryOpen();
+    }
+
+    public void ToggleGUI() {
+        if (!GetCanMove()) return;
+        if (animationPlayer.CurrentAnimation == "inv_opened") {
+            PlayAnimation("inv_close", null);
+        } else {
+            PlayAnimation("inv_open", null);
+        }
+    }
+
+    public void SetGUIVisible(bool value) {
+        player.camera.SetGUIVisible(value);
     }
 }

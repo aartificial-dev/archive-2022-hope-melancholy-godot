@@ -21,6 +21,7 @@ public class ItemPawn {
     private bool isActive;
 
     private Mesh model;
+    private SpatialMaterial material;
     private String description;
 
     private String itemScript;
@@ -44,6 +45,7 @@ public class ItemPawn {
     public SpriteFrames SpriteInventoryFrames { get => spriteInventoryFrames; }
     public int SpriteInventoryFrame { get => spriteInventoryFrame; }
     public Vector2 SpriteInventorySize { get => GetSpriteInventorySize(); }
+    // public Vector2 SpriteInventorySizeAA { get => spriteInventorySize; } //////////////////////////////////////////////////////////////
     public Vector2 SpriteInventoryGridSize { get => GetSpriteInventoryGridSize(); }
 
     public int Ammo { get => ammo; set => ammo = value; }
@@ -51,6 +53,7 @@ public class ItemPawn {
     public bool IsActive {get => isActive; set => isActive = value; }
 
     public Mesh Model { get => model; }
+    public SpatialMaterial Material { get => material; }
     public string Description { get => description; }
 
     public string ItemScript { get => itemScript; }
@@ -70,7 +73,7 @@ public class ItemPawn {
                     SpriteFrames spriteFloorFrames, int spriteFloorFrame, Vector2 spriteFloorSize, 
                     SpriteFrames spriteInventoryFrames, int spriteInventoryFrame, Vector2 spriteInventorySize, Vector2 spriteInventoryGridSize, 
                     int ammo, int ammoMax, bool isActive,
-                    Mesh model, string description, 
+                    Mesh model, SpatialMaterial material, string description, 
                     string itemScript, AudioStreamSample audioPickup, AudioStreamSample audioUse, AudioStreamSample audioDrop, AudioStreamSample audioActivate) {
         this.name = name;
         this.type = type;
@@ -86,6 +89,7 @@ public class ItemPawn {
         this.ammoMax = ammoMax;
         this.isActive = isActive;
         this.model = model;
+        this.material = material;
         this.description = description;
         this.itemScript = itemScript;
         this.audioPickup = audioPickup;
@@ -114,6 +118,7 @@ public class ItemPawn {
         bool isActive = (bool) res.Get("isActive");
 
         Mesh model = (Mesh) res.Get("model");
+        SpatialMaterial material = (SpatialMaterial) res.Get("material");
         String description = (String) res.Get("description");
 
         String itemScript = (String) res.Get("itemScript");
@@ -126,7 +131,7 @@ public class ItemPawn {
                             spriteFloorFrames, spriteFloorFrame, spriteFloorSize, 
                             spriteInventoryFrames, spriteInventoryFrame, spriteInventorySize, spriteInventoryGridSize, 
                             ammo, ammoMax, isActive,
-                            model, description,
+                            model, material, description,
                             itemScript, audioPickup, audioUse, audioDrop, audioActivate);
     }
 

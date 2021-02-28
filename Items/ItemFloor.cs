@@ -6,11 +6,6 @@ public class ItemFloor : RigidBody2D {
     [Export]
     public Resource itemPawnResource;
 
-    [Export]
-    public AudioStreamSample pickupAudioSample = ResourceLoader.Load<AudioStreamSample>("res://Sounds/Inventory/snd_inv_pickup.wav");
-    [Export]
-    public AudioStreamSample dropAudioSample = ResourceLoader.Load<AudioStreamSample>("res://Sounds/Inventory/snd_inv_drop.wav");
-
     public ItemPawn itemPawn;
 
     private AnimatedSprite sprite;

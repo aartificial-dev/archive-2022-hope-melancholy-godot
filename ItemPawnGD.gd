@@ -121,6 +121,14 @@ var property_list = {
 		"usage": PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_SCRIPT_VARIABLE,
 		"value": null
 	},
+	"material": {
+		"name": "material",
+		"type": TYPE_OBJECT,
+		"hint": PROPERTY_HINT_RESOURCE_TYPE,
+		"hint_string": "SpatialMaterial",
+		"usage": PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_SCRIPT_VARIABLE,
+		"value": null
+	},
 	"description": {
 		"name": "description",
 		"type": TYPE_STRING,

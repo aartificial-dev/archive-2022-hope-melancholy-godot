@@ -1,5 +1,6 @@
 shader_type canvas_item;
 
+uniform float heartRate: hint_range(1., 3.);
 uniform vec2 iResolution;
 uniform vec4 blend_color: hint_color;
 uniform sampler2D gradient;
@@ -39,10 +40,15 @@ float saw(float x, float period) {
 }
 
 float function(float x) {
+	x *= heartRate;
 	x += 0.1;
 	x *= 1.9;
-	 if (x > 1.25) x -= 1.25;
-	return 0.5 - heartbeat(x) / 2.;
+	if (x > 1.25) x -= 1.25;
+	if (x > 1.25) x -= 1.25;
+	if (x > 1.25) x -= 1.25;
+	if (x > 1.25) x -= 1.25;
+	if (x > 1.25) x -= 1.25;
+	return 0.6 - heartbeat(x) / 1.8;
 }
 
 float distanceToFunction(vec2 p, float xDelta) {
@@ -79,9 +85,8 @@ float sawtooth(float x, float amplitude, float period) {
 
 void fragment() {
     vec2 uv = UV;
-
     float intensity = getFunctionLine(uv);
-    
+	intensity = min(intensity * 1.5, 1.);
     vec3 col = vec3(blend_color.rgb) * intensity;
 	
 	float grad = texture(gradient, vec2(UV.x - sawtooth(TIME + offset, 1., 2.), UV.y)).r;

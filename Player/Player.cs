@@ -26,9 +26,6 @@ public class Player : KinematicBody2D {
     public int sanity = 40;
     public int sanityMax = 40;
 
-    public int ammoHandgun = 0;
-    public int ammoBattery = 0;
-
     public override void _Ready() {
 
         collisionShapePlayer = GetNode<CollisionShape2D>("CollisionShapePlayer");
@@ -58,6 +55,11 @@ public class Player : KinematicBody2D {
         if (Input.IsActionJustPressed("key_reload")) {
             animator.Reload(itemInHand);
         }
+        if (Input.IsActionJustPressed("key_inventory")) {
+            animator.ToggleGUI();
+        }
+        health = Mathf.Clamp(health, 0, healthMax);
+        sanity = Mathf.Clamp(sanity, 0, sanityMax);
 
         camera.UpdateCamera(delta);
     }
@@ -73,7 +75,7 @@ public class Player : KinematicBody2D {
     }
 
     private void ProcessMove(float delta) {
-        if (Input.IsActionPressed("key_aim") || !animator.GetCanMove()) return;
+        if (Input.IsActionPressed("key_aim") || !animator.GetCanMove() || IsInventoryOpen()) return;
         ItemPawn itemInHand = (camera.selectedWeapon is null) ? null : camera.selectedWeapon.itemPawn;
         Vector2 dir = Vector2.Zero;
         if (Input.IsActionPressed("key_right")) {
@@ -197,12 +199,24 @@ public class Player : KinematicBody2D {
     public void AmmoAddValue(String type, int value) {
         switch (type) {
             case "handgun":
-                ammoHandgun += value;
+                //ammoHandgun += value;
             break;
             case "battery":
-                ammoBattery += value;
+                //ammoBattery += value;
             break;
         }
+    }
+
+    public ItemInventory GetAmmo(String id) {
+        return camera.GetItemByID(id);
+    }
+
+    public void RemoveAmmo(String id) {
+        camera.RemoveItem(id);
+    }
+
+    public bool IsInventoryOpen() {
+        return camera.IsInventoryOpen();
     }
 
 }
