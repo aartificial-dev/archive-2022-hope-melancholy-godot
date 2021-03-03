@@ -75,6 +75,7 @@ public class PlayerCamera : Camera2D {
 
     public void UpdateCamera(float delta) {
         if (player is null) return;
+        if (player.GetIsInAnimation()) return;
         
         Transform2D _tr = this.Transform;
         Vector2 pos = _tr.origin;

@@ -47,7 +47,7 @@ vec4 grain(vec2 suv, float time) {
 void fragment() {  
 	vec4 col = chromatic(SCREEN_TEXTURE, SCREEN_UV);
 	col *= vignette(SCREEN_UV);
-	col *= grain(SCREEN_UV, TIME);
+	//col *= grain(SCREEN_UV, TIME);
 	
 	COLOR = col;
 }

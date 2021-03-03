@@ -1,10 +1,101 @@
-[gd_resource type="Resource" load_steps=6 format=2]
+[gd_resource type="Resource" load_steps=23 format=2]
 
 [ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
-[ext_resource path="res://Items/frames_items_inv.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Items/frames_items_floor.tres" type="SpriteFrames" id=3]
 [ext_resource path="res://Sounds/Inventory/snd_inv_drop.wav" type="AudioStream" id=4]
 [ext_resource path="res://Sounds/Inventory/snd_inv_pickup.wav" type="AudioStream" id=5]
+
+[sub_resource type="StreamTexture" id=1]
+flags = 2
+load_path = "res://.import/items_inv.png-2e8aec56a06f9a9c9ea1911133627ba7.stex"
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 0, 0, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 55, 0, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 110, 0, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 165, 0, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 0, 22, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 55, 22, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 110, 22, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 165, 22, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 0, 44, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 55, 44, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 110, 44, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 165, 44, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 0, 66, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 55, 66, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 110, 66, 55, 22 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 2
+atlas = SubResource( 1 )
+region = Rect2( 165, 66, 55, 22 )
+
+[sub_resource type="SpriteFrames" id=18]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [resource]
 script = ExtResource( 1 )
@@ -14,7 +105,7 @@ itemID = ""
 spriteFloorFrames = ExtResource( 3 )
 spriteFloorFrame = 8
 spriteFloorSize = Vector2( 14, 6 )
-spriteInventoryFrames = ExtResource( 2 )
+spriteInventoryFrames = SubResource( 18 )
 spriteInventoryFrame = 8
 spriteInventorySize = Vector2( 33, 22 )
 spriteInventoryGridSize = Vector2( 1, 1 )

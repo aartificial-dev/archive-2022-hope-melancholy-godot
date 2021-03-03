@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_speech_2.wav-2f2c7e11672e3b8f78a20812e24544ef.sample"
+
+[deps]
+
+source_file="res://Sounds/Speech/snd_speech_2.wav"
+dest_files=[ "res://.import/snd_speech_2.wav-2f2c7e11672e3b8f78a20812e24544ef.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

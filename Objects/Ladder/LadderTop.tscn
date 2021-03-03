@@ -9,6 +9,7 @@ extents = Vector2( 4, 1 )
 extents = Vector2( 16, 1.5 )
 
 [node name="LadderTop" type="Node2D"]
+z_index = 2
 
 [node name="LadderEnd" type="Area2D" parent="."]
 position = Vector2( 0, -44 )

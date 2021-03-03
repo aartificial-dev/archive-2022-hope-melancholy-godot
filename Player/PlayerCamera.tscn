@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Player/PlayerCamera.cs" type="Script" id=1]
-[ext_resource path="res://Fonts/main_font.tres" type="DynamicFont" id=5]
+[ext_resource path="res://Fonts/6pxFont.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Shaders/shader_gm.tres" type="Material" id=18]
 [ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=19]
 [ext_resource path="res://GUI/Cursor/gui_frames_use.tres" type="SpriteFrames" id=21]
@@ -12,10 +12,10 @@
 light_mode = 1
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.0941176, 0.101961, 0.141176, 0.392157 )
+bg_color = Color( 0.0705882, 0.0705882, 0.0784314, 0.501961 )
 
 [sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.0941176, 0.101961, 0.141176, 0.392157 )
+bg_color = Color( 0.0705882, 0.0705882, 0.0784314, 0.501961 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 12
@@ -59,10 +59,10 @@ __meta__ = {
 use_parent_material = true
 margin_left = 6.0
 margin_top = -5.0
-margin_right = 30.0
+margin_right = 21.0
 margin_bottom = 6.0
 custom_styles/normal = SubResource( 3 )
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 2 )
 text = "Item"
 valign = 1
 __meta__ = {
@@ -73,7 +73,7 @@ __meta__ = {
 use_parent_material = true
 frames = ExtResource( 21 )
 animation = "hand"
-frame = 1
+frame = 4
 playing = true
 
 [node name="Label" type="Label" parent="."]
@@ -82,7 +82,7 @@ margin_left = -155.0
 margin_top = 77.0
 margin_right = -137.0
 margin_bottom = 86.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 2 )
 text = "fps"
 __meta__ = {
 "_edit_use_anchors_": false

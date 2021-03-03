@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://ItemPawnGD.gd" type="Script" id=1]
+[ext_resource path="res://ItemsRes/Frames/frames_items_2x3.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Items/frames_items_floor.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Sounds/Inventory/snd_inv_drop.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/Inventory/snd_inv_pickup.wav" type="AudioStream" id=5]
+
+[resource]
+script = ExtResource( 1 )
+name = "Flare Pack"
+itemType = 10
+itemID = "u_flare"
+spriteFloorFrames = ExtResource( 3 )
+spriteFloorFrame = 15
+spriteFloorSize = Vector2( 20, 3 )
+spriteInventoryFrames = ExtResource( 2 )
+spriteInventoryFrame = 1
+spriteInventorySize = Vector2( 16, 24 )
+spriteInventoryGridSize = Vector2( 2, 3 )
+ammo = 5
+ammoMax = 5
+isActive = false
+description = ""
+itemScript = ""
+audioPickup = ExtResource( 5 )
+audioDrop = ExtResource( 4 )

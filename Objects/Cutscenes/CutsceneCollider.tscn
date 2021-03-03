@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/CutsceneCollider.cs" type="Script" id=1]
+
+[node name="CutsceneCollider" type="Area2D"]
+position = Vector2( 8, 104 )
+monitorable = false
+script = ExtResource( 1 )

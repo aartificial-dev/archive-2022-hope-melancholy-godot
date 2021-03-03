@@ -106,6 +106,25 @@ public class InventoryManager : Control {
                 gui.AddHintFlag( (uint) GUI.HintFlags.Use );
             }
         }
+
+        foreach (Inventory weap in weaponSlots) {
+            if (weap.GetItemCount() > 0) {
+                weap.GetNode<Sprite>("Overlay").Visible = false;
+            } else {
+                weap.GetNode<Sprite>("Overlay").Visible = true;
+            }
+        }
+        if (slotTool.GetItemCount() > 0) {
+            slotTool.GetNode<Sprite>("Overlay").Visible = false;
+        } else {
+            slotTool.GetNode<Sprite>("Overlay").Visible = true;
+        }
+        if (slotUsable.GetItemCount() > 0) {
+            slotUsable.GetNode<Sprite>("Overlay").Visible = false;
+        } else {
+            slotUsable.GetNode<Sprite>("Overlay").Visible = true;
+        }
+
 	}
 
     public bool PickFloorItem(ItemFloor item) {

@@ -26,6 +26,8 @@ public class Player : KinematicBody2D {
     public int sanity = 40;
     public int sanityMax = 40;
 
+    private bool isInAnimation;
+
     public override void _Ready() {
 
         collisionShapePlayer = GetNode<CollisionShape2D>("CollisionShapePlayer");
@@ -39,6 +41,7 @@ public class Player : KinematicBody2D {
     }
 
     public override void _Process(float delta) {
+        if (!GetCanMove()) return;
         ItemPawn itemInHand = (camera.selectedWeapon is null) ? null : camera.selectedWeapon.itemPawn;
         animator.SetItemInHand(itemInHand);
         if (Input.IsActionPressed("key_aim")) {
@@ -217,6 +220,14 @@ public class Player : KinematicBody2D {
 
     public bool IsInventoryOpen() {
         return camera.IsInventoryOpen();
+    }
+
+    public void SetIsInAnimation(bool value) {
+        isInAnimation = value;
+    }
+
+    public bool GetIsInAnimation() {
+        return isInAnimation;
     }
 
 }

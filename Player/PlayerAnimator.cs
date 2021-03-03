@@ -37,6 +37,8 @@ public class PlayerAnimator : Node2D {
 
     private StreamTexture spriteEmptyClip = ResourceLoader.Load<StreamTexture>("res://VFX_Sprites/spr_empty_clip.png");
     private StreamTexture spriteEmptyBat = ResourceLoader.Load<StreamTexture>("res://VFX_Sprites/spr_empty_bat.png");
+    
+    private PackedScene flareScene = ResourceLoader.Load<PackedScene>("res://Objects/Flare.tscn");
 
     private bool isAttacking = false;
     private bool isReloading = false;
@@ -52,6 +54,8 @@ public class PlayerAnimator : Node2D {
     private ItemPawn itemInHand;
 
     private LightDictionary lightDictionary = new LightDictionary();
+
+    private Flare flare = null;
 
     public override void _Ready() {
         player = GetParent<Player>();
@@ -98,6 +102,8 @@ public class PlayerAnimator : Node2D {
         
         animationPlayer.AnimationSetNext("inv_open", "inv_opened");
         animationPlayer.AnimationSetNext("inv_close", "idle");
+        
+        animationPlayer.AnimationSetNext("flare_throw", "idle");
 
         lightFlashlight = GetNode<Light2D>("LightFlashlight");
         lightLamp = GetNode<Light2D>("LightLamp");
@@ -105,7 +111,7 @@ public class PlayerAnimator : Node2D {
         lightDictionary.Add("Flashlight", lightFlashlight);
         lightDictionary.Add("Lamp", lightLamp);
     }
-
+    
     public override void _Process(float delta) {
         String anim = animationPlayer.CurrentAnimation;
         if (anim.StartsWith("idle") || anim.StartsWith("walk")) {
@@ -114,6 +120,15 @@ public class PlayerAnimator : Node2D {
         } else {
             lightFlashlight.Visible = false;
             lightLamp.Visible = false;
+        }
+        if (Input.IsActionJustPressed("key_usable") && GetCanMove() && !IsInventoryOpen()) {
+            SetSpriteFlipH(this.GetGlobalMousePosition().x <= this.GlobalPosition.x);
+            PlayAnimation("flare_throw", null);
+            isAttacking = true;
+        }
+
+        if (player.GetIsInAnimation()) {
+            PlayAnimation("idle", itemInHand);
         }
     }
 
@@ -154,7 +169,7 @@ public class PlayerAnimator : Node2D {
 
     public bool GetCanMove() {
         String curAnim = animationPlayer.CurrentAnimation;
-        return !(isAttacking || isReloading) && !(curAnim == "inv_close" || curAnim == "inv_open");
+        return !(isAttacking || isReloading) && !(curAnim == "inv_close" || curAnim == "inv_open") && !(player.GetIsInAnimation());
     }
 
     public void SetIsAttacking(bool value) {
@@ -237,9 +252,9 @@ public class PlayerAnimator : Node2D {
     public void Attack(ItemPawn itemInHand) {
         if (IsInventoryOpen()) return;
         if (!GetCanMove()) return;
-        // isAttacking = true;
         if (itemInHand is null) {
             PlayAnimation("attack_fists", null);
+            isAttacking = true;
             return;
         }
         switch (itemInHand.Name) {
@@ -249,6 +264,7 @@ public class PlayerAnimator : Node2D {
             break;
             case "Tube":
                 PlayAnimation("attack_tube", null);
+                isAttacking = true;
             break;
         }
     }
@@ -259,6 +275,7 @@ public class PlayerAnimator : Node2D {
             audioPistolNoAmmo.Play();
             return;
         }
+        isAttacking = true;
         currentAmmo --;
         itemInHand.Ammo = currentAmmo;
         PlayAnimation("attack_handgun", null);
@@ -333,7 +350,7 @@ public class PlayerAnimator : Node2D {
     private void CreateEmptyMag(StreamTexture sprite) {
         RigidBody2D emptyMag = (RigidBody2D) emptyMagScene.Instance();
         player.GetParent().AddChild(emptyMag);
-        emptyMag.Position = emptyMagPos.GlobalPosition;
+        emptyMag.GlobalPosition = emptyMagPos.GlobalPosition;
         emptyMag.GetNode<Sprite>("Sprite").Texture = sprite;
     }
 
@@ -426,5 +443,32 @@ public class PlayerAnimator : Node2D {
 
     public void SetGUIVisible(bool value) {
         player.camera.SetGUIVisible(value);
+    }
+
+    public void SpawnFlare() {
+        Position2D fPos = GetNode<Position2D>("FlareSpawnPos");
+        Vector2 localPos = fPos.Position;
+        Vector2 pos = fPos.GlobalPosition;
+        pos.x = GetSpriteFlipH() ? (pos.x - localPos.x * 2f) : pos.x;
+        flare = (Flare) flareScene.Instance();
+
+        Godot.Collections.Array arr = this.GetTree().GetNodesInGroup("ItemHolder");
+        foreach (Node node in arr) {
+            if (node is Node2D) {
+                node.AddChild(flare);
+                break;
+            }
+        }
+
+        flare.GlobalPosition = pos;
+        flare.GlobalRotation = fPos.GlobalRotation * (GetSpriteFlipH() ? -1 : 1);
+        flare.ApplyCentralImpulse(new Vector2((GetSpriteFlipH() ? -1 : 1), -0.35f) * 120f);//player.GlobalPosition.DirectionTo(this.GetGlobalMousePosition()) * 90f);
+    }
+
+    public void ApplyFlareTorque() {
+        if (!(flare is null)) {
+            flare.ApplyTorqueImpulse((GetSpriteFlipH() ? -1 : 1) * 6f);
+            flare = null;
+        }
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 [Tool]
 public class ItemFloor : RigidBody2D {
-    [Export]
+    [Export(PropertyHint.ResourceType, "ItemPawnGD")]
     public Resource itemPawnResource;
 
     public ItemPawn itemPawn;

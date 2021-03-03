@@ -5,6 +5,5 @@
 [resource]
 shader = ExtResource( 1 )
 shader_param/warp = 0.5
-shader_param/scan = 0.75
-shader_param/noiseBrightness = 0.0
-shader_param/noiseContrast = 1.0
+shader_param/scan = 0.8
+shader_param/colBorder = Color( 0, 0, 0, 1 )

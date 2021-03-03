@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class GUIStatus : Panel { 
+public class GUIStatus : NinePatchRect { 
 
     private GUI gui;
     private ShaderMaterial healthShader;
