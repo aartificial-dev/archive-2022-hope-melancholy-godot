@@ -7,7 +7,6 @@
 
 [sub_resource type="StreamTexture" id=1]
 flags = 2
-load_path = "res://.import/items_inv.png-2e8aec56a06f9a9c9ea1911133627ba7.stex"
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 2

@@ -369,13 +369,13 @@ tracks/6/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
 "args": [ true ],
-"method": "SetIsAttacking"
+"method": "SetIsInAnimation"
 }, {
 "args": [  ],
 "method": "AttackFists"
 }, {
 "args": [ false ],
-"method": "SetIsAttacking"
+"method": "SetIsInAnimation"
 } ]
 }
 
@@ -541,10 +541,10 @@ tracks/12/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [ true ],
-"method": "SetIsAttacking"
+"method": "SetIsInAnimation"
 }, {
 "args": [ false ],
-"method": "SetIsAttacking"
+"method": "SetIsInAnimation"
 } ]
 }
 tracks/13/type = "value"
@@ -658,13 +658,13 @@ tracks/6/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
 "args": [ true ],
-"method": "SetIsAttacking"
+"method": "SetIsInAnimation"
 }, {
 "args": [  ],
 "method": "AttackTube"
 }, {
 "args": [ false ],
-"method": "SetIsAttacking"
+"method": "SetIsInAnimation"
 } ]
 }
 
@@ -1007,7 +1007,7 @@ tracks/6/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "values": [ {
 "args": [ true ],
-"method": "SetIsAttacking"
+"method": "SetIsInAnimation"
 }, {
 "args": [  ],
 "method": "SpawnFlare"
@@ -1016,7 +1016,7 @@ tracks/6/keys = {
 "method": "ApplyFlareTorque"
 }, {
 "args": [ false ],
-"method": "SetIsAttacking"
+"method": "SetIsInAnimation"
 } ]
 }
 tracks/7/type = "value"
@@ -1990,13 +1990,13 @@ tracks/7/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
 "args": [ true ],
-"method": "SetIsReloading"
+"method": "SetIsInAnimation"
 }, {
 "args": [  ],
 "method": "ReloadFlash"
 }, {
 "args": [ false ],
-"method": "SetIsReloading"
+"method": "SetIsInAnimation"
 } ]
 }
 
@@ -2099,13 +2099,13 @@ tracks/7/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
 "args": [ true ],
-"method": "SetIsReloading"
+"method": "SetIsInAnimation"
 }, {
 "args": [  ],
 "method": "ReloadHandgun"
 }, {
 "args": [ false ],
-"method": "SetIsReloading"
+"method": "SetIsInAnimation"
 } ]
 }
 
@@ -2208,13 +2208,13 @@ tracks/7/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
 "args": [ true ],
-"method": "SetIsReloading"
+"method": "SetIsInAnimation"
 }, {
 "args": [  ],
 "method": "ReloadLamp"
 }, {
 "args": [ false ],
-"method": "SetIsReloading"
+"method": "SetIsInAnimation"
 } ]
 }
 
@@ -3016,6 +3016,7 @@ texture = ExtResource( 16 )
 normal_map = ExtResource( 28 )
 vframes = 12
 hframes = 10
+frame = 59
 
 [node name="SpriteMovementHands" type="Sprite" parent="."]
 visible = false
@@ -3197,7 +3198,7 @@ __meta__ = {
 [node name="FlareSpawnPos" type="Position2D" parent="."]
 visible = false
 position = Vector2( 3, 7 )
-rotation = -0.610865
+rotation = 1.19381
 __meta__ = {
 "_gizmo_extents_": 2.0
 }

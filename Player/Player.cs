@@ -26,7 +26,7 @@ public class Player : KinematicBody2D {
     public int sanity = 40;
     public int sanityMax = 40;
 
-    private bool isInAnimation;
+    private bool isInCutscene = false;
 
     public override void _Ready() {
 
@@ -60,6 +60,9 @@ public class Player : KinematicBody2D {
         }
         if (Input.IsActionJustPressed("key_inventory")) {
             animator.ToggleGUI();
+        }
+        if (Input.IsActionJustPressed("key_usable")) {
+            animator.UseUsableItem();
         }
         health = Mathf.Clamp(health, 0, healthMax);
         sanity = Mathf.Clamp(sanity, 0, sanityMax);
@@ -222,12 +225,12 @@ public class Player : KinematicBody2D {
         return camera.IsInventoryOpen();
     }
 
-    public void SetIsInAnimation(bool value) {
-        isInAnimation = value;
+    public void SetIsInCutscene(bool value) {
+        isInCutscene = value;
     }
 
-    public bool GetIsInAnimation() {
-        return isInAnimation;
+    public bool GetIsInCutscene() {
+        return isInCutscene;
     }
 
 }

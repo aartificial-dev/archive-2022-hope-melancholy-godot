@@ -24,7 +24,7 @@
 [ext_resource path="res://GUI/Inventory/spr_inv_weapon.png" type="Texture" id=22]
 [ext_resource path="res://Fonts/6px-Normal.ttf" type="DynamicFontData" id=23]
 
-[sub_resource type="Shader" id=2]
+[sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 
 uniform float breathRate: hint_range(1., 3.);
@@ -119,22 +119,22 @@ void fragment() {
 	COLOR.a = intensity * grad;
 }"
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0.105634, 0.464789, 0.669014, 0.711268 )
 colors = PoolColorArray( 0, 0, 0, 1, 0.263158, 0.263158, 0.263158, 1, 1, 1, 1, 1, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
 
-[sub_resource type="ShaderMaterial" id=5]
-shader = SubResource( 2 )
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 1 )
 shader_param/breathRate = 1.0
 shader_param/iResolution = Vector2( 10, 30 )
 shader_param/blend_color = Color( 0.0823529, 0.254902, 0.937255, 1 )
 shader_param/offset = 0.75
-shader_param/gradient = SubResource( 4 )
+shader_param/gradient = SubResource( 3 )
 
-[sub_resource type="Shader" id=6]
+[sub_resource type="Shader" id=5]
 code = "shader_type canvas_item;
 
 uniform float chiRate: hint_range(1., 3.);
@@ -230,36 +230,36 @@ void fragment() {
 	COLOR.a = intensity * grad;
 }"
 
-[sub_resource type="OpenSimplexNoise" id=7]
+[sub_resource type="OpenSimplexNoise" id=6]
 octaves = 5
 period = 138.4
 persistence = 0.791
 
-[sub_resource type="NoiseTexture" id=8]
+[sub_resource type="NoiseTexture" id=7]
 seamless = true
-noise = SubResource( 7 )
+noise = SubResource( 6 )
 
-[sub_resource type="ShaderMaterial" id=9]
-shader = SubResource( 6 )
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 5 )
 shader_param/chiRate = 3.0
 shader_param/iResolution = Vector2( 10, 30 )
 shader_param/blend_color = Color( 0.141176, 0.811765, 0.945098, 1 )
 shader_param/offset = 0.302
-shader_param/gradient = SubResource( 4 )
-shader_param/noise = SubResource( 8 )
+shader_param/gradient = SubResource( 3 )
+shader_param/noise = SubResource( 7 )
 
-[sub_resource type="ViewportTexture" id=10]
+[sub_resource type="ViewportTexture" id=9]
 viewport_path = NodePath("Preview/Viewport")
 
-[sub_resource type="ProceduralSky" id=11]
+[sub_resource type="ProceduralSky" id=10]
 
-[sub_resource type="Environment" id=12]
-background_sky = SubResource( 11 )
+[sub_resource type="Environment" id=11]
+background_sky = SubResource( 10 )
 ambient_light_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="CapsuleMesh" id=13]
+[sub_resource type="CapsuleMesh" id=12]
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.12549, 0.12549, 0.12549, 1 )
 border_width_left = 1
 border_width_top = 1
@@ -267,7 +267,7 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 1, 0.305882, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=14]
 bg_color = Color( 0.0862745, 0.0862745, 0.0862745, 1 )
 border_width_left = 1
 border_width_top = 1
@@ -276,7 +276,7 @@ border_width_bottom = 1
 border_color = Color( 1, 0.305882, 0, 1 )
 anti_aliasing = false
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=15]
 size = 8
 extra_spacing_top = -1
 font_data = ExtResource( 23 )
@@ -378,7 +378,7 @@ __meta__ = {
 
 [node name="SanityGraph" type="ColorRect" parent="Status/SanityBar"]
 light_mask = 524288
-material = SubResource( 5 )
+material = SubResource( 4 )
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 76.0
@@ -406,7 +406,7 @@ __meta__ = {
 
 [node name="ChiGraph" type="ColorRect" parent="Status/ChiBar"]
 light_mask = 524288
-material = SubResource( 9 )
+material = SubResource( 8 )
 margin_left = 1.0
 margin_top = -3.0
 margin_right = 76.0
@@ -430,7 +430,7 @@ margin_top = 88.0
 margin_right = 292.0
 margin_bottom = 160.0
 mouse_filter = 2
-texture = SubResource( 10 )
+texture = SubResource( 9 )
 script = ExtResource( 21 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -473,16 +473,16 @@ render_target_v_flip = true
 
 [node name="Camera" type="Camera" parent="Preview/Viewport"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.537783, 1.48049 )
-environment = SubResource( 12 )
+environment = SubResource( 11 )
 current = true
 
 [node name="Spatial" type="Spatial" parent="Preview/Viewport"]
-transform = Transform( -0.0130837, 0, -1.00954, 0, 1, 0, 1.00954, 0, -0.0130837, 0, 0, 0 )
+transform = Transform( 0.839614, 0, -0.560717, 0, 1, 0, 0.560717, 0, 0.839614, 0, 0, 0 )
 script = ExtResource( 11 )
 
 [node name="ItemModel" type="CSGMesh" parent="Preview/Viewport/Spatial"]
 transform = Transform( 0.152264, -0.0636028, 1.03613e-08, 0, -2.68841e-08, -0.165, 0.0636028, 0.152264, -2.48049e-08, 0, 0.6, 0 )
-mesh = SubResource( 13 )
+mesh = SubResource( 12 )
 material = ExtResource( 10 )
 
 [node name="Description" type="ColorRect" parent="Preview"]
@@ -542,10 +542,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "inventory"
-CellOffset = Vector2( 1, 4 )
 blacklistType = 5
 GridSize = Vector2( 19, 9 )
 CellSize = Vector2( 8, 8 )
+CellOffset = Vector2( 1, 4 )
 
 [node name="Toolbox" type="NinePatchRect" parent="InventoryManager"]
 light_mask = 524288
@@ -565,10 +565,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "toolbox"
-CellOffset = Vector2( 1, 12 )
 blacklistType = 5
 GridSize = Vector2( 9, 3 )
 CellSize = Vector2( 8, 8 )
+CellOffset = Vector2( 1, 12 )
 
 [node name="Button" type="Button" parent="InventoryManager/Toolbox"]
 light_mask = 524288
@@ -576,10 +576,10 @@ margin_top = 3.0
 margin_right = 74.0
 margin_bottom = 12.0
 focus_mode = 0
-custom_styles/hover = SubResource( 14 )
-custom_styles/pressed = SubResource( 15 )
+custom_styles/hover = SubResource( 13 )
+custom_styles/pressed = SubResource( 14 )
 custom_styles/normal = ExtResource( 12 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 15 )
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Combine"
@@ -606,12 +606,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "weapon1"
-allowedType = 2
-isItemSlot = true
-CellOffset = Vector2( 1, 4 )
 blacklistType = 5
 GridSize = Vector2( 4, 8 )
 CellSize = Vector2( 8, 8 )
+allowedType = 2
+isItemSlot = true
+CellOffset = Vector2( 1, 4 )
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Weapon1"]
 position = Vector2( 17, 36 )
@@ -635,12 +635,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "weapon2"
-allowedType = 2
-isItemSlot = true
-CellOffset = Vector2( 1, 4 )
 blacklistType = 5
 GridSize = Vector2( 4, 8 )
 CellSize = Vector2( 8, 8 )
+allowedType = 2
+isItemSlot = true
+CellOffset = Vector2( 1, 4 )
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Weapon2"]
 position = Vector2( 17, 36 )
@@ -664,12 +664,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "usable"
-allowedType = 10
-isItemSlot = true
-CellOffset = Vector2( 1, 4 )
 blacklistType = 5
 GridSize = Vector2( 3, 3 )
 CellSize = Vector2( 8, 8 )
+allowedType = 10
+isItemSlot = true
+CellOffset = Vector2( 1, 4 )
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Usable"]
 position = Vector2( 13, 16 )
@@ -693,12 +693,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "tools"
-allowedType = 9
-isItemSlot = true
-CellOffset = Vector2( 1, 4 )
 blacklistType = 5
 GridSize = Vector2( 5, 3 )
 CellSize = Vector2( 8, 8 )
+allowedType = 9
+isItemSlot = true
+CellOffset = Vector2( 1, 4 )
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Tools"]
 position = Vector2( 21, 16 )
@@ -718,9 +718,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "chip1"
+CellSize = Vector2( 24, 12 )
 allowedType = 5
 isItemSlot = true
-CellSize = Vector2( 24, 12 )
 
 [node name="Chip2" type="TextureRect" parent="InventoryManager"]
 light_mask = 524288
@@ -736,9 +736,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "chip2"
+CellSize = Vector2( 24, 12 )
 allowedType = 5
 isItemSlot = true
-CellSize = Vector2( 24, 12 )
 
 [node name="Chip3" type="TextureRect" parent="InventoryManager"]
 light_mask = 524288
@@ -754,9 +754,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "chip3"
+CellSize = Vector2( 24, 12 )
 allowedType = 5
 isItemSlot = true
-CellSize = Vector2( 24, 12 )
 
 [node name="Items" type="Control" parent="InventoryManager"]
 light_mask = 524288

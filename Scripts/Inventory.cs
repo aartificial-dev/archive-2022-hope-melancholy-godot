@@ -120,7 +120,7 @@ public class Inventory : Control {
                 if (isItemSlot) {
                     Vector2 center = inventorySize / 2f;
                     Vector2 sprSize = item.itemPawn.SpriteInventorySize;
-                    item.Position = center - sprSize / 2f;
+                    item.Position = cellOffset + center - sprSize / 2f;
                 } else {
                     item.Position = (Vector2) gridPos * actCellSize + cellOffset;
                 }

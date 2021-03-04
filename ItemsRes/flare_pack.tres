@@ -10,7 +10,7 @@
 script = ExtResource( 1 )
 name = "Flare Pack"
 itemType = 10
-itemID = "u_flare"
+itemID = "u_flare_pack"
 spriteFloorFrames = ExtResource( 3 )
 spriteFloorFrame = 15
 spriteFloorSize = Vector2( 20, 3 )

@@ -28,7 +28,7 @@ public class GUI : Control {
     }
 
 	public override void _Process(float delta) {
-        GetNode<ColorRect>("CanvasCRT/CRTEffect").Visible = this.Visible;
+        //GetNode<ColorRect>("CanvasCRT/CRTEffect").Visible = this.Visible;
 
         MakeControlsHint();
 	}
@@ -141,5 +141,13 @@ public class GUI : Control {
     
     public int GetPlayerSanityMax() {
         return GetPlayer().sanityMax;
+    }
+
+    public ItemPawn GetUsableItem() {
+        return inventoryManager.GetUsableItem();
+    }
+
+    public void UseUsableItem() {
+        inventoryManager.UseUsableItem();
     }
 }

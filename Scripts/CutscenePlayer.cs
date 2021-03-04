@@ -12,6 +12,7 @@ public class CutscenePlayer : AnimationPlayer {
 
 	public override void _Process(float delta) {
         if (waitingForInput && Input.IsActionJustPressed(waitInput)) {
+            waitingForInput = false;
             this.Play();
         }
 	}

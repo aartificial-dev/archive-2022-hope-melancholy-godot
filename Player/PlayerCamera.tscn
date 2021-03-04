@@ -1,7 +1,9 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Player/PlayerCamera.cs" type="Script" id=1]
 [ext_resource path="res://Fonts/6pxFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Scripts/CheatSheet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Player/PlayerFOV.cs" type="Script" id=4]
 [ext_resource path="res://Shaders/shader_gm.tres" type="Material" id=18]
 [ext_resource path="res://ToolVisibleOnStart.gd" type="Script" id=19]
 [ext_resource path="res://GUI/Cursor/gui_frames_use.tres" type="SpriteFrames" id=21]
@@ -19,6 +21,7 @@ bg_color = Color( 0.0705882, 0.0705882, 0.0784314, 0.501961 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 12
+use_mipmaps = true
 font_data = ExtResource( 22 )
 
 [sub_resource type="CanvasItemMaterial" id=5]
@@ -33,9 +36,14 @@ current = true
 zoom = Vector2( 0.25, 0.25 )
 script = ExtResource( 1 )
 
+[node name="FOV" type="Node2D" parent="."]
+z_index = 15
+script = ExtResource( 4 )
+
 [node name="InteractHint" type="Node2D" parent="."]
 visible = false
 use_parent_material = true
+z_index = 50
 
 [node name="Timer" type="Timer" parent="InteractHint"]
 process_mode = 0
@@ -76,28 +84,21 @@ animation = "hand"
 frame = 4
 playing = true
 
-[node name="Label" type="Label" parent="."]
-use_parent_material = true
-margin_left = -155.0
-margin_top = 77.0
-margin_right = -137.0
-margin_bottom = 86.0
-custom_fonts/font = ExtResource( 2 )
-text = "fps"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+scale = Vector2( 4, 4 )
+transform = Transform2D( 4, 0, 0, 4, 0, 0 )
 
-[node name="GameVersion" type="Label" parent="."]
+[node name="GameVersion" type="Label" parent="CanvasLayer"]
 use_parent_material = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -90.0
-margin_top = 80.0
-margin_right = 90.0
-margin_bottom = 89.0
+margin_left = -570.0
+margin_top = -188.0
+margin_right = -390.0
+margin_bottom = -180.0
+rect_pivot_offset = Vector2( 90, 4 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 0.0784314 )
 text = "h.o.p.e.: melancholy pre-alpha"
@@ -106,9 +107,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-scale = Vector2( 4, 4 )
-transform = Transform2D( 4, 0, 0, 4, 0, 0 )
+[node name="CheatSheet" parent="CanvasLayer" instance=ExtResource( 3 )]
+visible = false
 
 [node name="GUI" parent="CanvasLayer" instance=ExtResource( 27 )]
 visible = false

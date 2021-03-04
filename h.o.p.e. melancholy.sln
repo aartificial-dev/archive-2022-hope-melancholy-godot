@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hope2D", "Hope2D.csproj", "{0890AE02-C8EC-4FB3-B081-E39414EC7D62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "h.o.p.e. melancholy", "h.o.p.e. melancholy.csproj", "{0890AE02-C8EC-4FB3-B081-E39414EC7D62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

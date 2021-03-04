@@ -40,8 +40,7 @@ public class PlayerAnimator : Node2D {
     
     private PackedScene flareScene = ResourceLoader.Load<PackedScene>("res://Objects/Flare.tscn");
 
-    private bool isAttacking = false;
-    private bool isReloading = false;
+    private bool isInAnimation = false;
 
     private ItemPawn reloadItemPawnHolder = null;
 
@@ -108,8 +107,8 @@ public class PlayerAnimator : Node2D {
         lightFlashlight = GetNode<Light2D>("LightFlashlight");
         lightLamp = GetNode<Light2D>("LightLamp");
 
-        lightDictionary.Add("Flashlight", lightFlashlight);
-        lightDictionary.Add("Lamp", lightLamp);
+        lightDictionary.Add("w_flashlight", lightFlashlight);
+        lightDictionary.Add("w_lamp", lightLamp);
     }
     
     public override void _Process(float delta) {
@@ -121,13 +120,8 @@ public class PlayerAnimator : Node2D {
             lightFlashlight.Visible = false;
             lightLamp.Visible = false;
         }
-        if (Input.IsActionJustPressed("key_usable") && GetCanMove() && !IsInventoryOpen()) {
-            SetSpriteFlipH(this.GetGlobalMousePosition().x <= this.GlobalPosition.x);
-            PlayAnimation("flare_throw", null);
-            isAttacking = true;
-        }
 
-        if (player.GetIsInAnimation()) {
+        if (player.GetIsInCutscene()) {
             PlayAnimation("idle", itemInHand);
         }
     }
@@ -154,14 +148,14 @@ public class PlayerAnimator : Node2D {
     }
 
     public String GetAnimationItemName(String animation, ItemPawn itemInHand) {
-        switch (itemInHand.Name) {
-            case "Flashlight":
+        switch (itemInHand.Id) {
+            case "w_flashlight":
                 return animation + (itemInHand.IsActive ? "_flash_on" : "_flash_off");
-            case "Handgun":
+            case "w_handgun":
                 return animation + "_handgun";
-            case "Lamp":
+            case "w_lamp":
                 return animation + "_lamp";
-            case "Tube":
+            case "w_tube":
                 return animation + "_tube";
         }
         return "";
@@ -169,23 +163,15 @@ public class PlayerAnimator : Node2D {
 
     public bool GetCanMove() {
         String curAnim = animationPlayer.CurrentAnimation;
-        return !(isAttacking || isReloading) && !(curAnim == "inv_close" || curAnim == "inv_open") && !(player.GetIsInAnimation());
+        return !(isInAnimation) && !(curAnim == "inv_close" || curAnim == "inv_open") && !(player.GetIsInCutscene());
     }
 
-    public void SetIsAttacking(bool value) {
-        isAttacking = value;
+    public void SetIsInAnimation(bool value) {
+        isInAnimation = value;
     }
 
-    public bool GetIsAttacking() {
-        return isAttacking;
-    }
-
-    public void SetIsReloading(bool value) {
-        isReloading = value;
-    }
-
-    public bool GetIsReloading() {
-        return isReloading;
+    public bool GetIsInAnimation() {
+        return isInAnimation;
     }
 
     public void SetSpriteFlipH(bool flip) {
@@ -209,11 +195,11 @@ public class PlayerAnimator : Node2D {
             PlayAnimation("aim_fists", null);
             return;
         }
-        switch (itemInHand.Name) {
-            case "Handgun":
+        switch (itemInHand.Id) {
+            case "w_handgun":
                 AimGun();
             break;
-            case "Tube":
+            case "w_tube":
                 PlayAnimation("aim_tube", null);
             break;
         }
@@ -254,17 +240,17 @@ public class PlayerAnimator : Node2D {
         if (!GetCanMove()) return;
         if (itemInHand is null) {
             PlayAnimation("attack_fists", null);
-            isAttacking = true;
+            isInAnimation = true;
             return;
         }
-        switch (itemInHand.Name) {
-            case "Handgun":
+        switch (itemInHand.Id) {
+            case "w_handgun":
                 AimGun();
                 AttackGun(itemInHand);
             break;
-            case "Tube":
+            case "w_tube":
                 PlayAnimation("attack_tube", null);
-                isAttacking = true;
+                isInAnimation = true;
             break;
         }
     }
@@ -275,7 +261,7 @@ public class PlayerAnimator : Node2D {
             audioPistolNoAmmo.Play();
             return;
         }
-        isAttacking = true;
+        isInAnimation = true;
         currentAmmo --;
         itemInHand.Ammo = currentAmmo;
         PlayAnimation("attack_handgun", null);
@@ -322,25 +308,25 @@ public class PlayerAnimator : Node2D {
 
         reloadItemPawnHolder = itemInHand;
 
-        switch (itemInHand.Name) {
-            case "Handgun":
+        switch (itemInHand.Id) {
+            case "w_handgun":
                 if ( reloadItemPawnHolder.Ammo == reloadItemPawnHolder.AmmoMax ) break;
                 if ( player.GetAmmo("a_handgun") is null ) break; 
-                isReloading = true;
+                isInAnimation = true;
                 PlayAnimation("reload_handgun", null);
                 CreateEmptyMag(spriteEmptyClip);
             break;
-            case "Flashlight":
+            case "w_flashlight":
                 if ( reloadItemPawnHolder.Ammo == reloadItemPawnHolder.AmmoMax ) break;
                 if ( player.GetAmmo("a_battery") is null ) break; 
-                isReloading = true;
+                isInAnimation = true;
                 PlayAnimation("reload_flash", null);
                 CreateEmptyMag(spriteEmptyBat);
             break;
-            case "Lamp":
+            case "w_lamp":
                 if ( reloadItemPawnHolder.Ammo == reloadItemPawnHolder.AmmoMax ) break;
                 if ( player.GetAmmo("a_battery") is null ) break; 
-                isReloading = true;
+                isInAnimation = true;
                 PlayAnimation("reload_lamp", null);
                 CreateEmptyMag(spriteEmptyBat);
             break;
@@ -381,11 +367,11 @@ public class PlayerAnimator : Node2D {
         if (!GetCanMove()) return;
         if (itemInHand is null) return;
 
-        switch (itemInHand.Name) {
-            case "Flashlight":
+        switch (itemInHand.Id) {
+            case "w_flashlight":
                 UseLightSource(itemInHand);
             break;
-            case "Lamp":
+            case "w_lamp":
                 UseLightSource(itemInHand);
             break;
         }
@@ -409,7 +395,7 @@ public class PlayerAnimator : Node2D {
         if (!GetCanMove()) return;
         if (itemInHand is null) return;
         // GD.Print(itemInHand.name, " ", itemInHand.textField, " ", itemInHand.intArray);
-        if (!lightDictionary.ContainsKey(itemInHand.Name)) return;
+        if (!lightDictionary.ContainsKey(itemInHand.Id)) return;
 
         bool isLightOn = false;
         int ammo = (int) itemInHand.Ammo;
@@ -425,7 +411,7 @@ public class PlayerAnimator : Node2D {
         }
 
         if (!isLightOn) return;
-        lightDictionary[itemInHand.Name].Visible = true;
+        lightDictionary[itemInHand.Id].Visible = true;
     }
 
     public bool IsInventoryOpen() {
@@ -470,5 +456,28 @@ public class PlayerAnimator : Node2D {
             flare.ApplyTorqueImpulse((GetSpriteFlipH() ? -1 : 1) * 6f);
             flare = null;
         }
+    }
+
+    public void UseUsableItem() {
+        if (IsInventoryOpen()) return;
+        if (!GetCanMove()) return;
+        PlayerCamera cam = player.camera;
+
+        ItemPawn item = cam.GetUsableItem();
+        //GD.Print(item);
+        if (item is null) return;
+
+        switch (item.Id) {
+            case "u_flare_pack":
+                UseFlarePack();
+                cam.UseUsableItem();
+            break;
+        }
+    }
+
+    private void UseFlarePack() {
+        SetSpriteFlipH(this.GetGlobalMousePosition().x <= this.GlobalPosition.x);
+        PlayAnimation("flare_throw", null);
+        isInAnimation = true;
     }
 }

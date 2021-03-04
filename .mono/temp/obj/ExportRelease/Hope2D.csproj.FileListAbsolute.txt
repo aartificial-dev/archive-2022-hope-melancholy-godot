@@ -1,0 +1,8 @@
+C:\Users\alice\git\hope_gd_2d\.mono\temp\bin\ExportRelease\Hope2D.dll
+C:\Users\alice\git\hope_gd_2d\.mono\temp\bin\ExportRelease\Hope2D.pdb
+C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportRelease\Hope2D.csprojAssemblyReference.cache
+C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportRelease\Hope2D.AssemblyInfoInputs.cache
+C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportRelease\Hope2D.AssemblyInfo.cs
+C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportRelease\Hope2D.csproj.CoreCompileInputs.cache
+C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportRelease\Hope2D.dll
+C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportRelease\Hope2D.pdb

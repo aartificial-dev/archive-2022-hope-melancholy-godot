@@ -10,7 +10,7 @@
 script = ExtResource( 1 )
 name = "Tube"
 itemType = 2
-itemID = ""
+itemID = "w_tube"
 spriteFloorFrames = ExtResource( 3 )
 spriteFloorFrame = 1
 spriteFloorSize = Vector2( 28, 3 )

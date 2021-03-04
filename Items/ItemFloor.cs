@@ -48,7 +48,7 @@ public class ItemFloor : RigidBody2D {
         
     }
 
-    private void ChangeItem() {
+    public void ChangeItem() {
         if (!(itemPawnResource is null)) {
             itemPawn = ItemPawn.MakePawnFromGD(itemPawnResource);
         }

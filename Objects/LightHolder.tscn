@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CanvasItemMaterial" id=4]
+
+[node name="LightHolder" type="Node2D" groups=[
+"LightHolder",
+]]
+material = SubResource( 4 )

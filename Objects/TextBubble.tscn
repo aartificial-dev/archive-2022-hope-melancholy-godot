@@ -25,7 +25,7 @@ font_data = ExtResource( 3 )
 
 [node name="TextBubble" type="Node2D"]
 material = SubResource( 1 )
-z_index = 5
+z_index = 50
 script = ExtResource( 4 )
 textAppearSpeed = 0.25
 
@@ -83,9 +83,9 @@ max_distance = 500.0
 [node name="ContinuePrompt" type="Label" parent="."]
 visible = false
 use_parent_material = true
-margin_left = -24.0
+margin_left = -25.0
 margin_top = -26.0
-margin_right = 7.0
+margin_right = 6.0
 margin_bottom = -20.0
 grow_horizontal = 0
 custom_styles/normal = SubResource( 3 )
@@ -98,5 +98,5 @@ __meta__ = {
 }
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.00416667
+wait_time = 0.25
 one_shot = true

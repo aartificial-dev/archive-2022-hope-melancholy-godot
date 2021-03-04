@@ -52,12 +52,16 @@ public class Flare : RigidBody2D {
         particles.Emitting = false;
         light.Visible = false;
         audioFire.Playing = false;
+        if (particles.Emitting != false) {
+            RemoveChild(light);
+            light.QueueFree();
+            RemoveChild(particles);
+            particles.QueueFree();
+        }
     }
 
     public void HitByBullet(Vector2 pos, Vector2 direction, float speed) {
-        particles.Emitting = false;
-        light.Visible = false;
-        audioFire.Playing = false;
+        BurnOut();
         timerBurned.Stop();
         this.ApplyImpulse(this.GlobalPosition - pos, direction * speed * 2f);
     }

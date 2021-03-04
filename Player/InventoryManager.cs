@@ -260,4 +260,24 @@ public class InventoryManager : Control {
         inventory.RemoveItem(GetItemByID(id));
     }
     
+    public ItemPawn GetUsableItem() {
+        if (slotUsable.GetItemCount() > 0) {
+            return slotUsable.GetItem(0).itemPawn;
+        } else {
+            return null;
+        }
+    }
+
+    public void UseUsableItem() {
+        if (slotUsable.GetItemCount() > 0) {
+            ItemPawn item = slotUsable.GetItem(0).itemPawn;
+            int ammo = item.Ammo;
+            ammo --;
+            if (ammo == 0) {
+                slotUsable.RemoveItem(0);
+            } else {
+                item.Ammo = ammo;
+            }
+        }
+    }
 }

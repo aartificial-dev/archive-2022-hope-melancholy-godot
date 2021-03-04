@@ -30,10 +30,6 @@ public class GUIPreview : TextureRect {
     }
 
 	public override void _Process(float delta) {
-        if (Input.IsActionJustPressed("key_space") && this.Visible) {
-            noItemScreen.Visible = !noItemScreen.Visible;
-        }
-
         ItemPawn item = gui.GetItemUnderCursor();
         ItemPawn hand = gui.GetItemInHand();
         if (item is null || !(hand is null)) {
@@ -66,18 +62,19 @@ public class GUIPreview : TextureRect {
 
     private void ShowDescription(ItemPawn itemPawn) {
         String descr = itemPawn.Description;
-        if (descr.Length > 0) {
+        bool doShowDescription = (descr.Length > 0 || itemPawn.Type == ItemPawn.ItemType.Weapon || itemPawn.Type == ItemPawn.ItemType.Usable);
+        if (doShowDescription) {
             gui.AddHintFlag((uint) GUI.HintFlags.Description);
         }
 
-        if (Input.IsActionPressed("key_description") && gui.Visible && descr.Length > 0) {
+        if (Input.IsActionPressed("key_description") && gui.Visible && doShowDescription) {
             description.Visible = true;
             String des = descr + GenerateBottomLine(itemPawn);
             if (!descriptionText.Text.StartsWith(descr)) {
                 descriptionText.VisibleCharacters = 0;
             }
             descriptionText.Text = des;
-            if (descriptionText.PercentVisible < 1f) {
+            if (descriptionText.VisibleCharacters < des.Length && des.Length != 0) {
                 descriptionText.VisibleCharacters = descriptionText.VisibleCharacters + 2;
                 textAudioPlayer.Play();
             }
@@ -115,6 +112,8 @@ public class GUIPreview : TextureRect {
                 return GD.Str("\nCharge: ", Mathf.CeilToInt(( (float)itemPawn.Ammo / (float)itemPawn.AmmoMax ) * 100), "%");
             case "w_lamp":
                 return GD.Str("\nCharge: ", Mathf.CeilToInt(( (float)itemPawn.Ammo / (float)itemPawn.AmmoMax ) * 100), "%");
+            case "u_flare_pack":
+                return GD.Str("\nFlares: ", itemPawn.Ammo, "/", itemPawn.AmmoMax);
         }
         return "";
     }
