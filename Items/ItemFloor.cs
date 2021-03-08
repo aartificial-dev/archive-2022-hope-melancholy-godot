@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 [Tool]
-public class ItemFloor : RigidBody2D {
+public class ItemFloor : RigidBody2D, InteractiveObject {
     [Export(PropertyHint.ResourceType, "ItemPawnGD")]
     public Resource itemPawnResource;
 
@@ -12,7 +12,7 @@ public class ItemFloor : RigidBody2D {
     private CollisionShape2D collision;
     private RectangleShape2D rectangleShape2D;
 
-    private bool isMouseIn = false;
+    public bool MouseIn {set; get;}
 
     private Player player = null;
     private PlayerCamera camera = null;
@@ -35,17 +35,24 @@ public class ItemFloor : RigidBody2D {
             return;
         }
 
-        if (isMouseIn && !(FindCamera() is null)) {
+        if (MouseIn) {
+            FindCamera();
             FindPlayer();
-            bool canPickupDistance = false;
-            if (!(player is null)) {
-                canPickupDistance = this.GlobalPosition.DistanceTo(player.GlobalPosition) <= player.interactDistance;
-            }
-            if (canPickupDistance) {
-                camera.ShowInteractHint(itemPawn.Name, PlayerCamera.InteractHintIcon.hand, this.GlobalPosition);
+            if (! (player is null || camera is null) ) {
+                ShowInteractHint();
             }
         }
         
+    }
+
+    public void ShowInteractHint() {
+        bool canPickupDistance = false;
+        if (!(player is null)) {
+            canPickupDistance = this.GlobalPosition.DistanceTo(player.GlobalPosition) <= player.interactDistance;
+        }
+        if (canPickupDistance) {
+            camera.ShowInteractHint(itemPawn.Name, PlayerCamera.InteractHintIcon.hand, this.GlobalPosition, this);
+        }
     }
 
     public void ChangeItem() {
@@ -72,37 +79,45 @@ public class ItemFloor : RigidBody2D {
     public void MouseEvent(Node viewport, InputEvent inputEvent, int shapeidx) {
         if (Engine.EditorHint) return;
         if (inputEvent.IsActionReleased("mb_right")) {
-            // pick up event
-            bool canPickupDistance = false;
             FindCamera();
             FindPlayer();
-            if (!(player is null)) {
-                //GD.Print(this.GlobalPosition.DistanceTo(player.GlobalPosition), " / ", this.GlobalPosition.DistanceSquaredTo(player.GlobalPosition));
-                canPickupDistance = this.GlobalPosition.DistanceTo(player.GlobalPosition) <= player.interactDistance;
+            if (! (player is null || camera is null) ) {
+                Use();
             }
-            if (canPickupDistance && !(camera is null)) {
-                bool canPickup = camera.PickFloorItem(this);
-                if (canPickup) {
-                    Godot.Collections.Array bodies = this.GetCollidingBodies();
-                    foreach (Node2D nodeBody in bodies) {
-                        if (nodeBody is RigidBody2D body) {
-                            body.Sleeping = false;
-                            body.ApplyCentralImpulse(Vector2.Up * 10f);
-                        }
-                    }
-                    MouseExited();
-                    this.GetParent().RemoveChild(this);
-                    this.QueueFree();
-                }
+        }
+    }
+
+    public void Use() {
+        // pick up event
+        if (camera.interactNode is null) return;
+        bool canPickupDistance = this.GlobalPosition.DistanceTo(player.GlobalPosition) <= player.interactDistance;
+        bool isCurrentInstance = camera.interactNode.GetInstanceId() == this.GetInstanceId();
+        if (canPickupDistance && isCurrentInstance) {
+            bool canPickup = camera.PickFloorItem(this);
+            if (canPickup) {
+                Pickup();
             }
         }
     }
 
     public void MouseEntered() {
-        isMouseIn = true;
+        MouseIn = true;
     }
     public void MouseExited() {
-        isMouseIn = false;
+        MouseIn = false;
+    }
+
+    private void Pickup() {
+        Godot.Collections.Array bodies = this.GetCollidingBodies();
+        foreach (Node2D nodeBody in bodies) {
+            if (nodeBody is RigidBody2D body) {
+                body.Sleeping = false;
+                body.ApplyCentralImpulse(Vector2.Up * 10f);
+            }
+        }
+        MouseExited();
+        this.GetParent().RemoveChild(this);
+        this.QueueFree();
     }
     
     private Player FindPlayer() {

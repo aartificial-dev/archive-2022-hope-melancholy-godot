@@ -44,25 +44,27 @@ public class Player : KinematicBody2D {
         if (!GetCanMove()) return;
         ItemPawn itemInHand = (camera.selectedWeapon is null) ? null : camera.selectedWeapon.itemPawn;
         animator.SetItemInHand(itemInHand);
-        if (Input.IsActionPressed("key_aim")) {
-            if (Input.IsActionJustPressed("mb_left") && !camera.IsCursorOnInventory()) {
-                animator.Attack(itemInHand);
+        if (!isOnLadder) {
+            if (Input.IsActionPressed("key_aim")) {
+                if (Input.IsActionJustPressed("mb_left") && !camera.IsCursorOnInventory()) {
+                    animator.Attack(itemInHand);
+                } else {
+                    animator.Aim(itemInHand);
+                }
             } else {
-                animator.Aim(itemInHand);
+                if (Input.IsActionJustPressed("mb_left") && !camera.IsCursorOnInventory()) {
+                    animator.UseItem(itemInHand);
+                }
             }
-        } else {
-            if (Input.IsActionJustPressed("mb_left") && !camera.IsCursorOnInventory()) {
-                animator.UseItem(itemInHand);
+            if (Input.IsActionJustPressed("key_reload")) {
+                animator.Reload(itemInHand);
             }
-        }
-        if (Input.IsActionJustPressed("key_reload")) {
-            animator.Reload(itemInHand);
-        }
-        if (Input.IsActionJustPressed("key_inventory")) {
-            animator.ToggleGUI();
-        }
-        if (Input.IsActionJustPressed("key_usable")) {
-            animator.UseUsableItem();
+            if (Input.IsActionJustPressed("key_inventory")) {
+                animator.ToggleGUI();
+            }
+            if (Input.IsActionJustPressed("key_usable")) {
+                animator.UseUsableItem();
+            }
         }
         health = Mathf.Clamp(health, 0, healthMax);
         sanity = Mathf.Clamp(sanity, 0, sanityMax);

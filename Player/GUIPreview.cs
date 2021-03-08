@@ -69,7 +69,7 @@ public class GUIPreview : TextureRect {
 
         if (Input.IsActionPressed("key_description") && gui.Visible && doShowDescription) {
             description.Visible = true;
-            String des = descr + GenerateBottomLine(itemPawn);
+            String des = descr + GenerateBottomLine(itemPawn, descr);
             if (!descriptionText.Text.StartsWith(descr)) {
                 descriptionText.VisibleCharacters = 0;
             }
@@ -104,16 +104,17 @@ public class GUIPreview : TextureRect {
         }         
     }
 
-    private String GenerateBottomLine(ItemPawn itemPawn) {
+    private String GenerateBottomLine(ItemPawn itemPawn, String referenceText) {
+        String newline = (referenceText.Length > 0) ? "\n" : "";
         switch (itemPawn.Id) {
             case "w_handgun":
-                return GD.Str("\nAmmo: ", itemPawn.Ammo, "/", itemPawn.AmmoMax);
+                return GD.Str(newline, "Ammo: ", itemPawn.Ammo, "/", itemPawn.AmmoMax);
             case "w_flashlight":
-                return GD.Str("\nCharge: ", Mathf.CeilToInt(( (float)itemPawn.Ammo / (float)itemPawn.AmmoMax ) * 100), "%");
+                return GD.Str(newline, "Charge: ", Mathf.CeilToInt(( (float)itemPawn.Ammo / (float)itemPawn.AmmoMax ) * 100), "%");
             case "w_lamp":
-                return GD.Str("\nCharge: ", Mathf.CeilToInt(( (float)itemPawn.Ammo / (float)itemPawn.AmmoMax ) * 100), "%");
+                return GD.Str(newline, "Charge: ", Mathf.CeilToInt(( (float)itemPawn.Ammo / (float)itemPawn.AmmoMax ) * 100), "%");
             case "u_flare_pack":
-                return GD.Str("\nFlares: ", itemPawn.Ammo, "/", itemPawn.AmmoMax);
+                return GD.Str(newline, "Flares: ", itemPawn.Ammo, "/", itemPawn.AmmoMax);
         }
         return "";
     }

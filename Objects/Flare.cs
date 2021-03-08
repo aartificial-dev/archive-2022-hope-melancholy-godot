@@ -60,7 +60,7 @@ public class Flare : RigidBody2D {
         }
     }
 
-    public void HitByBullet(Vector2 pos, Vector2 direction, float speed) {
+    public void HitByBullet(Vector2 pos, Vector2 direction, float speed, float damage, Type type) {
         BurnOut();
         timerBurned.Stop();
         this.ApplyImpulse(this.GlobalPosition - pos, direction * speed * 2f);

@@ -31,6 +31,8 @@ public class PlayerCamera : Camera2D {
 
     private Vector2 positionPrevious = Vector2.Zero;
 
+    public Node2D interactNode = null;
+
     public enum InteractHintIcon {
         eye, gear, hand, mouth
     }
@@ -127,7 +129,7 @@ public class PlayerCamera : Camera2D {
         return gui.PickFloorItem(item);
     }
 
-    public void ShowInteractHint(String name, PlayerCamera.InteractHintIcon icon, Vector2 pos) {
+    public void ShowInteractHint(String name, PlayerCamera.InteractHintIcon icon, Vector2 pos, Node2D node) {
         interactTimer.Start(0.5f);
         interactHint.Visible = true;
         interactLabel.Text = name;
@@ -138,6 +140,7 @@ public class PlayerCamera : Camera2D {
         }
         interactPos = pos;
         interactHint.GlobalPosition = interactPos; 
+        interactNode = node;
     }
 
     public void HideIneractHint() {
@@ -166,7 +169,7 @@ public class PlayerCamera : Camera2D {
 
     public void SetGUIVisible(bool value) {
         gui.Visible = value;
-        gui.GetNode<ColorRect>("CanvasCRT/CRTEffect").Visible = value;
+        gui.GetNode<ColorRect>("CRTEffect").Visible = value;
         gui.InventoryDrop("toolbox");
         guiSoundPlayer.Play();
     }

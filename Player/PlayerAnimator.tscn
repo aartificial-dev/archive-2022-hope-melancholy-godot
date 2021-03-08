@@ -31,7 +31,7 @@
 [ext_resource path="res://Sprites/player_hands_8x10_n.png" type="Texture" id=29]
 [ext_resource path="res://Sprites/player_weapons_7x8_n.png" type="Texture" id=30]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=3]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -107,7 +107,7 @@ tracks/5/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=4]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -207,7 +207,7 @@ tracks/7/keys = {
 "values": [ 32 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=5]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -283,7 +283,7 @@ tracks/5/keys = {
 "values": [ 8 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=6]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -379,7 +379,7 @@ tracks/6/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=7]
 length = 0.3
 step = 0.01
 tracks/0/type = "value"
@@ -572,7 +572,7 @@ tracks/14/keys = {
 "values": [ Color( 0.827451, 0.733333, 0.454902, 1 ), Color( 0.827451, 0.733333, 0.454902, 1 ), Color( 0.827451, 0.733333, 0.454902, 0 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=8]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -668,7 +668,7 @@ tracks/6/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=9]
 length = 1.2
 loop = true
 step = 0.15
@@ -750,7 +750,7 @@ tracks/5/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=10]
 length = 1.2
 loop = true
 step = 0.15
@@ -844,7 +844,7 @@ tracks/6/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=11]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -920,8 +920,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=10]
-resource_name = "flare_throw"
+[sub_resource type="Animation" id=12]
 length = 0.8
 step = 0.05
 tracks/0/type = "value"
@@ -1044,7 +1043,7 @@ tracks/8/keys = {
 "values": [ 68.4 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=13]
 length = 0.9
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteMovement:frame")
@@ -1119,7 +1118,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=14]
 length = 1.6
 loop = true
 tracks/0/type = "value"
@@ -1195,7 +1194,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=15]
 length = 1.6
 loop = true
 tracks/0/type = "value"
@@ -1283,7 +1282,7 @@ tracks/6/keys = {
 "values": [ 0, 1, 2, 3, 4 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=16]
 length = 1.6
 loop = true
 tracks/0/type = "value"
@@ -1371,7 +1370,7 @@ tracks/6/keys = {
 "values": [ 8, 9, 10, 11, 12 ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=17]
 length = 1.6
 loop = true
 tracks/0/type = "value"
@@ -1459,7 +1458,7 @@ tracks/6/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=18]
 length = 1.6
 loop = true
 tracks/0/type = "value"
@@ -1547,7 +1546,7 @@ tracks/6/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=19]
 length = 1.6
 loop = true
 tracks/0/type = "value"
@@ -1635,7 +1634,7 @@ tracks/6/keys = {
 "values": [ 64, 65, 66, 67, 68 ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=20]
 length = 0.7
 step = 0.05
 tracks/0/type = "value"
@@ -1725,7 +1724,7 @@ tracks/6/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=21]
 length = 0.7
 step = 0.05
 tracks/0/type = "value"
@@ -1815,7 +1814,7 @@ tracks/6/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=22]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -1891,7 +1890,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=23]
 length = 1.75
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteWeapon:visible")
@@ -2000,7 +1999,7 @@ tracks/7/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=24]
 length = 1.75
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteWeapon:visible")
@@ -2109,7 +2108,7 @@ tracks/7/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=25]
 length = 1.75
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteWeapon:visible")
@@ -2218,7 +2217,7 @@ tracks/7/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=26]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteMovement:frame")
@@ -2293,7 +2292,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=27]
 loop = true
 step = 0.125
 tracks/0/type = "value"
@@ -2386,7 +2385,7 @@ tracks/6/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=28]
 loop = true
 step = 0.125
 tracks/0/type = "value"
@@ -2491,7 +2490,7 @@ tracks/7/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=29]
 loop = true
 step = 0.125
 tracks/0/type = "value"
@@ -2596,7 +2595,7 @@ tracks/7/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=30]
 loop = true
 step = 0.125
 tracks/0/type = "value"
@@ -2701,7 +2700,7 @@ tracks/7/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=31]
 loop = true
 step = 0.125
 tracks/0/type = "value"
@@ -2806,7 +2805,7 @@ tracks/7/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=32]
 loop = true
 step = 0.125
 tracks/0/type = "value"
@@ -2911,7 +2910,7 @@ tracks/7/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=33]
 length = 1.6
 loop = true
 step = 0.3
@@ -2988,7 +2987,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="RectangleShape2D" id=32]
+[sub_resource type="RectangleShape2D" id=34]
 extents = Vector2( 13, 3 )
 
 [node name="PlayerAnimator" type="Node2D"]
@@ -3083,37 +3082,37 @@ range_height = 5.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "idle"
-anims/aim_fists = SubResource( 1 )
-anims/aim_handgun = SubResource( 2 )
-anims/aim_tube = SubResource( 3 )
-anims/attack_fists = SubResource( 4 )
-anims/attack_handgun = SubResource( 5 )
-anims/attack_tube = SubResource( 6 )
-anims/climb_down = SubResource( 7 )
-anims/climb_up = SubResource( 8 )
-anims/fall = SubResource( 9 )
-anims/flare_throw = SubResource( 10 )
-anims/hit = SubResource( 11 )
-anims/idle = SubResource( 12 )
-anims/idle_flash_off = SubResource( 13 )
-anims/idle_flash_on = SubResource( 14 )
-anims/idle_handgun = SubResource( 15 )
-anims/idle_lamp = SubResource( 16 )
-anims/idle_tube = SubResource( 17 )
-anims/inv_close = SubResource( 18 )
-anims/inv_open = SubResource( 19 )
-anims/inv_opened = SubResource( 20 )
-anims/reload_flash = SubResource( 21 )
-anims/reload_handgun = SubResource( 22 )
-anims/reload_lamp = SubResource( 23 )
-anims/smoke = SubResource( 24 )
-anims/walk = SubResource( 25 )
-anims/walk_flash_off = SubResource( 26 )
-anims/walk_flash_on = SubResource( 27 )
-anims/walk_handgun = SubResource( 28 )
-anims/walk_lamp = SubResource( 29 )
-anims/walk_tube = SubResource( 30 )
-anims/wall = SubResource( 31 )
+anims/aim_fists = SubResource( 3 )
+anims/aim_handgun = SubResource( 4 )
+anims/aim_tube = SubResource( 5 )
+anims/attack_fists = SubResource( 6 )
+anims/attack_handgun = SubResource( 7 )
+anims/attack_tube = SubResource( 8 )
+anims/climb_down = SubResource( 9 )
+anims/climb_up = SubResource( 10 )
+anims/fall = SubResource( 11 )
+anims/flare_throw = SubResource( 12 )
+anims/hit = SubResource( 13 )
+anims/idle = SubResource( 14 )
+anims/idle_flash_off = SubResource( 15 )
+anims/idle_flash_on = SubResource( 16 )
+anims/idle_handgun = SubResource( 17 )
+anims/idle_lamp = SubResource( 18 )
+anims/idle_tube = SubResource( 19 )
+anims/inv_close = SubResource( 20 )
+anims/inv_open = SubResource( 21 )
+anims/inv_opened = SubResource( 22 )
+anims/reload_flash = SubResource( 23 )
+anims/reload_handgun = SubResource( 24 )
+anims/reload_lamp = SubResource( 25 )
+anims/smoke = SubResource( 26 )
+anims/walk = SubResource( 27 )
+anims/walk_flash_off = SubResource( 28 )
+anims/walk_flash_on = SubResource( 29 )
+anims/walk_handgun = SubResource( 30 )
+anims/walk_lamp = SubResource( 31 )
+anims/walk_tube = SubResource( 32 )
+anims/wall = SubResource( 33 )
 
 [node name="AnimationAudio" type="Node" parent="."]
 
@@ -3169,7 +3168,7 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeCollisions/Fists"]
-shape = SubResource( 32 )
+shape = SubResource( 34 )
 
 [node name="LightFlashlight" type="Light2D" parent="."]
 visible = false

@@ -1,0 +1,423 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://GUI/Keypad/ThemeKeypad.tres" type="Theme" id=1]
+[ext_resource path="res://GUI/Keypad/spr_keypad_close.png" type="Texture" id=2]
+[ext_resource path="res://GUI/Keypad/FramesKeys.tres" type="SpriteFrames" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.619608, 0.592157, 0.619608, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.658824, 0.623529, 0.658824, 1 )
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.447059, 0.431373, 0.447059, 1 )
+
+[node name="Keypad" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.0
+margin_right = -960.0
+margin_bottom = -539.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+margin_left = 0.840897
+margin_top = 2.20736
+margin_right = 320.841
+margin_bottom = 182.207
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="CenterContainer"]
+margin_left = 160.0
+margin_top = 90.0
+margin_right = 160.0
+margin_bottom = 90.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Button" type="Button" parent="CenterContainer/Control"]
+margin_left = 43.0
+margin_top = -38.0
+margin_right = 49.0
+margin_bottom = -32.0
+focus_mode = 0
+custom_styles/normal = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="CenterContainer/Control/Button"]
+position = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+
+[node name="Panel" type="Panel" parent="CenterContainer/Control"]
+margin_left = -42.0
+margin_top = -32.0
+margin_right = 43.0
+margin_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Control/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_constants/separation = -3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="CenterContainer/Control/Panel/HBoxContainer"]
+margin_right = 44.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+
+[node name="ReferenceRect" type="ReferenceRect" parent="CenterContainer/Control/Panel/HBoxContainer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -3.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="CenterContainer/Control/Panel/HBoxContainer/Control"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 40.0
+margin_bottom = 31.0
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer/Control/Panel/HBoxContainer/Control/Panel"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 36.0
+margin_bottom = 27.0
+theme = ExtResource( 1 )
+color = Color( 0.847059, 0.498039, 0.498039, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="CenterContainer/Control/Panel/HBoxContainer/Control"]
+margin_left = 3.0
+margin_top = 33.0
+margin_right = 40.0
+margin_bottom = 46.0
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CenterContainer/Control/Panel/HBoxContainer/Control/Panel2"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 36.0
+margin_bottom = 12.0
+theme = ExtResource( 1 )
+text = "LABL"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel4" type="Panel" parent="CenterContainer/Control/Panel/HBoxContainer/Control"]
+margin_left = 3.0
+margin_top = 48.0
+margin_right = 40.0
+margin_bottom = 61.0
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Control/Panel/HBoxContainer/Control/Panel4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 1.0
+margin_right = -1.0
+margin_bottom = -1.0
+theme = ExtResource( 1 )
+custom_constants/separation = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control/Panel4/HBoxContainer"]
+margin_right = 11.0
+margin_bottom = 11.0
+focus_mode = 0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control/Panel4/HBoxContainer/Button"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 12
+centered = false
+
+[node name="Button2" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control/Panel4/HBoxContainer"]
+margin_left = 12.0
+margin_right = 23.0
+margin_bottom = 11.0
+focus_mode = 0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control/Panel4/HBoxContainer/Button2"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 13
+centered = false
+
+[node name="Button3" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control/Panel4/HBoxContainer"]
+margin_left = 24.0
+margin_right = 35.0
+margin_bottom = 11.0
+focus_mode = 0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite3" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control/Panel4/HBoxContainer/Button3"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 14
+centered = false
+
+[node name="Control2" type="Control" parent="CenterContainer/Control/Panel/HBoxContainer"]
+margin_left = 41.0
+margin_right = 85.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="CenterContainer/Control/Panel/HBoxContainer/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 2.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Panel4" type="Panel" parent="CenterContainer/Control/Panel/HBoxContainer/Control2"]
+margin_left = 1.0
+margin_top = 3.0
+margin_right = 42.0
+margin_bottom = 61.0
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="CenterContainer/Control/Panel/HBoxContainer/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer"]
+margin_left = 2.0
+margin_top = 4.0
+margin_right = 41.0
+margin_bottom = 60.0
+custom_constants/vseparation = 4
+custom_constants/hseparation = 3
+columns = 3
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_right = 11.0
+margin_bottom = 11.0
+focus_mode = 0
+
+[node name="AnimatedSprite4" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 1
+centered = false
+
+[node name="Button2" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_left = 14.0
+margin_right = 25.0
+margin_bottom = 11.0
+focus_mode = 0
+
+[node name="AnimatedSprite5" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button2"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 2
+centered = false
+
+[node name="Button3" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_left = 28.0
+margin_right = 39.0
+margin_bottom = 11.0
+focus_mode = 0
+
+[node name="AnimatedSprite6" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button3"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 3
+centered = false
+
+[node name="Button4" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_top = 15.0
+margin_right = 11.0
+margin_bottom = 26.0
+focus_mode = 0
+
+[node name="AnimatedSprite7" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button4"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 4
+centered = false
+
+[node name="Button5" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_left = 14.0
+margin_top = 15.0
+margin_right = 25.0
+margin_bottom = 26.0
+focus_mode = 0
+
+[node name="AnimatedSprite8" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button5"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 5
+centered = false
+
+[node name="Button6" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_left = 28.0
+margin_top = 15.0
+margin_right = 39.0
+margin_bottom = 26.0
+focus_mode = 0
+
+[node name="AnimatedSprite9" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button6"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 6
+centered = false
+
+[node name="Button7" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_top = 30.0
+margin_right = 11.0
+margin_bottom = 41.0
+focus_mode = 0
+
+[node name="AnimatedSprite10" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button7"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 7
+centered = false
+
+[node name="Button8" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_left = 14.0
+margin_top = 30.0
+margin_right = 25.0
+margin_bottom = 41.0
+focus_mode = 0
+
+[node name="AnimatedSprite11" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button8"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 8
+centered = false
+
+[node name="Button9" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_left = 28.0
+margin_top = 30.0
+margin_right = 39.0
+margin_bottom = 41.0
+focus_mode = 0
+
+[node name="AnimatedSprite12" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button9"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 9
+centered = false
+
+[node name="Button10" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_top = 45.0
+margin_right = 11.0
+margin_bottom = 56.0
+focus_mode = 0
+
+[node name="AnimatedSprite13" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button10"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 10
+centered = false
+
+[node name="Button11" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_left = 14.0
+margin_top = 45.0
+margin_right = 25.0
+margin_bottom = 56.0
+focus_mode = 0
+
+[node name="AnimatedSprite14" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button11"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+centered = false
+
+[node name="Button12" type="Button" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer"]
+margin_left = 28.0
+margin_top = 45.0
+margin_right = 39.0
+margin_bottom = 56.0
+focus_mode = 0
+
+[node name="AnimatedSprite15" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HBoxContainer/Control2/CenterContainer/GridContainer/Button12"]
+position = Vector2( 2, 2 )
+frames = ExtResource( 3 )
+frame = 11
+centered = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2( 0.25, 0.25 )

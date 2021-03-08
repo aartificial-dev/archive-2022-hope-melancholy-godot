@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Shaders/shader_heartbeat.tres" type="Material" id=1]
 [ext_resource path="res://GUI/Inventory/spr_inv_grid.png" type="Texture" id=2]
@@ -259,7 +259,13 @@ ambient_light_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="CapsuleMesh" id=12]
 
-[sub_resource type="StyleBoxFlat" id=13]
+[sub_resource type="StyleBoxEmpty" id=13]
+content_margin_left = 2.0
+content_margin_right = 2.0
+content_margin_top = 0.0
+content_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id=14]
 bg_color = Color( 0.12549, 0.12549, 0.12549, 1 )
 border_width_left = 1
 border_width_top = 1
@@ -267,7 +273,7 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 1, 0.305882, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.0862745, 0.0862745, 0.0862745, 1 )
 border_width_left = 1
 border_width_top = 1
@@ -276,7 +282,7 @@ border_width_bottom = 1
 border_color = Color( 1, 0.305882, 0, 1 )
 anti_aliasing = false
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=16]
 size = 8
 extra_spacing_top = -1
 font_data = ExtResource( 23 )
@@ -477,7 +483,7 @@ environment = SubResource( 11 )
 current = true
 
 [node name="Spatial" type="Spatial" parent="Preview/Viewport"]
-transform = Transform( 0.839614, 0, -0.560717, 0, 1, 0, 0.560717, 0, 0.839614, 0, 0, 0 )
+transform = Transform( -0.900045, 0, 0.457879, 0, 1, 0, -0.457879, 0, -0.900045, 0, 0, 0 )
 script = ExtResource( 11 )
 
 [node name="ItemModel" type="CSGMesh" parent="Preview/Viewport/Spatial"]
@@ -486,7 +492,6 @@ mesh = SubResource( 12 )
 material = ExtResource( 10 )
 
 [node name="Description" type="ColorRect" parent="Preview"]
-visible = false
 light_mask = 524288
 margin_left = 4.0
 margin_right = 108.0
@@ -497,6 +502,7 @@ color = Color( 0, 0, 0, 0.662745 )
 light_mask = 524288
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_styles/normal = SubResource( 13 )
 custom_fonts/font = ExtResource( 8 )
 text = "A handgun is a short-barrelled firearm that can be held and used with one hand.
 Ammo: 7/12"
@@ -543,8 +549,8 @@ __meta__ = {
 }
 name = "inventory"
 blacklistType = 5
-GridSize = Vector2( 19, 9 )
 CellSize = Vector2( 8, 8 )
+GridSize = Vector2( 19, 9 )
 CellOffset = Vector2( 1, 4 )
 
 [node name="Toolbox" type="NinePatchRect" parent="InventoryManager"]
@@ -566,8 +572,8 @@ __meta__ = {
 }
 name = "toolbox"
 blacklistType = 5
-GridSize = Vector2( 9, 3 )
 CellSize = Vector2( 8, 8 )
+GridSize = Vector2( 9, 3 )
 CellOffset = Vector2( 1, 12 )
 
 [node name="Button" type="Button" parent="InventoryManager/Toolbox"]
@@ -576,10 +582,10 @@ margin_top = 3.0
 margin_right = 74.0
 margin_bottom = 12.0
 focus_mode = 0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 14 )
+custom_styles/hover = SubResource( 14 )
+custom_styles/pressed = SubResource( 15 )
 custom_styles/normal = ExtResource( 12 )
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 text = "Combine"
@@ -607,11 +613,11 @@ __meta__ = {
 }
 name = "weapon1"
 blacklistType = 5
-GridSize = Vector2( 4, 8 )
 CellSize = Vector2( 8, 8 )
-allowedType = 2
 isItemSlot = true
+GridSize = Vector2( 4, 8 )
 CellOffset = Vector2( 1, 4 )
+allowedType = 2
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Weapon1"]
 position = Vector2( 17, 36 )
@@ -636,11 +642,11 @@ __meta__ = {
 }
 name = "weapon2"
 blacklistType = 5
-GridSize = Vector2( 4, 8 )
 CellSize = Vector2( 8, 8 )
-allowedType = 2
 isItemSlot = true
+GridSize = Vector2( 4, 8 )
 CellOffset = Vector2( 1, 4 )
+allowedType = 2
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Weapon2"]
 position = Vector2( 17, 36 )
@@ -665,11 +671,11 @@ __meta__ = {
 }
 name = "usable"
 blacklistType = 5
-GridSize = Vector2( 3, 3 )
 CellSize = Vector2( 8, 8 )
-allowedType = 10
 isItemSlot = true
+GridSize = Vector2( 3, 3 )
 CellOffset = Vector2( 1, 4 )
+allowedType = 10
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Usable"]
 position = Vector2( 13, 16 )
@@ -694,11 +700,11 @@ __meta__ = {
 }
 name = "tools"
 blacklistType = 5
-GridSize = Vector2( 5, 3 )
 CellSize = Vector2( 8, 8 )
-allowedType = 9
 isItemSlot = true
+GridSize = Vector2( 5, 3 )
 CellOffset = Vector2( 1, 4 )
+allowedType = 9
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Tools"]
 position = Vector2( 21, 16 )
@@ -719,8 +725,8 @@ __meta__ = {
 }
 name = "chip1"
 CellSize = Vector2( 24, 12 )
-allowedType = 5
 isItemSlot = true
+allowedType = 5
 
 [node name="Chip2" type="TextureRect" parent="InventoryManager"]
 light_mask = 524288
@@ -737,8 +743,8 @@ __meta__ = {
 }
 name = "chip2"
 CellSize = Vector2( 24, 12 )
-allowedType = 5
 isItemSlot = true
+allowedType = 5
 
 [node name="Chip3" type="TextureRect" parent="InventoryManager"]
 light_mask = 524288
@@ -755,8 +761,8 @@ __meta__ = {
 }
 name = "chip3"
 CellSize = Vector2( 24, 12 )
-allowedType = 5
 isItemSlot = true
+allowedType = 5
 
 [node name="Items" type="Control" parent="InventoryManager"]
 light_mask = 524288
@@ -792,22 +798,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CanvasCRT" type="CanvasLayer" parent="."]
-layer = 2
-
-[node name="CRTEffect" type="ColorRect" parent="CanvasCRT"]
-visible = false
+[node name="CRTEffect" type="ColorRect" parent="."]
 material = ExtResource( 14 )
-margin_right = 1280.0
-margin_bottom = 720.0
+margin_right = 320.0
+margin_bottom = 180.0
 mouse_filter = 2
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="BackBufferCopy" type="BackBufferCopy" parent="CanvasCRT"]
-rect = Rect2( 0, 0, 1280, 720 )
-__meta__ = {
-"_edit_lock_": true
-}
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+copy_mode = 2
+rect = Rect2( 0, 0, 320, 180 )
