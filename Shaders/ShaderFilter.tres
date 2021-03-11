@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://Shaders/ShaderFilter.shader" type="Shader" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.315385, 0.646154, 0.984615 )
+colors = PoolColorArray( 0.057776, 0.0553894, 0.0859375, 1, 0.394531, 0.462921, 0.5, 1, 0.619392, 0.625, 0.522461, 1, 0.878906, 0.829339, 0.796509, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/mix_amount = 0.5
+shader_param/flip = false
+shader_param/gradient = SubResource( 2 )

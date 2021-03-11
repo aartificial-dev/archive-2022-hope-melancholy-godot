@@ -29,6 +29,8 @@ public class TextBubble : Node2D {
     public bool showPromptInEnd = false;
     [Export]
     public float textAppearSpeed = 0.05f;
+    [Export]
+    public bool getAppearTime = false;
     
     private RandomNumberGenerator rnd = new RandomNumberGenerator();
     private AudioStreamPlayer2D audioStreamPlayer;
@@ -108,7 +110,16 @@ public class TextBubble : Node2D {
         } else if (showPromptInEnd && bubbleText.VisibleCharacters >= text.Length) {
             continuePrompt.Visible = true;
         }
+
+        if (getAppearTime) {
+             getAppearTime = false;
+             GD.Print("Appear time: ", CalculateApeearTime(), " sec.");
+        }
 	}
+
+    private float CalculateApeearTime() {
+        return textAppearSpeed * (float) text.Length;
+    }
 
     public void AddChar() {
         bubbleText.VisibleCharacters += 1;

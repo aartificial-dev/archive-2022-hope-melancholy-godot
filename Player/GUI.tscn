@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Shaders/shader_heartbeat.tres" type="Material" id=1]
 [ext_resource path="res://GUI/Inventory/spr_inv_grid.png" type="Texture" id=2]
@@ -13,7 +13,6 @@
 [ext_resource path="res://CSGPolygon.gd" type="Script" id=11]
 [ext_resource path="res://buttonstyle.tres" type="StyleBox" id=12]
 [ext_resource path="res://Player/GUIStatus.cs" type="Script" id=13]
-[ext_resource path="res://Shaders/shader_crt.tres" type="Material" id=14]
 [ext_resource path="res://Player/GUI.cs" type="Script" id=15]
 [ext_resource path="res://GUI/Inventory/spr_inv_wnoconnect.png" type="Texture" id=16]
 [ext_resource path="res://Shaders/shader_tv_noise.tres" type="Material" id=17]
@@ -340,9 +339,9 @@ __meta__ = {
 [node name="HealthBar" type="NinePatchRect" parent="Status"]
 light_mask = 524288
 margin_left = 26.0
-margin_top = 7.0
+margin_top = 8.0
 margin_right = 103.0
-margin_bottom = 23.0
+margin_bottom = 24.0
 texture = ExtResource( 7 )
 patch_margin_left = 1
 patch_margin_top = 1
@@ -362,15 +361,16 @@ margin_top = 1.0
 margin_right = 76.0
 margin_bottom = 15.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="SanityBar" type="NinePatchRect" parent="Status"]
 light_mask = 524288
 margin_left = 26.0
-margin_top = 25.0
+margin_top = 28.0
 margin_right = 103.0
-margin_bottom = 41.0
+margin_bottom = 44.0
 texture = ExtResource( 7 )
 patch_margin_left = 1
 patch_margin_top = 1
@@ -390,15 +390,16 @@ margin_top = 1.0
 margin_right = 76.0
 margin_bottom = 15.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="ChiBar" type="NinePatchRect" parent="Status"]
 light_mask = 524288
 margin_left = 26.0
-margin_top = 44.0
+margin_top = 48.0
 margin_right = 103.0
-margin_bottom = 52.0
+margin_bottom = 64.0
 texture = ExtResource( 7 )
 patch_margin_left = 1
 patch_margin_top = 1
@@ -414,16 +415,17 @@ __meta__ = {
 light_mask = 524288
 material = SubResource( 8 )
 margin_left = 1.0
-margin_top = -3.0
+margin_top = 2.0
 margin_right = 76.0
-margin_bottom = 10.0
+margin_bottom = 15.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="PlayerSprite" type="Sprite" parent="Status"]
 light_mask = 524288
-position = Vector2( 1, 4 )
+position = Vector2( 1, 12 )
 texture = ExtResource( 9 )
 centered = false
 region_enabled = true
@@ -483,7 +485,7 @@ environment = SubResource( 11 )
 current = true
 
 [node name="Spatial" type="Spatial" parent="Preview/Viewport"]
-transform = Transform( -0.900045, 0, 0.457879, 0, 1, 0, -0.457879, 0, -0.900045, 0, 0, 0 )
+transform = Transform( 0.41918, 0, -0.918829, 0, 1, 0, 0.918829, 0, 0.41918, 0, 0, 0 )
 script = ExtResource( 11 )
 
 [node name="ItemModel" type="CSGMesh" parent="Preview/Viewport/Spatial"]
@@ -548,10 +550,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "inventory"
-blacklistType = 5
-CellSize = Vector2( 8, 8 )
-GridSize = Vector2( 19, 9 )
 CellOffset = Vector2( 1, 4 )
+CellSize = Vector2( 8, 8 )
+blacklistType = 5
+GridSize = Vector2( 19, 9 )
 
 [node name="Toolbox" type="NinePatchRect" parent="InventoryManager"]
 light_mask = 524288
@@ -571,10 +573,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "toolbox"
-blacklistType = 5
-CellSize = Vector2( 8, 8 )
-GridSize = Vector2( 9, 3 )
 CellOffset = Vector2( 1, 12 )
+CellSize = Vector2( 8, 8 )
+blacklistType = 5
+GridSize = Vector2( 9, 3 )
 
 [node name="Button" type="Button" parent="InventoryManager/Toolbox"]
 light_mask = 524288
@@ -612,12 +614,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "weapon1"
-blacklistType = 5
-CellSize = Vector2( 8, 8 )
-isItemSlot = true
-GridSize = Vector2( 4, 8 )
 CellOffset = Vector2( 1, 4 )
+CellSize = Vector2( 8, 8 )
+blacklistType = 5
 allowedType = 2
+GridSize = Vector2( 4, 8 )
+isItemSlot = true
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Weapon1"]
 position = Vector2( 17, 36 )
@@ -641,12 +643,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "weapon2"
-blacklistType = 5
-CellSize = Vector2( 8, 8 )
-isItemSlot = true
-GridSize = Vector2( 4, 8 )
 CellOffset = Vector2( 1, 4 )
+CellSize = Vector2( 8, 8 )
+blacklistType = 5
 allowedType = 2
+GridSize = Vector2( 4, 8 )
+isItemSlot = true
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Weapon2"]
 position = Vector2( 17, 36 )
@@ -670,12 +672,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "usable"
-blacklistType = 5
-CellSize = Vector2( 8, 8 )
-isItemSlot = true
-GridSize = Vector2( 3, 3 )
 CellOffset = Vector2( 1, 4 )
+CellSize = Vector2( 8, 8 )
+blacklistType = 5
 allowedType = 10
+GridSize = Vector2( 3, 3 )
+isItemSlot = true
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Usable"]
 position = Vector2( 13, 16 )
@@ -699,18 +701,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "tools"
-blacklistType = 5
-CellSize = Vector2( 8, 8 )
-isItemSlot = true
-GridSize = Vector2( 5, 3 )
 CellOffset = Vector2( 1, 4 )
+CellSize = Vector2( 8, 8 )
+blacklistType = 5
 allowedType = 9
+GridSize = Vector2( 5, 3 )
+isItemSlot = true
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Tools"]
 position = Vector2( 21, 16 )
 texture = ExtResource( 19 )
 
 [node name="Chip1" type="TextureRect" parent="InventoryManager"]
+visible = false
 light_mask = 524288
 margin_left = 186.0
 margin_top = 66.0
@@ -725,10 +728,11 @@ __meta__ = {
 }
 name = "chip1"
 CellSize = Vector2( 24, 12 )
-isItemSlot = true
 allowedType = 5
+isItemSlot = true
 
 [node name="Chip2" type="TextureRect" parent="InventoryManager"]
+visible = false
 light_mask = 524288
 margin_left = 224.0
 margin_top = 66.0
@@ -743,10 +747,11 @@ __meta__ = {
 }
 name = "chip2"
 CellSize = Vector2( 24, 12 )
-isItemSlot = true
 allowedType = 5
+isItemSlot = true
 
 [node name="Chip3" type="TextureRect" parent="InventoryManager"]
+visible = false
 light_mask = 524288
 margin_left = 261.0
 margin_top = 66.0
@@ -761,8 +766,8 @@ __meta__ = {
 }
 name = "chip3"
 CellSize = Vector2( 24, 12 )
-isItemSlot = true
 allowedType = 5
+isItemSlot = true
 
 [node name="Items" type="Control" parent="InventoryManager"]
 light_mask = 524288
@@ -797,17 +802,3 @@ scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="CRTEffect" type="ColorRect" parent="."]
-material = ExtResource( 14 )
-margin_right = 320.0
-margin_bottom = 180.0
-mouse_filter = 2
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
-copy_mode = 2
-rect = Rect2( 0, 0, 320, 180 )

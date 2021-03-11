@@ -77,7 +77,7 @@ public class Inventory : Control {
 
     public ItemInventory GetItemUnderCursor() {
         if (this.Visible == false) return null;
-        Vector2? gridPos = GetMouseGridPosFloor( this.GetLocalMousePosition());
+        Vector2? gridPos = GetMouseGridPosFloor( GameHelper.GetMousePos(this) - this.RectGlobalPosition );
         if (gridPos is null) return null;
         if (isItemSlot && itemList.Count > 0) {
             return itemList[0];
@@ -91,13 +91,13 @@ public class Inventory : Control {
 
     public bool PlaceItem(ItemInventory item) { // return true if item is placed
         if (this.Visible == false) return false;
-        if (GetMouseGridPosFloor( this.GetLocalMousePosition() ) is null) return false;
+        if (GetMouseGridPosFloor( GameHelper.GetMousePos(this) - this.RectGlobalPosition ) is null) return false;
         if (allowedType != ItemPawn.ItemType.Any && item.itemPawn.Type != allowedType) return false;
         if (item.itemPawn.Type == blacklistType) return false;
 
         Vector2 itemSizeGrid = item.itemPawn.SpriteInventoryGridSize;
         // CALCULATE ITEM PLACEMENT
-        Vector2? gridPosRaw = GetMouseGridPosRaw( this.GetLocalMousePosition());
+        Vector2? gridPosRaw = GetMouseGridPosRaw( GameHelper.GetMousePos(this) - this.RectGlobalPosition);
         if (gridPosRaw is null) return false;
         Vector2 gridPos = (Vector2) gridPosRaw - new Vector2(itemSizeGrid / 2f);
         gridPos = gridPos.Round();
@@ -152,7 +152,7 @@ public class Inventory : Control {
             itemPick.GetParent().RemoveChild(itemPick);
             inventoryManager.inventoryHand.AddChild(itemPick);
             inventoryManager.itemInHand = itemPick;
-            inventoryManager.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryManager.itemInHand.itemPawn.SpriteInventorySize / 2f;
+            inventoryManager.itemInHand.GlobalPosition = GameHelper.GetMousePos(this) - inventoryManager.itemInHand.itemPawn.SpriteInventorySize / 2f;
             inventoryManager.itemInHand.Visible = true;
             itemSoundPlayer.Play();
             return true;
@@ -162,7 +162,7 @@ public class Inventory : Control {
 
     public void TakeItem() {
         if (this.Visible == false) return;
-        Vector2? gridPos = GetMouseGridPosFloor( this.GetLocalMousePosition());
+        Vector2? gridPos = GetMouseGridPosFloor( GameHelper.GetMousePos(this) - this.RectGlobalPosition);
         if (gridPos is null) return;
         ItemInventory itemPick = null;
         if (isItemSlot && itemList.Count > 0) {
@@ -177,14 +177,14 @@ public class Inventory : Control {
         itemPick.GetParent().RemoveChild(itemPick);
         inventoryManager.inventoryHand.AddChild(itemPick);
         inventoryManager.itemInHand = itemPick;
-        inventoryManager.itemInHand.GlobalPosition = this.GetGlobalMousePosition() - inventoryManager.itemInHand.itemPawn.SpriteInventorySize / 2f;
+        inventoryManager.itemInHand.GlobalPosition = GameHelper.GetMousePos(this) - inventoryManager.itemInHand.itemPawn.SpriteInventorySize / 2f;
         inventoryManager.itemInHand.Visible = true;
         itemSoundPlayer.Play();
     }
 
     public void UseItem() {
         if (this.Visible == false) return;
-        Vector2? gridPos = GetMouseGridPosFloor( this.GetLocalMousePosition());
+        Vector2? gridPos = GetMouseGridPosFloor( GameHelper.GetMousePos(this) - this.RectGlobalPosition);
         if (gridPos is null) return;
         ItemArray itemIntersect = GridGetItemIntersectArray((Vector2) gridPos, new Vector2(1f, 1f));
         if (itemIntersect.Count == 1) {
@@ -236,7 +236,7 @@ public class Inventory : Control {
     }
 
     public bool IsCursorOnInventory() {
-        return (GetMouseGridPosRaw(this.GetLocalMousePosition()) is null ? false : true);
+        return (GetMouseGridPosRaw(GameHelper.GetMousePos(this) - this.RectGlobalPosition) is null ? false : true);
     }
 
     protected virtual void UpdateGrid() {

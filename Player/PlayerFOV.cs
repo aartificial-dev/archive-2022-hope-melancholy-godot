@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-public class PlayerFOV : Node2D { 
+public class PlayerFOV : Node2D {
 
-    public Line2D occluder = null;
+    public Godot.Collections.Array occluderArr = null;
     public Node2D position = null;
     public PlayerCamera camera;
 
@@ -16,6 +16,14 @@ public class PlayerFOV : Node2D {
 	}
 
     public override void _Draw() {
+        // DrawCircle(GameHelper.GetMousePosScene(this) - camera.GlobalPosition, 3, Color.ColorN("Blue"));
+        if (occluderArr is null) return;
+        foreach (Line2D occluder in occluderArr) {
+            DrawFOV(occluder);
+        }
+    }
+
+    private void DrawFOV(Line2D occluder) {
         if (occluder is null || position is null) return;
         Vector2[] points = occluder.Points;
         for (int i = 0; i < points.Length; i ++) {

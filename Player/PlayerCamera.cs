@@ -2,14 +2,9 @@ using Godot;
 using System;
 
 public class PlayerCamera : Camera2D {
-    
-    [Export]
-    public NodePath playerPath = "../Player";
-    [Export]
-    public NodePath lightOccluderPath = "";
+    private Vector2 actualPos;
 
     private Player player;
-    private Line2D occluder;
 
     private Node2D interactHint;
     private Vector2 interactPos;
@@ -39,7 +34,8 @@ public class PlayerCamera : Camera2D {
 
     public override void _Ready() {
         this.Visible = true;
-        player = GetNodeOrNull<Player>(playerPath);
+        actualPos = this.GlobalPosition;
+        player = GameHelper.GetNodeInGroup<Player>(this, "Player");
         if (!(player is null)) {
             player.camera = this;
         }
@@ -62,15 +58,16 @@ public class PlayerCamera : Camera2D {
         guiSoundPlayer.Stream = guiSound;
 
         playerFOV = GetNode<PlayerFOV>("FOV");
-        occluder = GetNodeOrNull<Line2D>(lightOccluderPath);
-        if (!(occluder is null)) {
-            playerFOV.occluder = occluder;
-            playerFOV.position = (Node2D) player;
-        }
+        playerFOV.occluderArr = GameHelper.GetNodesInGroup(this, "OccluderFOV");
+        playerFOV.position = player;
+        
     }
 
     public override void _Process(float delta) {
         // ProcessWeapons(delta);
+        if (Input.IsActionJustPressed("key_fullscreen")) {
+            OS.WindowFullscreen = !OS.WindowFullscreen;
+        }
 
         if (!player.GetCanMove()) return;
         selectedWeapon = gui.GetWeapon(selectedWeaponSlot);
@@ -94,17 +91,15 @@ public class PlayerCamera : Camera2D {
         if (player is null) return;
         if (player.GetIsInCutscene()) return;
         
-        Transform2D _tr = this.Transform;
-        Vector2 pos = _tr.origin;
-
         float h = resolution.y / 4f;
-        Vector2 mousePos = this.GetGlobalMousePosition();
+        Vector2 mousePos = GameHelper.GetMousePos(this);
 
-        pos.x = Mathf.Lerp(pos.x, player.Transform.origin.x, delta * 4f);
-        pos.x = Mathf.Lerp(pos.x, mousePos.x, delta * 0.4f);
-        pos.y = Mathf.Lerp(pos.y, player.Transform.origin.y - h, delta * 4f);
+        actualPos.x = Mathf.Lerp(actualPos.x, player.Transform.origin.x, delta * 4f);
+        actualPos.x = Mathf.Lerp(actualPos.x, mousePos.x, delta * 0.4f);
+        actualPos.y = Mathf.Lerp(actualPos.y, player.Transform.origin.y - h, delta * 4f);
 
-        _tr.origin = pos;
+        Transform2D _tr = this.Transform;
+        _tr.origin = actualPos;//.Round();
         this.Transform = _tr;
         this.ForceUpdateScroll();
 
@@ -119,14 +114,16 @@ public class PlayerCamera : Camera2D {
             interactHint.GlobalPosition = interactPos;
         }
 
-        if (positionPrevious != GlobalPosition && !(occluder is null)) {
+        //if (positionPrevious != GlobalPosition && !(playerFOV.occluderArr is null)) {
             playerFOV.Update();
-        }
+        //}
         positionPrevious = GlobalPosition;
     }
 
     public bool PickFloorItem(ItemFloor item) {
-        return gui.PickFloorItem(item);
+        bool pick = gui.PickFloorItem(item);
+        if (pick) interactNode = null;
+        return pick;
     }
 
     public void ShowInteractHint(String name, PlayerCamera.InteractHintIcon icon, Vector2 pos, Node2D node) {
@@ -169,7 +166,7 @@ public class PlayerCamera : Camera2D {
 
     public void SetGUIVisible(bool value) {
         gui.Visible = value;
-        gui.GetNode<ColorRect>("CRTEffect").Visible = value;
+        //gui.GetNode<ColorRect>("CRTEffect").Visible = value;
         gui.InventoryDrop("toolbox");
         guiSoundPlayer.Play();
     }

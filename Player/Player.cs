@@ -8,6 +8,8 @@ public class Player : KinematicBody2D {
     private float speed = 50f;
     private float climbSpeed = 25f;
 
+    private Vector2 actualPosition;
+
     public float interactDistance = 30f;
 
     public PlayerCamera camera;
@@ -38,6 +40,8 @@ public class Player : KinematicBody2D {
 
         GetNode<Area2D>("LadderEndCollider").Connect("area_entered", this, nameof(LadderEndCollision));
         GetNode<Area2D>("LadderEndCollider").Connect("area_exited", this, nameof(NoLadderEndCollision));
+
+        actualPosition = this.Position;
     }
 
     public override void _Process(float delta) {
@@ -117,9 +121,23 @@ public class Player : KinematicBody2D {
             animator.SetSpriteFlipH(false);
         }
 
+        //Move(dir, delta);
         this.MoveAndSlide(dir, Vector2.Up);
 
         isOnLadder = CheckLadderCanClimb();
+    }
+
+    public void Move(Vector2 dir, float delta) {
+        // this.MoveAndSlide(dir, Vector2.Up);
+        Vector2 deltaDir = dir * delta;
+
+        if ( !TestMove(this.Transform, new Vector2(deltaDir.x, 0), false) ) {
+            actualPosition.x += deltaDir.x;
+        }
+        if ( !TestMove(this.Transform, new Vector2(0, deltaDir.y), false) ) {
+            actualPosition.y += deltaDir.y;
+        }
+        this.Position = actualPosition.Round();
     }
 
     private void ProcessLadderMove(float delta) {
@@ -146,6 +164,7 @@ public class Player : KinematicBody2D {
             animator.Pause();
         }
         
+        // this.Move(dir * climbSpeed, delta);
         this.MoveAndSlide(dir * climbSpeed, Vector2.Up);
     }
 

@@ -190,7 +190,7 @@ public class PlayerAnimator : Node2D {
 
     public void Aim(ItemPawn itemInHand) {
         if (!GetCanMove()) return;
-        SetSpriteFlipH(this.GetGlobalMousePosition().x <= this.GlobalPosition.x);
+        SetSpriteFlipH(GameHelper.GetMousePosScene(this).x <= this.GlobalPosition.x);
         if (itemInHand is null) {
             PlayAnimation("aim_fists", null);
             return;
@@ -216,9 +216,9 @@ public class PlayerAnimator : Node2D {
         handsWeaponsFront.Position = shoulderPos * -1;
         handsWeaponsBack.Position = shoulderPos * -1;
 
-        handFrontPosition.Rotation = handFrontPosition.GlobalPosition.AngleToPoint(this.GetGlobalMousePosition()) + (GetSpriteFlipH() ? 0 : Mathf.Pi);
+        handFrontPosition.Rotation = handFrontPosition.GlobalPosition.AngleToPoint(GameHelper.GetMousePosScene(this)) + (GetSpriteFlipH() ? 0 : Mathf.Pi);
         handBackPosition.Rotation = handFrontPosition.Rotation;
-
+        // GD.Print(handFrontPosition.GlobalPosition, "  :  ", GameHelper.GetMousePosScene(this));
         Vector2 spawnPos = bulletHolder.Position;
         spawnPos.x = GetSpriteFlipH() ? -20 : 20;
         bulletHolder.Position = spawnPos;
@@ -266,7 +266,7 @@ public class PlayerAnimator : Node2D {
         itemInHand.Ammo = currentAmmo;
         PlayAnimation("attack_handgun", null);
         audioPistolShoot.PlayRandom();
-        Vector2 dir = handFrontPosition.GlobalPosition.DirectionTo(this.GetGlobalMousePosition() + new Vector2(rnd.Randf(), rnd.Randf()));
+        Vector2 dir = handFrontPosition.GlobalPosition.DirectionTo(GameHelper.GetMousePosScene(this) + new Vector2(rnd.Randf(), rnd.Randf()));
         player.camera.Translate(new Vector2(Mathf.Floor(-dir.x * 7f), 0f));
 
         player.GetParent().AddChild(bulletInstance);
@@ -448,7 +448,7 @@ public class PlayerAnimator : Node2D {
 
         flare.GlobalPosition = pos;
         flare.GlobalRotation = fPos.GlobalRotation * (GetSpriteFlipH() ? -1 : 1);
-        flare.ApplyCentralImpulse(new Vector2((GetSpriteFlipH() ? -1 : 1), -0.35f) * 120f);//player.GlobalPosition.DirectionTo(this.GetGlobalMousePosition()) * 90f);
+        flare.ApplyCentralImpulse(new Vector2((GetSpriteFlipH() ? -1 : 1), -0.35f) * 120f);
     }
 
     public void ApplyFlareTorque() {
@@ -476,7 +476,7 @@ public class PlayerAnimator : Node2D {
     }
 
     private void UseFlarePack() {
-        SetSpriteFlipH(this.GetGlobalMousePosition().x <= this.GlobalPosition.x);
+        SetSpriteFlipH(GameHelper.GetMousePosScene(this).x <= this.GlobalPosition.x);
         PlayAnimation("flare_throw", null);
         isInAnimation = true;
     }

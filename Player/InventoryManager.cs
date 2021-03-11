@@ -66,7 +66,7 @@ public class InventoryManager : Control {
                 itemInHand.itemPawn.Rotate();
             }
             itemInHand.AdjustPosition();
-            itemInHand.GlobalPosition = this.GetGlobalMousePosition() - itemInHand.itemPawn.SpriteInventorySize / 2f;
+            itemInHand.GlobalPosition = GameHelper.GetMousePos(this) - itemInHand.itemPawn.SpriteInventorySize / 2f;
             if (Input.IsActionJustPressed("mb_left")) {
                 if (!(inv is null)) {
                     bool isPlaced = inv.PlaceItem(itemInHand);
