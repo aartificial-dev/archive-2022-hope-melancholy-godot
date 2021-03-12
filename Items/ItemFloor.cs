@@ -57,7 +57,7 @@ public class ItemFloor : RigidBody2D, InteractiveObject {
 
     public void ChangeItem() {
         if (!(itemPawnResource is null)) {
-            itemPawn = ItemPawn.MakePawnFromGD(itemPawnResource);
+            itemPawn = new ItemPawn(itemPawnResource);
         }
         if (!(itemPawn is null)) {
             sprite.Frames = itemPawn.SpriteFloorFrames;

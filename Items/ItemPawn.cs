@@ -98,41 +98,34 @@ public class ItemPawn {
         this.audioActivate = audioActivate;
     }
 
-    public static ItemPawn MakePawnFromGD(Resource res) { 
+    public ItemPawn(Resource res) { 
 
-        String name = (String) res.Get("name");
-        ItemPawn.ItemType type = (ItemPawn.ItemType) Enum.ToObject(typeof(ItemPawn.ItemType) , (int) res.Get("itemType"));
-        String id= (String) res.Get("itemID");
+        this.name = (String) res.Get("name");
+        this.type = (ItemPawn.ItemType) Enum.ToObject(typeof(ItemPawn.ItemType) , (int) res.Get("itemType"));
+        this.id= (String) res.Get("itemID");
 
-        SpriteFrames spriteFloorFrames = (SpriteFrames) res.Get("spriteFloorFrames");
-        int spriteFloorFrame = (int) res.Get("spriteFloorFrame");
-        Vector2 spriteFloorSize = (Vector2) res.Get("spriteFloorSize");
+        this.spriteFloorFrames = (SpriteFrames) res.Get("spriteFloorFrames");
+        this.spriteFloorFrame = (int) res.Get("spriteFloorFrame");
+        this.spriteFloorSize = (Vector2) res.Get("spriteFloorSize");
 
-        SpriteFrames spriteInventoryFrames = (SpriteFrames) res.Get("spriteInventoryFrames");
-        int spriteInventoryFrame = (int) res.Get("spriteInventoryFrame");
-        Vector2 spriteInventorySize = (Vector2) res.Get("spriteInventorySize");
-        Vector2 spriteInventoryGridSize = (Vector2) res.Get("spriteInventoryGridSize");
+        this.spriteInventoryFrames = (SpriteFrames) res.Get("spriteInventoryFrames");
+        this.spriteInventoryFrame = (int) res.Get("spriteInventoryFrame");
+        this.spriteInventorySize = (Vector2) res.Get("spriteInventorySize");
+        this.spriteInventoryGridSize = (Vector2) res.Get("spriteInventoryGridSize");
 
-        int ammo = (int) res.Get("ammo");
-        int ammoMax = (int) res.Get("ammoMax");
-        bool isActive = (bool) res.Get("isActive");
+        this.ammo = (int) res.Get("ammo");
+        this.ammoMax = (int) res.Get("ammoMax");
+        this.isActive = (bool) res.Get("isActive");
 
-        Mesh model = (Mesh) res.Get("model");
-        SpatialMaterial material = (SpatialMaterial) res.Get("material");
-        String description = (String) res.Get("description");
+        this.model = (Mesh) res.Get("model");
+        this.material = (SpatialMaterial) res.Get("material");
+        this.description = (String) res.Get("description");
 
-        String itemScript = (String) res.Get("itemScript");
-        AudioStreamSample audioPickup = (AudioStreamSample) res.Get("audioPickup");
-        AudioStreamSample audioUse = (AudioStreamSample) res.Get("audioUse");
-        AudioStreamSample audioDrop = (AudioStreamSample) res.Get("audioDrop");
-        AudioStreamSample audioActivate = (AudioStreamSample) res.Get("audioActivate");
-        // GD.Print(name, "  ", spriteFrame, "  ", sizeFloor, "  ", sizeGrid, "  ", sizeSprite, "  ", type, "  ", intArray, "  ", textField);
-        return new ItemPawn(name, type, id, 
-                            spriteFloorFrames, spriteFloorFrame, spriteFloorSize, 
-                            spriteInventoryFrames, spriteInventoryFrame, spriteInventorySize, spriteInventoryGridSize, 
-                            ammo, ammoMax, isActive,
-                            model, material, description,
-                            itemScript, audioPickup, audioUse, audioDrop, audioActivate);
+        this.itemScript = (String) res.Get("itemScript");
+        this.audioPickup = (AudioStreamSample) res.Get("audioPickup");
+        this.audioUse = (AudioStreamSample) res.Get("audioUse");
+        this.audioDrop = (AudioStreamSample) res.Get("audioDrop");
+        this.audioActivate = (AudioStreamSample) res.Get("audioActivate");
     }
 
     private Vector2 GetSpriteInventorySize() {

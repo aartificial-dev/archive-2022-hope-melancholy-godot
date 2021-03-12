@@ -92,7 +92,7 @@ public class PlayerCamera : Camera2D {
         if (player.GetIsInCutscene()) return;
         
         float h = resolution.y / 4f;
-        Vector2 mousePos = GameHelper.GetMousePos(this);
+        Vector2 mousePos = GameHelper.GetMousePosScene(this);
 
         actualPos.x = Mathf.Lerp(actualPos.x, player.Transform.origin.x, delta * 4f);
         actualPos.x = Mathf.Lerp(actualPos.x, mousePos.x, delta * 0.4f);
@@ -121,6 +121,7 @@ public class PlayerCamera : Camera2D {
     }
 
     public bool PickFloorItem(ItemFloor item) {
+        if (!GetCanMove()) return false;
         bool pick = gui.PickFloorItem(item);
         if (pick) interactNode = null;
         return pick;

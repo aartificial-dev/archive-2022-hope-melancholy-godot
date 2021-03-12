@@ -73,7 +73,7 @@ __meta__ = {
 use_parent_material = true
 frames = ExtResource( 21 )
 animation = "hand"
-frame = 5
+frame = 2
 playing = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

@@ -53,7 +53,7 @@ vec4 grain(vec2 suv, float time) {
 void fragment() {  
 	vec4 col = chromatic(TEXTURE, UV);
 	col *= vignette(UV);
-	//col *= grain(SCREEN_UV, TIME);
+	col *= grain(SCREEN_UV, TIME);
 	
 	COLOR = col;
 }
@@ -67,8 +67,8 @@ shader_param/grain_amount = 0.0
 
 [node name="ViewportContainer" type="ViewportContainer"]
 material = SubResource( 2 )
-margin_right = 1280.0
-margin_bottom = 720.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 mouse_filter = 2
 stretch = true
 stretch_shrink = 4
