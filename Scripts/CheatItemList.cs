@@ -8,8 +8,11 @@ public class CheatItemList : ItemList {
     private PackedScene itemScene = ResourceLoader.Load<PackedScene>("res://Items/ItemFloor.tscn");
 
     public override void _Ready() {
+        int i = 0;
         foreach (Resource res in items) {
             this.AddItem((String) res.Get("name"));
+            this.SetItemTooltipEnabled(i, false);
+            i ++;
         }
 
         this.Connect("item_activated", this, nameof(SelectItem));

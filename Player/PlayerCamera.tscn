@@ -1,10 +1,13 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Player/PlayerCamera.cs" type="Script" id=1]
 [ext_resource path="res://Fonts/6pxFont.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Scripts/CheatSheet.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Player/PlayerFOV.cs" type="Script" id=4]
 [ext_resource path="res://GUI/Notes/GUINote.tscn" type="PackedScene" id=5]
+[ext_resource path="res://GUI/PC/GUIPC.tscn" type="PackedScene" id=6]
+[ext_resource path="res://GUI/Keypad/Keypad.tscn" type="PackedScene" id=7]
+[ext_resource path="res://GUI/Wirebox/Wirebox.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Shaders/shader_gm.tres" type="Material" id=18]
 [ext_resource path="res://GUI/Cursor/gui_frames_use.tres" type="SpriteFrames" id=21]
 [ext_resource path="res://Player/GUI.tscn" type="PackedScene" id=27]
@@ -18,7 +21,7 @@ bg_color = Color( 0.0705882, 0.0705882, 0.0784314, 0.501961 )
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.0705882, 0.0705882, 0.0784314, 0.501961 )
 
-[sub_resource type="CanvasItemMaterial" id=5]
+[sub_resource type="CanvasItemMaterial" id=4]
 light_mode = 1
 
 [node name="Camera2D" type="Camera2D" groups=[
@@ -73,7 +76,7 @@ __meta__ = {
 use_parent_material = true
 frames = ExtResource( 21 )
 animation = "hand"
-frame = 2
+frame = 4
 playing = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -84,9 +87,34 @@ visible = false
 [node name="GUINote" parent="CanvasLayer" instance=ExtResource( 5 )]
 visible = false
 
+[node name="GUIPC" parent="CanvasLayer" instance=ExtResource( 6 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 320.0
+margin_bottom = 180.0
+
+[node name="Wirebox" parent="CanvasLayer" instance=ExtResource( 8 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 320.0
+margin_bottom = 180.0
+
+[node name="Keypad" parent="CanvasLayer" instance=ExtResource( 7 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 320.0
+margin_bottom = 180.0
+
 [node name="GUI" parent="CanvasLayer" instance=ExtResource( 27 )]
 visible = false
-material = SubResource( 5 )
+material = SubResource( 4 )
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 320.0
+margin_bottom = 180.0
 
 [node name="PostProcess" type="ColorRect" parent="CanvasLayer"]
 visible = false

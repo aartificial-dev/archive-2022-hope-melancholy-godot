@@ -292,7 +292,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -960.0
 margin_bottom = -540.0
-mouse_filter = 2
 script = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -485,7 +484,7 @@ environment = SubResource( 11 )
 current = true
 
 [node name="Spatial" type="Spatial" parent="Preview/Viewport"]
-transform = Transform( 0.41918, 0, -0.918829, 0, 1, 0, 0.918829, 0, 0.41918, 0, 0, 0 )
+transform = Transform( 0.0945864, 0, 1.0055, 0, 1, 0, -1.0055, 0, 0.0945864, 0, 0, 0 )
 script = ExtResource( 11 )
 
 [node name="ItemModel" type="CSGMesh" parent="Preview/Viewport/Spatial"]
@@ -550,10 +549,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "inventory"
-CellOffset = Vector2( 1, 4 )
-CellSize = Vector2( 8, 8 )
 blacklistType = 5
+CellOffset = Vector2( 1, 4 )
 GridSize = Vector2( 19, 9 )
+CellSize = Vector2( 8, 8 )
 
 [node name="Toolbox" type="NinePatchRect" parent="InventoryManager"]
 light_mask = 524288
@@ -573,10 +572,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "toolbox"
-CellOffset = Vector2( 1, 12 )
-CellSize = Vector2( 8, 8 )
 blacklistType = 5
+CellOffset = Vector2( 1, 12 )
 GridSize = Vector2( 9, 3 )
+CellSize = Vector2( 8, 8 )
 
 [node name="Button" type="Button" parent="InventoryManager/Toolbox"]
 light_mask = 524288
@@ -614,12 +613,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "weapon1"
-CellOffset = Vector2( 1, 4 )
-CellSize = Vector2( 8, 8 )
-blacklistType = 5
 allowedType = 2
-GridSize = Vector2( 4, 8 )
 isItemSlot = true
+blacklistType = 5
+CellOffset = Vector2( 1, 4 )
+GridSize = Vector2( 4, 8 )
+CellSize = Vector2( 8, 8 )
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Weapon1"]
 position = Vector2( 17, 36 )
@@ -643,12 +642,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "weapon2"
-CellOffset = Vector2( 1, 4 )
-CellSize = Vector2( 8, 8 )
-blacklistType = 5
 allowedType = 2
-GridSize = Vector2( 4, 8 )
 isItemSlot = true
+blacklistType = 5
+CellOffset = Vector2( 1, 4 )
+GridSize = Vector2( 4, 8 )
+CellSize = Vector2( 8, 8 )
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Weapon2"]
 position = Vector2( 17, 36 )
@@ -672,12 +671,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "usable"
-CellOffset = Vector2( 1, 4 )
-CellSize = Vector2( 8, 8 )
-blacklistType = 5
 allowedType = 10
-GridSize = Vector2( 3, 3 )
 isItemSlot = true
+blacklistType = 5
+CellOffset = Vector2( 1, 4 )
+GridSize = Vector2( 3, 3 )
+CellSize = Vector2( 8, 8 )
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Usable"]
 position = Vector2( 13, 16 )
@@ -701,12 +700,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "tools"
-CellOffset = Vector2( 1, 4 )
-CellSize = Vector2( 8, 8 )
-blacklistType = 5
 allowedType = 9
-GridSize = Vector2( 5, 3 )
 isItemSlot = true
+blacklistType = 5
+CellOffset = Vector2( 1, 4 )
+GridSize = Vector2( 5, 3 )
+CellSize = Vector2( 8, 8 )
 
 [node name="Overlay" type="Sprite" parent="InventoryManager/Tools"]
 position = Vector2( 21, 16 )
@@ -727,9 +726,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "chip1"
-CellSize = Vector2( 24, 12 )
 allowedType = 5
 isItemSlot = true
+CellSize = Vector2( 24, 12 )
 
 [node name="Chip2" type="TextureRect" parent="InventoryManager"]
 visible = false
@@ -746,9 +745,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "chip2"
-CellSize = Vector2( 24, 12 )
 allowedType = 5
 isItemSlot = true
+CellSize = Vector2( 24, 12 )
 
 [node name="Chip3" type="TextureRect" parent="InventoryManager"]
 visible = false
@@ -765,9 +764,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 name = "chip3"
-CellSize = Vector2( 24, 12 )
 allowedType = 5
 isItemSlot = true
+CellSize = Vector2( 24, 12 )
 
 [node name="Items" type="Control" parent="InventoryManager"]
 light_mask = 524288

@@ -11,6 +11,7 @@ public class IBullet : KinematicBody2D {
 
     protected NodeDictionary nodeDict = new NodeDictionary(){
         {typeof(Flare).Name, false},
+        {typeof(WireSegment).Name, false},
     };
 
     public override void _Ready() {

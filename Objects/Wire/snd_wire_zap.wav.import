@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_wire_zap.wav-bd4e3360ada4fa85cd68de0d6c1025e7.sample"
+
+[deps]
+
+source_file="res://Objects/Wire/snd_wire_zap.wav"
+dest_files=[ "res://.import/snd_wire_zap.wav-bd4e3360ada4fa85cd68de0d6c1025e7.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
