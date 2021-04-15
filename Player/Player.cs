@@ -18,7 +18,6 @@ public class Player : KinematicBody2D {
     private PlayerAnimator animator;
 
     private bool isOnLadder = false;
-    private bool isLadderEndCollide = false;
     private uint ladderTopBitmask    = 0b010000;
     private uint ladderBottomBitmask = 0b100000;
     private uint ladderEndBitmask = 0b0;
@@ -173,12 +172,10 @@ public class Player : KinematicBody2D {
     }
 
     private void LadderEndCollision(Area2D _area) {
-        isLadderEndCollide = true;
         ladderEndBitmask = _area.CollisionLayer;
     } 
     
     private void NoLadderEndCollision(Area2D _area) {
-        isLadderEndCollide = false;
         ladderEndBitmask = 0b0;
     }
 

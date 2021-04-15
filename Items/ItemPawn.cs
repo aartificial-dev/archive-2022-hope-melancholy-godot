@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using IntArray = Godot.Collections.Array;
 
 public class ItemPawn {
     private String name;

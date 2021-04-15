@@ -59,7 +59,7 @@ public class WireSpawner : Line2D {
         Vector2 pinEndPos = startPos.LinearInterpolate(endPos, ((float) segmentAmount - 0.5f) / (float) segmentAmount);
         ConnectSegments(pinEndPos, left, right);
 
-
+        this.DefaultColor = new Color(0, 0, 0, 0);
     }
 
     public StaticBody2D SpawnWirePin(Vector2 pos) {

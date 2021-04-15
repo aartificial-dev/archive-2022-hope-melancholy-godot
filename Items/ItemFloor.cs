@@ -4,7 +4,7 @@ using System;
 [Tool]
 public class ItemFloor : RigidBody2D, InteractiveObject {
     [Export(PropertyHint.ResourceType, "ItemPawnGD")]
-    public Resource itemPawnResource;
+    public Resource itemPawnResource = null;
 
     public ItemPawn itemPawn;
 
@@ -17,41 +17,29 @@ public class ItemFloor : RigidBody2D, InteractiveObject {
     private Player player = null;
     private PlayerCamera camera = null;
 
+    private InteractiveHelper<ItemFloor> helper;
+
     public override void _Ready() {
+
+        if (!Engine.EditorHint) {
+            helper = new InteractiveHelper<ItemFloor>(this, "", PlayerCamera.InteractHintIcon.hand, Vector2.Zero);
+            this.Connect("input_event", helper, nameof(helper.MouseEvent));
+            this.Connect("mouse_entered", helper, nameof(helper.MouseEntered));
+            this.Connect("mouse_exited", helper, nameof(helper.MouseExited));
+        }
+        
         sprite = GetNode<AnimatedSprite>("AnimatedSprite");
         collision = GetNode<CollisionShape2D>("CollisionShape2D");
         rectangleShape2D = new RectangleShape2D();
         collision.Shape = rectangleShape2D;
         ChangeItem();
-        
-        this.Connect("input_event", this, nameof(MouseEvent));
-        this.Connect("mouse_entered", this, nameof(MouseEntered));
-        this.Connect("mouse_exited", this, nameof(MouseExited));
     }
 
     public override void _Process(float delta) {
         if (Engine.EditorHint) {
             TryConnectItemChangeSignal();
-            return;
-        }
-
-        if (MouseIn) {
-            FindCamera();
-            FindPlayer();
-            if (! (player is null || camera is null) ) {
-                ShowInteractHint();
-            }
-        }
-        
-    }
-
-    public void ShowInteractHint() {
-        bool canPickupDistance = false;
-        if (!(player is null)) {
-            canPickupDistance = this.GlobalPosition.DistanceTo(player.GlobalPosition) <= player.interactDistance;
-        }
-        if (canPickupDistance) {
-            camera.ShowInteractHint(itemPawn.Name, PlayerCamera.InteractHintIcon.hand, this.GlobalPosition, this);
+        } else {
+            helper.CheckHint();
         }
     }
 
@@ -66,6 +54,7 @@ public class ItemFloor : RigidBody2D, InteractiveObject {
             collision.Position = new Vector2(0f, -rectangleShape2D.Extents.y);
             if (!Engine.EditorHint) {
                 itemPawn.ParseActions();
+                helper.ChangeHintName(itemPawn.Name);
             }
         } else {
             if (!Engine.EditorHint) {
@@ -76,19 +65,21 @@ public class ItemFloor : RigidBody2D, InteractiveObject {
         }
     }
 
-    public void MouseEvent(Node viewport, InputEvent inputEvent, int shapeidx) {
-        if (Engine.EditorHint) return;
-        if (inputEvent.IsActionReleased("mb_right")) {
-            FindCamera();
-            FindPlayer();
-            if (! (player is null || camera is null) ) {
-                Use();
+    private void TryConnectItemChangeSignal() {
+        if (!(itemPawnResource is null)) {
+            if (!itemPawnResource.IsConnected("value_changed", this, nameof(ChangeItem))) {
+                itemPawnResource.Connect("value_changed", this, nameof(ChangeItem), default(Godot.Collections.Array), (uint) Godot.Object.ConnectFlags.Persist);
+                ChangeItem();
             }
+        } else {
+            itemPawn = null;
         }
     }
 
     public void Use() {
         // pick up event
+        FindCamera();
+        FindPlayer();
         if (camera.interactNode is null) return;
         bool canPickupDistance = this.GlobalPosition.DistanceTo(player.GlobalPosition) <= player.interactDistance;
         bool isCurrentInstance = camera.interactNode.GetInstanceId() == this.GetInstanceId();
@@ -100,13 +91,6 @@ public class ItemFloor : RigidBody2D, InteractiveObject {
         }
     }
 
-    public void MouseEntered() {
-        MouseIn = true;
-    }
-    public void MouseExited() {
-        MouseIn = false;
-    }
-
     private void Pickup() {
         Godot.Collections.Array bodies = this.GetCollidingBodies();
         foreach (Node2D nodeBody in bodies) {
@@ -115,42 +99,20 @@ public class ItemFloor : RigidBody2D, InteractiveObject {
                 body.ApplyCentralImpulse(Vector2.Up * 10f);
             }
         }
-        MouseExited();
+        helper.MouseExited();
         this.GetParent().RemoveChild(this);
         this.QueueFree();
-    }
-    
-    private Player FindPlayer() {
-        if (!(player is null)) return player;
-        Godot.Collections.Array arr = this.GetTree().GetNodesInGroup("Player");
-        foreach (Node node in arr) {
-            if (node is Player) {
-                player = (Player) node;
-            }
-        }
-        return player;
     }
 
     private PlayerCamera FindCamera() {
         if (!(camera is null)) return camera;
-        Godot.Collections.Array arr = this.GetTree().GetNodesInGroup("Player");
-        foreach (Node node in arr) {
-            if (node is PlayerCamera) {
-                camera = (PlayerCamera) node;
-            }
-        }
+        camera = GameHelper.GetNodeInGroup<PlayerCamera>(this, "Player");
         return camera;
     }
-
-
-    private void TryConnectItemChangeSignal() {
-        if (!(itemPawnResource is null)) {
-            if (!itemPawnResource.IsConnected("value_changed", this, nameof(ChangeItem))) {
-                itemPawnResource.Connect("value_changed", this, nameof(ChangeItem), default(Godot.Collections.Array), (uint) Godot.Object.ConnectFlags.Persist);
-                ChangeItem();
-            }
-        } else {
-            itemPawn = null;
-        }
+    
+    private Player FindPlayer() {
+        if (!(player is null)) return player;
+        player = GameHelper.GetNodeInGroup<Player>(this, "Player");
+        return player;
     }
 }

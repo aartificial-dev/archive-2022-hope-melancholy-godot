@@ -46,7 +46,6 @@ public class PlayerAnimator : Node2D {
 
     private Light2D lightFlashlight;
     private Light2D lightLamp;
-    private Timer lightBatteryTimer;
 
     private Position2D emptyMagPos;
 
