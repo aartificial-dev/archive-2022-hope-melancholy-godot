@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Player/PlayerCamera.cs" type="Script" id=1]
 [ext_resource path="res://Fonts/6pxFont.tres" type="DynamicFont" id=2]
@@ -20,6 +20,20 @@ bg_color = Color( 0.0705882, 0.0705882, 0.0784314, 0.501961 )
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.0705882, 0.0705882, 0.0784314, 0.501961 )
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+uniform float lod: hint_range(0.0, 5) = 0.0;
+
+void fragment(){
+	vec4 color = texture(SCREEN_TEXTURE, SCREEN_UV, lod);
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/lod = 1.0
 
 [sub_resource type="CanvasItemMaterial" id=4]
 light_mode = 1
@@ -80,6 +94,15 @@ frame = 1
 playing = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource( 6 )
+margin_right = 320.0
+margin_bottom = 180.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CheatSheet" parent="CanvasLayer" instance=ExtResource( 3 )]
 visible = false

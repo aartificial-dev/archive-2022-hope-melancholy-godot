@@ -32,7 +32,7 @@ public class GUINote : Control {
         buttonNext.Connect("pressed", this, nameof(NextPage));
         buttonPrev.Connect("pressed", this, nameof(PrevPage));
 
-        noteTexture.Frame = (int) type;
+        // noteTexture.Frame = (int) type;
         noteText.BbcodeText = text;
     }
 
