@@ -2,8 +2,8 @@
 
 [ext_resource path="res://Assets/Sounds/Inventory/snd_inv_drop.wav" type="AudioStream" id=1]
 [ext_resource path="res://Assets/Sounds/Inventory/snd_inv_pickup.wav" type="AudioStream" id=2]
-[ext_resource path="res://Assets/Frames/Items/frames_items_floor.tres" type="SpriteFrames" id=3]
-[ext_resource path="res://Assets/Frames/Items/frames_items_2x2.tres" type="SpriteFrames" id=4]
+[ext_resource path="res://Assets/Frames/Items/frames_items_2x2.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Assets/Frames/Items/frames_items_floor.tres" type="SpriteFrames" id=4]
 [ext_resource path="res://Scripts/Items/ItemPawnGD.gd" type="Script" id=5]
 
 [resource]
@@ -11,10 +11,10 @@ script = ExtResource( 5 )
 name = "Handgun Clip"
 itemType = 6
 itemID = "a_handgun"
-spriteFloorFrames = ExtResource( 3 )
+spriteFloorFrames = ExtResource( 4 )
 spriteFloorFrame = 13
 spriteFloorSize = Vector2( 16, 4 )
-spriteInventoryFrames = ExtResource( 4 )
+spriteInventoryFrames = ExtResource( 3 )
 spriteInventoryFrame = 3
 spriteInventorySize = Vector2( 16, 16 )
 spriteInventoryGridSize = Vector2( 2, 2 )

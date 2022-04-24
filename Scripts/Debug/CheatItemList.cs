@@ -5,7 +5,7 @@ public class CheatItemList : ItemList {
     [Export]
     public Godot.Collections.Array<Resource> items = new Godot.Collections.Array<Resource>();
 
-    private PackedScene itemScene = ResourceLoader.Load<PackedScene>("res://Items/ItemFloor.tscn");
+    private PackedScene itemScene = ResourceLoader.Load<PackedScene>("res://Scenes/Items/ItemFloor.tscn");
 
     public override void _Ready() {
         int i = 0;

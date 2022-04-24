@@ -23,7 +23,7 @@ public class PlayerCamera : Camera2D {
 
 	private GUI gui;
 	private AudioStreamPlayer guiSoundPlayer = new AudioStreamPlayer();
-	private AudioStreamSample guiSound = ResourceLoader.Load<AudioStreamSample>("res://Sounds/snd_gui_open.wav");
+	private AudioStreamSample guiSound = ResourceLoader.Load<AudioStreamSample>("res://Assets/Sounds/snd_gui_open.wav");
 
 	private Vector2 positionPrevious = Vector2.Zero;
 

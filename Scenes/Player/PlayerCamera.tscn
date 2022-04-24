@@ -9,7 +9,7 @@
 [ext_resource path="res://Scenes/GUI/Keypad.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/GUI/Wirebox.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Shaders/shader_gm.tres" type="Material" id=18]
-[ext_resource path="res://Assets/Sprites/GUI/Cursor/gui_frames_use.tres" type="SpriteFrames" id=21]
+[ext_resource path="res://Assets/Frames/GUI/gui_frames_use.tres" type="SpriteFrames" id=21]
 [ext_resource path="res://Scenes/GUI/GUI.tscn" type="PackedScene" id=27]
 
 [sub_resource type="CanvasItemMaterial" id=1]

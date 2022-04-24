@@ -20,7 +20,7 @@ public class TextBubble : Node2D {
     [Export(PropertyHint.Range, "-300,300,1")]
     public float bubbleOffsetY = 0;
     [Export]//(PropertyHint.ResourceType, "AudioStreamSample")]
-    public AudioStreamSample sound = ResourceLoader.Load<AudioStreamSample>("res://Sounds/snd_gui_preview_text.wav");
+    public AudioStreamSample sound = ResourceLoader.Load<AudioStreamSample>("res://Assets/Sounds/snd_gui_preview_text.wav");
     [Export]
     public bool followObject = false;
     [Export]

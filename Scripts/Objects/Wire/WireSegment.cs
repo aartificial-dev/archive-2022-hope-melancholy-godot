@@ -5,7 +5,7 @@ public class WireSegment : RigidBody2D {
     public PinJoint2D pinLeft = null;
     public PinJoint2D pinRight = null;
 
-    private PackedScene partScene = ResourceLoader.Load<PackedScene>("res://Objects/Wire/PartElectricBurn.tscn");
+    private PackedScene partScene = ResourceLoader.Load<PackedScene>("res://Scenes/Decals/PartElectricBurn.tscn");
 
     [Export]
     public int health = 2;

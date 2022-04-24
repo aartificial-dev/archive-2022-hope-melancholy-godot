@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/Sprites/GUI/Keypad/ThemeKeypad.tres" type="Theme" id=1]
+[ext_resource path="res://Assets/Themes/ThemeKeypad.tres" type="Theme" id=1]
 [ext_resource path="res://Assets/Sprites/GUI/Keypad/spr_keypad_close.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Sprites/GUI/Keypad/FramesKeys.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Assets/Frames/GUI/FramesKeys.tres" type="SpriteFrames" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.619608, 0.592157, 0.619608, 1 )

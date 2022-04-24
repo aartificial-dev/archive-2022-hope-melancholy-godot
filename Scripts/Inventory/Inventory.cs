@@ -29,9 +29,9 @@ public class Inventory : Control {
     [Export]
     public bool isItemSlot = false;
     [Export]
-    public AudioStreamSample itemSound = ResourceLoader.Load<AudioStreamSample>("res://Sounds/Inventory/snd_inv_pickup.wav");
+    public AudioStreamSample itemSound = ResourceLoader.Load<AudioStreamSample>("res://Assets/Sounds/Inventory/snd_inv_pickup.wav");
 
-    PackedScene itemInventoryScene = ResourceLoader.Load<PackedScene>("res://Items/ItemInventory.tscn");
+    PackedScene itemInventoryScene = ResourceLoader.Load<PackedScene>("res://Scenes/Items/ItemInventory.tscn");
     protected AudioStreamPlayer itemSoundPlayer;
 
     public InventoryManager inventoryManager;

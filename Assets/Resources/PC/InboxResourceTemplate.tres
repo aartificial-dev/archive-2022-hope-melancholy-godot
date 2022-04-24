@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=6 format=2]
 
-[ext_resource path="res://Assets/Sprites/GUI/PC/MailPawnGD.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Sprites/GUI/PC/InboxPawnGD.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/GUI/MailPawnGD.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/GUI/InboxPawnGD.gd" type="Script" id=2]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 1 )

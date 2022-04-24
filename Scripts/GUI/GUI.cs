@@ -51,11 +51,11 @@ public class GUI : Control {
 
     public void MakeControlsHint() {
         String str = "[center] ";
-        String sUse = "[img]res://GUI/Inventory/spr_inventory_hint3.png[/img] - use";
-        String sRot = "[img]res://GUI/Inventory/spr_inventory_hint3.png[/img] - rotate";
-        String sDrop = "[img]res://GUI/Inventory/spr_inventory_hint2.png[/img] - drop";
-        String sDesc = "[img]res://GUI/Inventory/spr_inventory_hint1.png[/img] - description";
-        String sScr = "[img]res://GUI/Inventory/spr_inventory_hint4.png[/img] - scroll";
+        String sUse = "[img]res://Assets/Sprites/GUI/Inventory/spr_inventory_hint3.png[/img] - use";
+        String sRot = "[img]res://Assets/Sprites/GUI/Inventory/spr_inventory_hint3.png[/img] - rotate";
+        String sDrop = "[img]res://Assets/Sprites/GUI/Inventory/spr_inventory_hint2.png[/img] - drop";
+        String sDesc = "[img]res://Assets/Sprites/GUI/Inventory/spr_inventory_hint1.png[/img] - description";
+        String sScr = "[img]res://Assets/Sprites/GUI/Inventory/spr_inventory_hint4.png[/img] - scroll";
 
         if ( (hintFlags & (uint) HintFlags.Use) != 0b0) {
             str += sUse;

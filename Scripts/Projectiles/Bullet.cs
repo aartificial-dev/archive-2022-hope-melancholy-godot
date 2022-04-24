@@ -4,7 +4,7 @@ using NodeDictionary = System.Collections.Generic.Dictionary<System.String, bool
 
 public class Bullet : IBullet {
 
-    private PackedScene trailScene = ResourceLoader.Load<PackedScene>("res://Objects/BulletTrail.tscn");
+    private PackedScene trailScene = ResourceLoader.Load<PackedScene>("res://Scenes/Decals/BulletTrail.tscn");
     public BulletTrail bulletTrail;
 
     public override void _Ready() {

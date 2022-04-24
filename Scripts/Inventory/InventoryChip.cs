@@ -41,7 +41,7 @@ public class InventoryChip : Inventory {
         allowedType = ItemPawn.ItemType.Chip;
         cellSpace = new Vector2(2, 1);
         cellSize = new Vector2(32, 16);
-        itemSound = ResourceLoader.Load<AudioStreamSample>("res://Sounds/Inventory/snd_inv_chip.wav");
+        itemSound = ResourceLoader.Load<AudioStreamSample>("res://Assets/Sounds/Inventory/snd_inv_chip.wav");
         base.UpdateGrid();
     }
 

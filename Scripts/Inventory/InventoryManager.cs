@@ -24,8 +24,8 @@ public class InventoryManager : Control {
 
     private GUI gui;
 
-    private PackedScene itemFloorScene = ResourceLoader.Load<PackedScene>("res://Items/ItemFloor.tscn");
-    private PackedScene itemInventoryScene = ResourceLoader.Load<PackedScene>("res://Items/ItemInventory.tscn");
+    private PackedScene itemFloorScene = ResourceLoader.Load<PackedScene>("res://Scenes/Items/ItemFloor.tscn");
+    private PackedScene itemInventoryScene = ResourceLoader.Load<PackedScene>("res://Scenes/Items/ItemInventory.tscn");
 
     private ItemScriptParser itemUseParser = null;
     private AudioStreamPlayer itemAudioPlayer;

@@ -12,10 +12,10 @@ public class GUIPreview : TextureRect {
     private ColorRect description;
     private Label descriptionText;
     private CSGMesh itemModel;
-    private SpatialMaterial itemDefaultMaterial = ResourceLoader.Load<SpatialMaterial>("res://Models/defaultModelMaterial.tres");
+    private SpatialMaterial itemDefaultMaterial = ResourceLoader.Load<SpatialMaterial>("res://Assets/Models/defaultModelMaterial.tres");
 
     private AudioStreamPlayer textAudioPlayer = new AudioStreamPlayer();
-    private AudioStreamSample textAudioSample = ResourceLoader.Load<AudioStreamSample>("res://Sounds/snd_gui_preview_text.wav");
+    private AudioStreamSample textAudioSample = ResourceLoader.Load<AudioStreamSample>("res://Assets/Sounds/snd_gui_preview_text.wav");
 
     public override void _Ready() {
         gui = this.GetParent<GUI>();

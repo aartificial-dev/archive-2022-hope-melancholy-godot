@@ -16,7 +16,7 @@ public class BulletTrail : Line2D {
 
     private float offset;
 
-    // private ShaderMaterial shader = ResourceLoader.Load("res://Shaders/shader_bullettrail.tres");
+    // private ShaderMaterial shader = ResourceLoader.Load("res://Assets/Shaders/shader_bullettrail.tres");
 
     public override void _Ready() {
         rnd.Randomize();

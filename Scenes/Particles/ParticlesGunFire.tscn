@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Assets/VFX_Particles/particles_gunfire.tres" type="Material" id=1]
+[ext_resource path="res://Assets/Particles/particles_gunfire.tres" type="Material" id=1]
 [ext_resource path="res://Assets/VFX_Sprites/2cd708ce-b9e4-4005-a88c-596865431592.png" type="Texture" id=2]
 
 [sub_resource type="CanvasItemMaterial" id=1]

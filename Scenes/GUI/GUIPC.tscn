@@ -1,11 +1,11 @@
 [gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://Assets/Sprites/GUI/PC/ThemePC.tres" type="Theme" id=1]
+[ext_resource path="res://Assets/Themes/ThemePC.tres" type="Theme" id=1]
 [ext_resource path="res://Assets/Sprites/GUI/PC/spr_pc_mailbox.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Sprites/GUI/PC/FramesPCUiButtons.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Assets/Frames/GUI/FramesPCUiButtons.tres" type="SpriteFrames" id=3]
 [ext_resource path="res://Assets/Fonts/main_font.tres" type="DynamicFont" id=4]
-[ext_resource path="res://Assets/Sprites/GUI/PC/InboxResourceTemplate.tres" type="Resource" id=5]
-[ext_resource path="res://Assets/Sprites/GUI/PC/GUIPC.cs" type="Script" id=7]
+[ext_resource path="res://Assets/Resources/PC/InboxResourceTemplate.tres" type="Resource" id=5]
+[ext_resource path="res://Scripts/GUI/GUIPC.cs" type="Script" id=7]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 2.0
@@ -171,9 +171,9 @@ margin_top = 4.0
 margin_right = 94.0
 margin_bottom = 13.0
 theme = ExtResource( 1 )
-custom_styles/normal = SubResource( 14 )
-custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+custom_fonts/font = ExtResource( 4 )
+custom_styles/normal = SubResource( 14 )
 text = "Mail // Inbox"
 valign = 1
 __meta__ = {

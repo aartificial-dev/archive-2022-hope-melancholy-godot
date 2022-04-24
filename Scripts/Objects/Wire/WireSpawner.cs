@@ -6,8 +6,8 @@ public class WireSpawner : Line2D {
     [Export]
     public float segmentWidth = 4f;
 
-    private PackedScene wirePinScene = ResourceLoader.Load<PackedScene>("res://Objects/Wire/WirePin.tscn");
-    private PackedScene wireSegmentScene = ResourceLoader.Load<PackedScene>("res://Objects/Wire/WireSegment.tscn");
+    private PackedScene wirePinScene = ResourceLoader.Load<PackedScene>("res://Scenes/Objects/Wire/WirePin.tscn");
+    private PackedScene wireSegmentScene = ResourceLoader.Load<PackedScene>("res://Scenes/Objects/Wire/WireSegment.tscn");
 
     private Godot.Collections.Array<PhysicsBody2D> segments = new Godot.Collections.Array<PhysicsBody2D>();
 

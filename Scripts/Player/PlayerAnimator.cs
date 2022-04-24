@@ -29,16 +29,16 @@ public class PlayerAnimator : Node2D {
     private RandomAudioPlayer audioPistolShoot;
 
     private Node2D bulletHolder;
-    private PackedScene bulletScene = ResourceLoader.Load<PackedScene>("res://Objects/Bullet.tscn");
-    private PackedScene casingScene = ResourceLoader.Load<PackedScene>("res://Objects/WeaponTrash/BulletCasing.tscn");
-    private PackedScene emptyMagScene = ResourceLoader.Load<PackedScene>("res://Objects/WeaponTrash/EmptyMag.tscn");
+    private PackedScene bulletScene = ResourceLoader.Load<PackedScene>("res://Scenes/Projectiles/Bullet.tscn");
+    private PackedScene casingScene = ResourceLoader.Load<PackedScene>("res://Scenes/Decals/BulletCasing.tscn");
+    private PackedScene emptyMagScene = ResourceLoader.Load<PackedScene>("res://Scenes/Decals/EmptyMag.tscn");
     private Bullet bulletInstance = null;
     private RandomNumberGenerator rnd = new RandomNumberGenerator();
 
-    private StreamTexture spriteEmptyClip = ResourceLoader.Load<StreamTexture>("res://VFX_Sprites/spr_empty_clip.png");
-    private StreamTexture spriteEmptyBat = ResourceLoader.Load<StreamTexture>("res://VFX_Sprites/spr_empty_bat.png");
+    private StreamTexture spriteEmptyClip = ResourceLoader.Load<StreamTexture>("res://Assets/VFX_Sprites/spr_empty_clip.png");
+    private StreamTexture spriteEmptyBat = ResourceLoader.Load<StreamTexture>("res://Assets/VFX_Sprites/spr_empty_bat.png");
     
-    private PackedScene flareScene = ResourceLoader.Load<PackedScene>("res://Objects/Flare.tscn");
+    private PackedScene flareScene = ResourceLoader.Load<PackedScene>("res://Scenes/Projectiles/Flare.tscn");
 
     private bool isInAnimation = false;
 
