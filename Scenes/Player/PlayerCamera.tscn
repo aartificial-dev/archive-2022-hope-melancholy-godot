@@ -1,0 +1,150 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Scripts/Player/PlayerCamera.cs" type="Script" id=1]
+[ext_resource path="res://Assets/Fonts/6pxFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Scenes/GUI/CheatSheet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/Player/PlayerFOV.cs" type="Script" id=4]
+[ext_resource path="res://Scenes/GUI/GUINote.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/GUI/GUIPC.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/GUI/Keypad.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/GUI/Wirebox.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Assets/Shaders/shader_gm.tres" type="Material" id=18]
+[ext_resource path="res://Assets/Sprites/GUI/Cursor/gui_frames_use.tres" type="SpriteFrames" id=21]
+[ext_resource path="res://Scenes/GUI/GUI.tscn" type="PackedScene" id=27]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+light_mode = 1
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.0705882, 0.0705882, 0.0784314, 0.501961 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.0705882, 0.0705882, 0.0784314, 0.501961 )
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+uniform float lod: hint_range(0.0, 5) = 0.0;
+
+void fragment(){
+	vec4 color = texture(SCREEN_TEXTURE, SCREEN_UV, lod);
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/lod = 1.0
+
+[sub_resource type="CanvasItemMaterial" id=4]
+light_mode = 1
+
+[node name="Camera2D" type="Camera2D" groups=["Player"]]
+material = SubResource( 1 )
+current = true
+script = ExtResource( 1 )
+
+[node name="FOV" type="Node2D" parent="."]
+z_index = 15
+script = ExtResource( 4 )
+
+[node name="InteractHint" type="Node2D" parent="."]
+visible = false
+use_parent_material = true
+z_index = 50
+
+[node name="Timer" type="Timer" parent="InteractHint"]
+process_mode = 0
+one_shot = true
+
+[node name="Panel" type="Panel" parent="InteractHint"]
+use_parent_material = true
+margin_left = -5.0
+margin_top = -5.0
+margin_right = 6.0
+margin_bottom = 6.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="InteractHint"]
+use_parent_material = true
+margin_left = 6.0
+margin_top = -5.0
+margin_right = 21.0
+margin_bottom = 6.0
+custom_fonts/font = ExtResource( 2 )
+custom_styles/normal = SubResource( 3 )
+text = "Item"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="InteractHint"]
+use_parent_material = true
+frames = ExtResource( 21 )
+animation = "hand"
+frame = 4
+playing = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource( 6 )
+margin_right = 320.0
+margin_bottom = 180.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheatSheet" parent="CanvasLayer" instance=ExtResource( 3 )]
+visible = false
+
+[node name="GUINote" parent="CanvasLayer" instance=ExtResource( 5 )]
+visible = false
+
+[node name="GUIPC" parent="CanvasLayer" instance=ExtResource( 6 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 320.0
+margin_bottom = 180.0
+
+[node name="Wirebox" parent="CanvasLayer" instance=ExtResource( 8 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 320.0
+margin_bottom = 180.0
+
+[node name="Keypad" parent="CanvasLayer" instance=ExtResource( 7 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 320.0
+margin_bottom = 180.0
+
+[node name="GUI" parent="CanvasLayer" instance=ExtResource( 27 )]
+visible = false
+material = SubResource( 4 )
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 320.0
+margin_bottom = 180.0
+
+[node name="PostProcess" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = ExtResource( 18 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -960.0
+margin_bottom = -540.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}

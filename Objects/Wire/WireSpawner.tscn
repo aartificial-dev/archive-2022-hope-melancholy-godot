@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://Objects/Wire/WireSpawner.cs" type="Script" id=1]
-
-[node name="WireSpawner" type="Line2D"]
-width = 2.0
-default_color = Color( 0.894118, 0.431373, 0.505882, 0.176471 )
-script = ExtResource( 1 )

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_pl_punch.wav-6f60d6cf438a055bec990eae3c9dda5e.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Weapons/snd_pl_punch.wav"
+dest_files=[ "res://.import/snd_pl_punch.wav-6f60d6cf438a055bec990eae3c9dda5e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_pistol_shot_1.wav-384b8c9d85e009bd08881c7b85229ab3.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Weapons/snd_pistol_shot_1.wav"
+dest_files=[ "res://.import/snd_pistol_shot_1.wav-384b8c9d85e009bd08881c7b85229ab3.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

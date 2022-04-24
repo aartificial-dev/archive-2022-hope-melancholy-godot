@@ -1,0 +1,253 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://Assets/Sprites/GUI/Notes/spr_gui_note.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Fonts/6pxFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Assets/Sprites/GUI/Notes/GUINote.cs" type="Script" id=3]
+[ext_resource path="res://Assets/Sprites/GUI/Notes/spr_gui_note_emission.png" type="Texture" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="ImageTexture" id=6]
+
+[sub_resource type="ImageTexture" id=7]
+
+[sub_resource type="ImageTexture" id=8]
+
+[sub_resource type="ImageTexture" id=9]
+
+[sub_resource type="StyleBoxLine" id=10]
+vertical = true
+
+[sub_resource type="StyleBoxEmpty" id=11]
+
+[sub_resource type="StyleBoxEmpty" id=12]
+
+[sub_resource type="StyleBoxEmpty" id=13]
+content_margin_left = 0.0
+
+[sub_resource type="StyleBoxEmpty" id=14]
+
+[sub_resource type="Theme" id=15]
+VScrollBar/icons/decrement = SubResource( 6 )
+VScrollBar/icons/decrement_highlight = SubResource( 7 )
+VScrollBar/icons/increment = SubResource( 8 )
+VScrollBar/icons/increment_highlight = SubResource( 9 )
+VScrollBar/styles/grabber = SubResource( 10 )
+VScrollBar/styles/grabber_highlight = SubResource( 11 )
+VScrollBar/styles/grabber_pressed = SubResource( 12 )
+VScrollBar/styles/scroll = SubResource( 13 )
+VScrollBar/styles/scroll_focus = SubResource( 14 )
+
+[node name="GUINote" type="Control"]
+use_parent_material = true
+margin_right = 320.0
+margin_bottom = 180.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+text = "That slot is tool slot. It contains your combining tool (e.g. toolbox, screwdriver, etc.). You need to place a requred tool in this slot to be able to combine certain items.
+For example: you can't combine battery and tape player without screwdriver or any higher tool.
+[center] [img]res://GUI/Inventory/spr_inv_wtool.png[/img] [/center]
+Lorem ipsum dolor amet haha here
+For example: you can't combine battery and tape player without screwdriver or any higher tool.
+[center] [img]res://GUI/Inventory/spr_inv_wtool.png[/img] [/center]
+Woof"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+use_parent_material = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="CenterContainer"]
+visible = false
+margin_left = 160.0
+margin_top = 90.0
+margin_right = 160.0
+margin_bottom = 90.0
+
+[node name="ReferenceRect" type="ReferenceRect" parent="CenterContainer/Control"]
+use_parent_material = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -55.5
+margin_top = -66.5
+margin_right = 55.5
+margin_bottom = 66.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="NoteTexture" type="Sprite" parent="CenterContainer"]
+use_parent_material = true
+position = Vector2( 104, 23 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Lines" type="Sprite" parent="CenterContainer/NoteTexture"]
+use_parent_material = true
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Control" type="Control" parent="CenterContainer/NoteTexture"]
+use_parent_material = true
+margin_right = 111.0
+margin_bottom = 133.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CenterContainer/NoteTexture/Control"]
+visible = false
+use_parent_material = true
+margin_left = 4.0
+margin_top = 120.0
+margin_right = 126.0
+margin_bottom = 128.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonNext" type="Button" parent="CenterContainer/NoteTexture/Control"]
+visible = false
+use_parent_material = true
+margin_left = 107.0
+margin_top = 119.0
+margin_right = 125.0
+margin_bottom = 127.0
+focus_mode = 0
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Next"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonPrev" type="Button" parent="CenterContainer/NoteTexture/Control"]
+visible = false
+use_parent_material = true
+margin_left = 8.0
+margin_top = 119.0
+margin_right = 26.0
+margin_bottom = 127.0
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Prev"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/NoteTexture/Control"]
+use_parent_material = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -32.5
+margin_top = -57.5
+margin_right = 33.5
+margin_bottom = 31.5
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="NoteText" type="RichTextLabel" parent="CenterContainer/NoteTexture/Control/MarginContainer"]
+use_parent_material = true
+margin_right = 66.0
+margin_bottom = 89.0
+theme = SubResource( 15 )
+custom_fonts/normal_font = ExtResource( 2 )
+custom_colors/default_color = Color( 1, 1, 1, 1 )
+custom_constants/line_separation = 0
+bbcode_enabled = true
+bbcode_text = "there goes text and text goes brrrrrrrrrrrrrrrrrrrrrrrrrrrr
+rrererere
+rrer
+e
+raer aer aer ae rear 
+ae r
+ae r
+ae
+ r
+aer 
+aeasd
+r 
+aads
+er a
+er
+ a
+er
+ ae
+r
+ae
+r 
+a
+re
+"
+text = "there goes text and text goes brrrrrrrrrrrrrrrrrrrrrrrrrrrr
+rrererere
+rrer
+e
+raer aer aer ae rear 
+ae r
+ae r
+ae
+ r
+aer 
+aeasd
+r 
+aads
+er a
+er
+ a
+er
+ ae
+r
+ae
+r 
+a
+re
+"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_foot_1.wav-aa2c1a9ce5ce1f14e635cbe3bcbf37d0.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Player/snd_foot_1.wav"
+dest_files=[ "res://.import/snd_foot_1.wav-aa2c1a9ce5ce1f14e635cbe3bcbf37d0.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

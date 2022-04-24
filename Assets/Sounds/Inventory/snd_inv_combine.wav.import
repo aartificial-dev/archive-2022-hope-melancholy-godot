@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_inv_combine.wav-581ff163096abe18607e68d761922123.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Inventory/snd_inv_combine.wav"
+dest_files=[ "res://.import/snd_inv_combine.wav-581ff163096abe18607e68d761922123.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

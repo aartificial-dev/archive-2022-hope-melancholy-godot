@@ -1,0 +1,290 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Assets/Sprites/GUI/PC/ThemePC.tres" type="Theme" id=1]
+[ext_resource path="res://Assets/Sprites/GUI/PC/spr_pc_mailbox.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Sprites/GUI/PC/FramesPCUiButtons.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Assets/Fonts/main_font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://Assets/Sprites/GUI/PC/InboxResourceTemplate.tres" type="Resource" id=5]
+[ext_resource path="res://Assets/Sprites/GUI/PC/GUIPC.cs" type="Script" id=7]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 2.0
+content_margin_right = 2.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color( 0.333333, 0.333333, 0.333333, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.156863, 0.156863, 0.156863, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.858824, 0.909804, 1, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.5548, 0.63004, 0.76, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.698039, 0.792157, 0.956863, 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.733333, 0.878431, 0.635294, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.5368, 0.61, 0.488, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.698039, 0.792157, 0.635294, 1 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 1, 0.83, 0.83, 1 )
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.71, 0.6603, 0.6603, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=12]
+
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0.956863, 0.890196, 0.890196, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=14]
+
+[node name="GUIPC" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -960.0
+margin_bottom = -540.0
+theme = ExtResource( 1 )
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+inboxResource = ExtResource( 5 )
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="CenterContainer"]
+margin_left = 160.0
+margin_top = 90.0
+margin_right = 160.0
+margin_bottom = 90.0
+mouse_filter = 2
+theme = ExtResource( 1 )
+
+[node name="Panel" type="Panel" parent="CenterContainer/Control"]
+margin_left = -122.0
+margin_top = -67.0
+margin_right = 122.0
+margin_bottom = 67.0
+mouse_filter = 2
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HideButton" type="Button" parent="CenterContainer/Control/Panel"]
+margin_left = 215.0
+margin_top = 4.0
+margin_right = 222.0
+margin_bottom = 11.0
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="CenterContainer/Control/Panel/HideButton"]
+frames = ExtResource( 3 )
+centered = false
+
+[node name="FullButton" type="Button" parent="CenterContainer/Control/Panel"]
+margin_left = 224.0
+margin_top = 4.0
+margin_right = 231.0
+margin_bottom = 11.0
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="CenterContainer/Control/Panel/FullButton"]
+frames = ExtResource( 3 )
+frame = 1
+centered = false
+
+[node name="CloseButton" type="Button" parent="CenterContainer/Control/Panel"]
+margin_left = 233.0
+margin_top = 4.0
+margin_right = 240.0
+margin_bottom = 11.0
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/focus = SubResource( 12 )
+custom_styles/normal = SubResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite3" type="AnimatedSprite" parent="CenterContainer/Control/Panel/CloseButton"]
+frames = ExtResource( 3 )
+frame = 2
+centered = false
+
+[node name="MailSprite" type="Sprite" parent="CenterContainer/Control/Panel"]
+position = Vector2( 4.00001, 4 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="MailDashInbox" type="Label" parent="CenterContainer/Control/Panel"]
+margin_left = 16.0
+margin_top = 4.0
+margin_right = 94.0
+margin_bottom = 13.0
+theme = ExtResource( 1 )
+custom_styles/normal = SubResource( 14 )
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+text = "Mail // Inbox"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Main" type="Control" parent="CenterContainer/Control/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MailBox" type="Panel" parent="CenterContainer/Control/Panel/Main"]
+margin_left = 4.0
+margin_top = 13.0
+margin_right = 52.0
+margin_bottom = 130.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MailsHolder" type="VBoxContainer" parent="CenterContainer/Control/Panel/Main/MailBox"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_constants/separation = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FieldTo" type="Panel" parent="CenterContainer/Control/Panel/Main"]
+margin_left = 54.0
+margin_top = 26.0
+margin_right = 240.0
+margin_bottom = 37.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelTo" type="Label" parent="CenterContainer/Control/Panel/Main/FieldTo"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+text = "To: Mayori"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FieldFrom" type="Panel" parent="CenterContainer/Control/Panel/Main"]
+margin_left = 54.0
+margin_top = 13.0
+margin_right = 240.0
+margin_bottom = 24.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelFrom" type="Label" parent="CenterContainer/Control/Panel/Main/FieldFrom"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+text = "From: IST_HQ"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MailText" type="Panel" parent="CenterContainer/Control/Panel/Main"]
+margin_left = 54.0
+margin_top = 39.0
+margin_right = 240.0
+margin_bottom = 130.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelText" type="RichTextLabel" parent="CenterContainer/Control/Panel/Main/MailText"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/shadow_offset_y = 0
+custom_constants/shadow_as_outline = 0
+bbcode_enabled = true
+bbcode_text = "Reply of:
+
+—————————————————————————————
+I heard latest news about virus breach and as Manager of IST Lane command I decided to lock off elevator door for safety of my command.
+If HQ count this as contradiction then I'll take off my position.
+	
+'IST Lane' manager Mayori.
+—————————————————————————————
+
+You're fired."
+text = "Reply of:
+
+—————————————————————————————
+I heard latest news about virus breach and as Manager of IST Lane command I decided to lock off elevator door for safety of my command.
+If HQ count this as contradiction then I'll take off my position.
+	
+'IST Lane' manager Mayori.
+—————————————————————————————
+
+You're fired."
+__meta__ = {
+"_edit_use_anchors_": false
+}

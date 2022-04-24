@@ -1,0 +1,43 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Sprites/GUI/PC/MailPawnGD.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Sprites/GUI/PC/InboxPawnGD.gd" type="Script" id=2]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 1 )
+from = "IST_HQ"
+to = "Mayori"
+text = "Reply of:
+
+—————————————————————————————
+I heard latest news about virus breach and as Manager of IST Lane command I decided to lock off elevator door for safety of my command.
+If HQ count this as contradiction then I'll take off my position.
+	
+'IST Lane' manager Mayori.
+—————————————————————————————
+
+You're fired."
+isRead = false
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 1 )
+from = "IST_TC"
+to = "Mayori"
+text = "[center] !IMPORTANT MESSAGE! [/center]
+This info was given to managers of the IST high commands.
+This message counts as high secret priority.
+
+We aquired info about big virus breach that happend near eastern substation. We highly ask You to be carefull and cancel all business trips.
+Thank you for your cooperaion."
+isRead = false
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 1 )
+from = "——————"
+to = "—————"
+text = "——— Message deleted ———"
+isRead = false
+
+[resource]
+script = ExtResource( 2 )
+mail = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ]

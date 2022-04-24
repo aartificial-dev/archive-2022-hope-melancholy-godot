@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_item_syringe.wav-68b3c8938385002882ad3663f9d3bdec.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Inventory/snd_item_syringe.wav"
+dest_files=[ "res://.import/snd_item_syringe.wav-68b3c8938385002882ad3663f9d3bdec.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

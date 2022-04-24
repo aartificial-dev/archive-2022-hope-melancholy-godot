@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://Scripts/CutscenePlayer.cs" type="Script" id=1]
-
-[node name="CutscenePlayer" type="AnimationPlayer"]
-script = ExtResource( 1 )

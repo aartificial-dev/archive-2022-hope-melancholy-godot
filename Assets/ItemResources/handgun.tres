@@ -1,0 +1,35 @@
+[gd_resource type="Resource" load_steps=8 format=2]
+
+[ext_resource path="res://Assets/Sounds/Inventory/snd_inv_drop.wav" type="AudioStream" id=1]
+[ext_resource path="res://Assets/Sounds/Inventory/snd_inv_pickup.wav" type="AudioStream" id=2]
+[ext_resource path="res://Assets/Frames/Items/frames_items_4x3.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Assets/Frames/Items/frames_items_floor.tres" type="SpriteFrames" id=4]
+[ext_resource path="res://Scripts/Items/ItemPawnGD.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Models/M9.obj" type="ArrayMesh" id=6]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+params_diffuse_mode = 4
+albedo_color = Color( 0.207843, 0.207843, 0.207843, 1 )
+
+[resource]
+script = ExtResource( 5 )
+name = "Handgun"
+itemType = 2
+itemID = "w_handgun"
+spriteFloorFrames = ExtResource( 4 )
+spriteFloorFrame = 2
+spriteFloorSize = Vector2( 20, 9 )
+spriteInventoryFrames = ExtResource( 3 )
+spriteInventoryFrame = 0
+spriteInventorySize = Vector2( 32, 24 )
+spriteInventoryGridSize = Vector2( 4, 3 )
+ammo = 12
+ammoMax = 12
+isActive = false
+model = ExtResource( 6 )
+material = SubResource( 1 )
+description = "A handgun is a short-barrelled firearm that can be held and used with one hand."
+itemScript = ""
+audioPickup = ExtResource( 2 )
+audioDrop = ExtResource( 1 )

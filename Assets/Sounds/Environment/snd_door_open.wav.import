@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_door_open.wav-4f1db7046df62b451c9ae2535a63827b.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Environment/snd_door_open.wav"
+dest_files=[ "res://.import/snd_door_open.wav-4f1db7046df62b451c9ae2535a63827b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_inv_chip.wav-ed200d989854e9d72af1951d4f88e0f5.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Inventory/snd_inv_chip.wav"
+dest_files=[ "res://.import/snd_inv_chip.wav-ed200d989854e9d72af1951d4f88e0f5.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

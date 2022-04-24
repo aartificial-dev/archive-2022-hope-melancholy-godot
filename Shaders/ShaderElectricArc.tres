@@ -1,9 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
-
-[ext_resource path="res://Shaders/ShaderElectricArc.shader" type="Shader" id=1]
-
-[resource]
-shader = ExtResource( 1 )
-shader_param/line_width = 0.01
-shader_param/color = Color( 1.83137, 2.87843, 2.78824, 1 )
-shader_param/border_color = Color( 1.32, 1.68, 1.73, 0 )

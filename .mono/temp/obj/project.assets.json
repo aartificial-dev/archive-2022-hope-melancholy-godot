@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alice\\git\\hope_gd_2d\\h.o.p.e. melancholy.csproj",
+      "projectUniqueName": "E:\\git\\hope_2d\\h.o.p.e. melancholy.csproj",
       "projectName": "h.o.p.e. melancholy",
-      "projectPath": "C:\\Users\\alice\\git\\hope_gd_2d\\h.o.p.e. melancholy.csproj",
+      "projectPath": "E:\\git\\hope_2d\\h.o.p.e. melancholy.csproj",
       "packagesPath": "C:\\Users\\alice\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alice\\git\\hope_gd_2d\\.mono\\temp\\obj\\",
+      "outputPath": "E:\\git\\hope_2d\\.mono\\temp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\alice\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,7 +43,7 @@
     "frameworks": {
       "net472": {
         "targetAlias": "net472",
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

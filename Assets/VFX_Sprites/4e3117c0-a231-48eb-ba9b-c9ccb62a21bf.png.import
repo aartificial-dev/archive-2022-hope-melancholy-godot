@@ -1,0 +1,35 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/4e3117c0-a231-48eb-ba9b-c9ccb62a21bf.png-ad70d8a8d1a78339acf8048c474b2694.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Assets/VFX_Sprites/4e3117c0-a231-48eb-ba9b-c9ccb62a21bf.png"
+dest_files=[ "res://.import/4e3117c0-a231-48eb-ba9b-c9ccb62a21bf.png-ad70d8a8d1a78339acf8048c474b2694.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=true
+flags/filter=false
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=0
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/Items/ItemPawnGD.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Frames/Items/frames_items_2x2.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Assets/Frames/Items/frames_items_floor.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Assets/Sounds/Inventory/snd_inv_drop.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Sounds/Inventory/snd_inv_pickup.wav" type="AudioStream" id=5]
+
+[resource]
+script = ExtResource( 1 )
+name = "Keycard"
+itemType = 3
+itemID = ""
+spriteFloorFrames = ExtResource( 3 )
+spriteFloorFrame = 5
+spriteFloorSize = Vector2( 8, 4 )
+spriteInventoryFrames = ExtResource( 2 )
+spriteInventoryFrame = 2
+spriteInventorySize = Vector2( 16, 16 )
+spriteInventoryGridSize = Vector2( 2, 2 )
+ammo = 0
+ammoMax = 0
+isActive = false
+description = ""
+itemScript = ""
+audioPickup = ExtResource( 5 )
+audioDrop = ExtResource( 4 )

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_item_pills.wav-459da863df2d4c592dd190e6fd357efe.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Inventory/snd_item_pills.wav"
+dest_files=[ "res://.import/snd_item_pills.wav-459da863df2d4c592dd190e6fd357efe.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
