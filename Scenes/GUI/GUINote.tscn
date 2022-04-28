@@ -57,10 +57,10 @@ __meta__ = {
 }
 text = "That slot is tool slot. It contains your combining tool (e.g. toolbox, screwdriver, etc.). You need to place a requred tool in this slot to be able to combine certain items.
 For example: you can't combine battery and tape player without screwdriver or any higher tool.
-[center] [img]res://GUI/Inventory/spr_inv_wtool.png[/img] [/center]
+[center] [img]res://Assets/Sprites/GUI/Inventory/spr_inv_wtool.png[/img] [/center]
 Lorem ipsum dolor amet haha here
 For example: you can't combine battery and tape player without screwdriver or any higher tool.
-[center] [img]res://GUI/Inventory/spr_inv_wtool.png[/img] [/center]
+[center] [img]res://Assets/Sprites/GUI/Inventory/spr_inv_wtool.png[/img] [/center]
 Woof"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]

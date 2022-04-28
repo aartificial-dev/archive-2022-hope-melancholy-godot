@@ -25,9 +25,9 @@ _global_script_classes=[ {
 "path": "res://Scripts/GUI/MailPawnGD.gd"
 } ]
 _global_script_class_icons={
-"InboxPawnGD": "",
+"InboxPawnGD": "res://Assets/Sprites/item_resource.svg",
 "ItemPawnGD": "res://Assets/Sprites/item_resource.svg",
-"MailPawnGD": ""
+"MailPawnGD": "res://Assets/Sprites/item_resource.svg"
 }
 
 [application]

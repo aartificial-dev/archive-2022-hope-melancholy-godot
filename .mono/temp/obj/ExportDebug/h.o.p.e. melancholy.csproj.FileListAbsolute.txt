@@ -1,8 +1,0 @@
-C:\Users\alice\git\hope_gd_2d\.mono\temp\bin\ExportDebug\h.o.p.e. melancholy.dll
-C:\Users\alice\git\hope_gd_2d\.mono\temp\bin\ExportDebug\h.o.p.e. melancholy.pdb
-C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportDebug\h.o.p.e. melancholy.csprojAssemblyReference.cache
-C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportDebug\h.o.p.e. melancholy.AssemblyInfoInputs.cache
-C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportDebug\h.o.p.e. melancholy.AssemblyInfo.cs
-C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportDebug\h.o.p.e. melancholy.csproj.CoreCompileInputs.cache
-C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportDebug\h.o.p.e. melancholy.dll
-C:\Users\alice\git\hope_gd_2d\.mono\temp\obj\ExportDebug\h.o.p.e. melancholy.pdb

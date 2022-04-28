@@ -1,6 +1,6 @@
 tool
 extends Resource
-class_name MailPawnGD, "res://item_resource.svg"
+class_name MailPawnGD, "res://Assets/Sprites/item_resource.svg"
 
 export (String) var from = "from"
 export (String) var to = "to"

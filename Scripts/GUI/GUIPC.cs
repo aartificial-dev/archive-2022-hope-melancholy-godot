@@ -32,9 +32,9 @@ public class GUIPC : Control {
 		}
 	}
 
-	private Theme pcTheme = ResourceLoader.Load<Theme>("res://GUI/PC/ThemePC.tres");
-	private StreamTexture texUnread = ResourceLoader.Load<StreamTexture>("res://GUI/PC/spr_pc_newmessage.png");
-	private DynamicFont font = ResourceLoader.Load<DynamicFont>("res://Fonts/6pxFont.tres");
+	private Theme pcTheme = ResourceLoader.Load<Theme>("res://Assets/Themes/ThemePC.tres");
+	private StreamTexture texUnread = ResourceLoader.Load<StreamTexture>("res://Assets/Sprites/GUI/PC/spr_pc_newmessage.png");
+	private DynamicFont font = ResourceLoader.Load<DynamicFont>("res://Assets/Fonts/6pxFont.tres");
 
 	private Label labelTo;
 	private Label labelFrom;

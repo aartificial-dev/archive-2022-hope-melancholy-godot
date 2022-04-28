@@ -56,6 +56,7 @@ public class ItemFloor : RigidBody2D, InteractiveObject {
                 itemPawn.ParseActions();
                 helper.ChangeHintName(itemPawn.Name);
             }
+            this.Name = itemPawn.Name;
         } else {
             if (!Engine.EditorHint) {
                 GD.PrintErr("Item Resource not set");

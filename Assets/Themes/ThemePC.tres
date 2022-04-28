@@ -3,7 +3,7 @@
 [ext_resource path="res://Assets/Fonts/6pxFont.tres" type="DynamicFont" id=1]
 
 [sub_resource type="DynamicFontData" id=1]
-font_path = "res://Fonts/6px-Normal.ttf"
+font_path = "res://Assets/Fonts/6px-Normal.ttf"
 
 [sub_resource type="DynamicFont" id=15]
 size = 1

@@ -480,7 +480,7 @@ environment = SubResource( 11 )
 current = true
 
 [node name="Spatial" type="Spatial" parent="Preview/Viewport"]
-transform = Transform( -0.924126, 0, 0.407581, 0, 1, 0, -0.407581, 0, -0.924126, 0, 0, 0 )
+transform = Transform( 0.124207, 0, -1.00237, 0, 1, 0, 1.00237, 0, 0.124207, 0, 0, 0 )
 script = ExtResource( 11 )
 
 [node name="ItemModel" type="CSGMesh" parent="Preview/Viewport/Spatial"]
@@ -791,7 +791,7 @@ margin_right = 304.0
 margin_bottom = 174.0
 custom_fonts/normal_font = ExtResource( 8 )
 bbcode_enabled = true
-bbcode_text = "[center] [img]res://GUI/Inventory/spr_inventory_hint3.png[/img] - use, [img]res://GUI/Inventory/spr_inventory_hint2.png[/img] - drop, [img]res://GUI/Inventory/spr_inventory_hint1.png[/img] - description, [img]res://GUI/Inventory/spr_inventory_hint4.png[/img] - scroll [/center]"
+bbcode_text = "[center] [img]res://Assets/Sprites/GUI/Inventory/spr_inventory_hint3.png[/img] - use, [img]res://Assets/Sprites/GUI/Inventory/spr_inventory_hint2.png[/img] - drop, [img]res://Assets/Sprites/GUI/Inventory/spr_inventory_hint1.png[/img] - description, [img]res://Assets/Sprites/GUI/Inventory/spr_inventory_hint4.png[/img] - scroll [/center]"
 text = "  - use,  - drop,  - description,  - scroll "
 scroll_active = false
 __meta__ = {
