@@ -397,7 +397,7 @@ __meta__ = {
 }
 
 [node name="TextBubbles" type="Node2D" parent="."]
-position = Vector2( 0, 144 )
+position = Vector2( 25, -290 )
 
 [node name="TextBubble" parent="TextBubbles" instance=ExtResource( 25 )]
 visible = false
@@ -405,7 +405,8 @@ material = SubResource( 7 )
 position = Vector2( -56, 104 )
 text = "I'm so lonely..."
 bubbleOffsetX = -34.0
-sound = null
+followObject = true
+followObjectPath = NodePath("../../Objects/Table5")
 textAppearSpeed = 0.15
 
 [node name="TextBubble2" parent="TextBubbles" instance=ExtResource( 25 )]
@@ -415,7 +416,6 @@ position = Vector2( -109, 104 )
 text = "Why are you so lonely?"
 bubbleOffsetX = -38.0
 bubbleOffsetY = -24.0
-sound = null
 followObject = true
 followObjectPath = NodePath("../../Player")
 textAppearSpeed = 0.08
@@ -427,7 +427,8 @@ position = Vector2( -56, 104 )
 text = "I don't know...
 And it's making me sad :c"
 bubbleOffsetX = -67.0
-sound = null
+followObject = true
+followObjectPath = NodePath("../../Objects/Table5")
 showPromptInEnd = true
 textAppearSpeed = 0.05
 

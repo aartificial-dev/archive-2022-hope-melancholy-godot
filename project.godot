@@ -179,6 +179,10 @@ key_escape={
 2d_physics/layer_6="ladder_bottom_end"
 2d_physics/layer_7="wires"
 
+[mono]
+
+project/assembly_name="h.o.p.e. melancholy"
+
 [rendering]
 
 2d/snapping/use_gpu_pixel_snap=true
