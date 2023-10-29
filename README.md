@@ -16,7 +16,7 @@ ________________
 ________________
 
 ## Description
-Godot remake of https://github.com/artificial-studio/hope-melancholy-gms2
+Godot remake of https://github.com/artificial-studio/archive-2020-hope-melancholy-gms2
 
 ## Screenshots
 <img src="readme/gif_new_gd_shooting.gif" width="48%"> <img src="readme/inv_finale.gif" width="48%">
